@@ -1,7 +1,7 @@
-export {}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { gql } = require('apollo-server-lambda');
-
-const Location = gql`
+const Location = gql `
     type Location{
        location_id : Int!
        city: String!
@@ -15,5 +15,4 @@ const Location = gql`
     }
    
 `;
-
 module.exports = Location;

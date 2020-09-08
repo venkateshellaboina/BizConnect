@@ -4,7 +4,7 @@ const { gql } = require('apollo-server-lambda');
 const menu = gql`
 
 type Menu{
-    item_id: String!
+    item_id: Int!
     item_name: String!
     price: String!
     quantity: String!

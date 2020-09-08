@@ -9,9 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const resolvers = {
+const businessResolver = {
     Query: {
-        getUserInfo: (root, args, { UserService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.getUserInfo(args.user_email); })
+        getBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getBusinessDetails(args.email); })
     },
+    Business: {
+        location: (business, args, { LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return LocationService.getLocation(business.location_id); }),
+        timings: (business, args, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return TimingsService.get(business.business_id); })
+    }
 };
-module.exports = { resolvers };
+module.exports = businessResolver;
