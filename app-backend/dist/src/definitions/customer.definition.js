@@ -4,7 +4,7 @@ const { gql } = require('apollo-server-lambda');
 const Customer = gql `
 
     type Customer{
-        customerId : Int!
+        customer_id : Int!
         user_email: String!
     }
 
