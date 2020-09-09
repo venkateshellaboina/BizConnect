@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const { gql } = require('apollo-server-lambda');
-const user = gql `
+const User = gql `
 
     type User{
         user_email: String!
@@ -15,4 +15,4 @@ const user = gql `
         getUserInfo(user_email: String!): User
     }
 `;
-module.exports = user;
+module.exports = User;
