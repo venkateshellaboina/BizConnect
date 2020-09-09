@@ -13,8 +13,13 @@ const Business = gql `
        location: Location
        timings: [Timings]
     }
+    
     extend type Query{
         getBusinessDetails(email: String!): Business!
     }
+    extend type Mutation{
+        addBusinessDetails(business: BusinessInput): Business
+    }
 `;
 module.exports = Business;
+// getBusinessMenuList(email: String!): [Menu]

@@ -14,9 +14,9 @@ const Timings = require("./timings.definition");
 const Vacancy = require("./vacancy.definition");
 
 
-const schemaArray = [User, Menu, Customer, Root, Business_Category, Business, Customer_Subscriptions, Location, Offer, Service, Rating,
+const schemas = [User, Menu, Customer, Root, Business_Category, Business, Customer_Subscriptions, Location, Offer, Service, Rating,
                      Timings, Vacancy];
 
-module.exports = schemaArray;
+module.exports = schemas;
 
 

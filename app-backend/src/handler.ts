@@ -1,5 +1,5 @@
 export{};
-const typeDefs = require("./definitions");
+
 const { ApolloServer } = require('apollo-server-lambda');
 const db = require("./knex/knexfile");
 var  _ = require("lodash");
@@ -9,17 +9,17 @@ const CustomerService = require("./services/customer.service");
 const BusinessService = require("./services/business.service");
 const LocationService = require("./services/location.service");
 const TimingsService = require("./services/timings.service");
-
+//typedefs
+const schemas = require("./definitions");
+const inputs = require("./inputs");
+const typeDefs = schemas.concat(inputs);
 //resolvers
-const userResolver = require("./resolvers/user.resolver");
-const customerResolver = require("./resolvers/customer.resolver");
-const businessResolver = require("./resolvers/business.resolver");
-// const locationResolver = require("./resolvers/location.resolver");
+const resolvers = require("./resolvers");
 
 
 const server = new ApolloServer({
   typeDefs : typeDefs,
-  resolvers : _.merge(userResolver, customerResolver, businessResolver),
+  resolvers : resolvers,
 });
  
 module.exports.graphqlHandler = (event, context, callback) => {

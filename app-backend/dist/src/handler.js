@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeDefs = require("./definitions");
+const schemas = require("./definitions");
+const inputs = require("./inputs");
 const { ApolloServer } = require('apollo-server-lambda');
 const db = require("./knex/knexfile");
 var _ = require("lodash");
@@ -11,13 +12,15 @@ const BusinessService = require("./services/business.service");
 const LocationService = require("./services/location.service");
 const TimingsService = require("./services/timings.service");
 //resolvers
-const userResolver = require("./resolvers/user.resolver");
-const customerResolver = require("./resolvers/customer.resolver");
-const businessResolver = require("./resolvers/business.resolver");
+// const userResolver = require("./resolvers/user.resolver");
+// const customerResolver = require("./resolvers/customer.resolver");
+// const businessResolver = require("./resolvers/business.resolver");
+const resolvers = require("./resolvers");
 // const locationResolver = require("./resolvers/location.resolver");
+const typeDefs = schemas.concat(inputs);
 const server = new ApolloServer({
     typeDefs: typeDefs,
-    resolvers: _.merge(userResolver, customerResolver, businessResolver),
+    resolvers: resolvers,
 });
 module.exports.graphqlHandler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;

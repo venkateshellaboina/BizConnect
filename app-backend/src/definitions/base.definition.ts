@@ -9,6 +9,6 @@ const root = gql`
         root: String
     }
 
-`
+`;
 
 module.exports = root;

@@ -11,11 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const businessResolver = {
     Query: {
-        getBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getBusinessDetails(args.email); })
+        getBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getBusinessDetails(args.email); }),
     },
     Business: {
         location: (business, args, { LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return LocationService.getLocation(business.location_id); }),
-        timings: (business, args, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return TimingsService.get(business.business_id); })
+        timings: (business, args, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () {
+            const timings = yield TimingsService.get(business.business_id);
+            return timings;
+        })
+    },
+    Mutation: {
+        addBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business); })
     }
 };
 module.exports = businessResolver;

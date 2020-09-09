@@ -21,6 +21,17 @@ class BusinessService{
                 })
         })
     }
+    async addBusinessDetails(business: any){
+        return new Promise( (resolve, reject) => {
+            this.db('business_details')
+                .insert(business)
+                .then((result) => {
+                    console.log('result '+ result);
+                    resolve(result);
+                })
+                .catch( (err) => { console.log('Error inserting record to business_details'); reject(err)} )
+        })
+    }
 }
 
 module.exports = BusinessService;

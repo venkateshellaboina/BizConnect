@@ -1,7 +1,7 @@
 export {}
 const { gql } = require('apollo-server-lambda');
 
-const user = gql`
+const User = gql`
 
     type User{
         user_email: String!
@@ -16,4 +16,4 @@ const user = gql`
     }
 `;
 
-module.exports = user;
+module.exports = User;
