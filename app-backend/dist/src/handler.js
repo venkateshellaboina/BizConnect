@@ -1,49 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const schemas = require("./definitions");
-const inputs = require("./inputs");
-const { ApolloServer } = require('apollo-server-lambda');
-const db = require("./knex/knexfile");
-var _ = require("lodash");
-//services
-const UserService = require("./services/user.service");
-const CustomerService = require("./services/customer.service");
-const BusinessService = require("./services/business.service");
-const LocationService = require("./services/location.service");
-const TimingsService = require("./services/timings.service");
-//resolvers
-// const userResolver = require("./resolvers/user.resolver");
-// const customerResolver = require("./resolvers/customer.resolver");
-// const businessResolver = require("./resolvers/business.resolver");
-const resolvers = require("./resolvers");
-// const locationResolver = require("./resolvers/location.resolver");
-const typeDefs = schemas.concat(inputs);
-const server = new ApolloServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers,
-});
-module.exports.graphqlHandler = (event, context, callback) => {
+const S3Service = require('./s3/S3Service');
+const uuid = require('uuid');
+module.exports.handle = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    let serverContext = {
-        UserService: new UserService(event, db),
-        CustomerService: new CustomerService(event, db),
-        BusinessService: new BusinessService(event, db),
-        LocationService: new LocationService(event, db),
-        TimingsService: new TimingsService(event, db)
-    };
-    server.context = serverContext;
-    function callbackFilter(error, output) {
-        if (!output.headers) {
-            output.headers = {};
-        }
-        output.headers['Access-Control-Allow-Origin'] = '*';
-        callback(error, output);
-    }
-    const graphqlHandler = server.createHandler({
-        cors: {
-            origin: "*",
-            credentials: true,
+    let bucket = process.env.bucket;
+    let key = event.queryStringParameters['filename'];
+    let expiry = 900;
+    let s3 = new S3Service();
+    let signedUrl = s3.getSignedUrl('putObject', bucket, key, expiry);
+    let result = {
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow_Origin": "*",
+            "Content-Type": "application/json"
         },
-    });
-    graphqlHandler(event, context, callbackFilter);
+        body: JSON.stringify({
+            url: signedUrl
+        })
+    };
+    callback(null, result);
 };
