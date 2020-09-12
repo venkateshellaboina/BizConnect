@@ -8,7 +8,7 @@ const BusinessInput = gql `
         category : String
         contact_details: String
         description: String
-        location_id: Int!
+        location: LocationInput
     }
 `;
 module.exports = BusinessInput;

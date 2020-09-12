@@ -9,10 +9,15 @@ const User = gql `
         last_name: String!
         contact_no: String!
         type: String!
+        password: String!
 
     }
     extend type Query{
-        getUserInfo(user_email: String!): User
+        getUser(user_email: String!): User
+    }
+    extend type Mutation{
+        addUser(user: UserInput): String!
+        updateUser(user: UserInput): String!
     }
 `;
 module.exports = User;

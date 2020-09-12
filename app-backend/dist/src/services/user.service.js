@@ -13,7 +13,7 @@ class UserService {
         this.event = event;
         this.db = db;
     }
-    getUserInfo(user_email) {
+    getUser(user_email) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
                 this.db('user')
@@ -25,6 +25,42 @@ class UserService {
                         reject('User not found');
                     }
                     resolve(user);
+                });
+            });
+        });
+    }
+    addUser(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                let email = user.user_email;
+                if (!email) {
+                    reject("User email missing");
+                }
+                else {
+                    this.db('user')
+                        .insert(user)
+                        .then(result => {
+                        if (!result)
+                            reject('Error creating current user');
+                        console.log('result : ' + result);
+                        resolve(user.user_email);
+                    });
+                }
+            });
+        });
+    }
+    updateUser(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                let user_email = user.user_email;
+                delete user.user_email;
+                this.db('user')
+                    .update(user)
+                    .where('user_email', user_email)
+                    .then(result => {
+                    if (!result)
+                        reject('Error updating current user');
+                    resolve(user_email);
                 });
             });
         });

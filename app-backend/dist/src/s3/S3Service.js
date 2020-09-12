@@ -8,8 +8,8 @@ class S3Service {
             secretAccessKey: process.env.secretAccessKey
         });
     }
-    getSignedUrl(httpmethod, bucket, key, expiry) {
-        return this.s3.getSignedUrl(httpmethod, {
+    getSignedUrl(operation, bucket, key, expiry) {
+        return this.s3.getSignedUrl(operation, {
             Bucket: bucket,
             Key: key,
             Expires: expiry

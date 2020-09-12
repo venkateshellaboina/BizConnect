@@ -1,3 +1,5 @@
+export {};
+const LocationService = require('./location.service');
 
 class BusinessService{
     protected event;
@@ -22,12 +24,17 @@ class BusinessService{
         })
     }
     async addBusinessDetails(business: any){
+        let location = business.location;
+        let locationService: any = new LocationService(this.event, this.db);
+        let location_id = await locationService.addLocation(location);
+        delete business.location;
+        business.location_id = location_id;
         return new Promise( (resolve, reject) => {
             this.db('business_details')
                 .insert(business)
-                .then((result) => {
-                    console.log('result '+ result);
-                    resolve(result);
+                .then( result => {
+                    let business_id = result[0];
+                    resolve(business_id);
                 })
                 .catch( (err) => { console.log('Error inserting record to business_details'); reject(err)} )
         })
