@@ -18,7 +18,7 @@ const Business = gql `
         getBusinessDetails(email: String!): Business!
     }
     extend type Mutation{
-        addBusinessDetails(business: BusinessInput): Business
+        addBusinessDetails(business: BusinessInput): Int!
     }
 `;
 module.exports = Business;

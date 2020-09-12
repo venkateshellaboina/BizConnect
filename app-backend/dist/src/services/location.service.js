@@ -32,5 +32,21 @@ class LocationService {
             });
         });
     }
+    addLocation(location) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                this.db('location_details')
+                    .insert(location)
+                    .then(result => {
+                    if (!result) {
+                        reject('Error fetching location');
+                    }
+                    console.log('location result ' + result);
+                    // let location_id = 1;
+                    resolve(result[0]);
+                });
+            });
+        });
+    }
 }
 module.exports = LocationService;

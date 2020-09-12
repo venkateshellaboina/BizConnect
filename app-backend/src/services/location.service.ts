@@ -23,6 +23,21 @@ class LocationService{
         })
      
     }
+
+    async addLocation(location: any){
+        return new Promise( (resolve, reject) => {
+            this.db('location_details')
+                .insert(location)
+                .then( result => {
+                    if(!result){
+                        reject('Error fetching location');
+                    }
+                    console.log('location result ' + result);
+                    resolve(result[0]);
+                })
+        })
+        
+    }
 }
 
 module.exports = LocationService;

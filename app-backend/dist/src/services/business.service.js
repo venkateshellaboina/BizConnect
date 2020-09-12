@@ -8,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const LocationService = require('./location.service');
 class BusinessService {
     constructor(event, db) {
         this.event = event;
@@ -32,12 +34,29 @@ class BusinessService {
     }
     addBusinessDetails(business) {
         return __awaiter(this, void 0, void 0, function* () {
+            let location = business.location;
+            let locationService = new LocationService(this.event, this.db);
+            let location_id = yield locationService.addLocation(location);
+            delete business.location;
+            business.location_id = location_id;
             return new Promise((resolve, reject) => {
                 this.db('business_details')
                     .insert(business)
-                    .then((result) => {
-                    console.log('result ' + result);
-                    resolve(result);
+                    .then(result => {
+                    let business_id = result[0];
+                    // this.db('business_details')
+                    //     .where('user_email', business.user_email)
+                    //     .then( businessList => {
+                    //         console.log(' business list ' + businessList);
+                    //         if(!businessList){
+                    //             reject('Error inserting record to business_details');
+                    //         }
+                    //         else{
+                    //             let business_id = businessList[0].business_id;
+                    //             resolve(business_id);
+                    //         }
+                    //     })
+                    resolve(business_id);
                 })
                     .catch((err) => { console.log('Error inserting record to business_details'); reject(err); });
             });
