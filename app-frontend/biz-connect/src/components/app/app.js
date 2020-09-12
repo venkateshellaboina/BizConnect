@@ -6,13 +6,32 @@ import {
     Switch,
     Route
   } from "react-router-dom";
+import { connect } from 'react-redux';
+import{login} from '../../actions';
+import Login from '../../components/login/login';
 
-  function App()  {
-    
+
+const mapStateToProps = state => {
+  return {
+  }};
+
+const mapDispatchToProps = dispatch => ({
+  login
+});
+
+class App extends React.Component {
+
+  constructor() {
+    super();
+    this.changeEmail = ev => this.props.login();
+    };
+  
+    render(){
         return(
-            <Router>
-      <div>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Router>
+<div onLoad={()=>{this.changeEmail()}
+}>
+  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
   <Navbar.Brand href="/home">BizConnect</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
@@ -21,7 +40,7 @@ import {
       <Nav.Link href="/users">Users</Nav.Link>
     </Nav>
     <Nav>
-      <Nav.Link href="/users">Login</Nav.Link>
+      <Nav.Link href="/login">Login</Nav.Link>
       <Nav.Link eventKey={2} href="/about">
         SignUp
       </Nav.Link>
@@ -31,19 +50,22 @@ import {
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
+<Switch>
+    <Route path="/about">
            About
-          </Route>
-          <Route path="/users">
+    </Route>
+    <Route path="/users">
             Users
-          </Route>
-          <Route path="/">
+    </Route>
+    <Route path="/login">
+           <Login/>
+    </Route>
+    <Route path="/">
            heelo
-          </Route>
-        </Switch>
+    </Route>
+</Switch>
       </div>
-    </Router>
+</Router>
         )
-    }
-export default App;
+    }};   
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -9,26 +9,39 @@ const mapStateToProps = state => {
 
   });
 
-class Login extends React.Component {
+class Signup extends React.Component {
     renderForm() {
             return(
                 <div>
-                <h3>Login Form</h3>
+                <h3>SignUp Form</h3>
                 <hr/>
                 <Form>
+                    <Form.Group controlId="formBasicFirstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter First Name" />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicLastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Last Name" />
+                    </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" />
-                        <Form.Text className="text-muted">
-                             We'll never share your email with anyone else.
-                        </Form.Text>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
+                    <Form.Group controlId="formConfirmPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control type="password" placeholder="Confirm Password" />
+                    </Form.Group>
+                    <Form.Group controlId="formConfirmPassword">
+                        <Form.Label>Contact Number</Form.Label>
+                        <Form.Control type="number" placeholder="Contact Number" />
+                    </Form.Group>
                     <Button variant="primary" type="submit">
-                    Login
+                     Sign Up
                     </Button>
                 </Form>
                 </div>
@@ -51,4 +64,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -1,14 +1,13 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
-// Put any other imports below so that CSS from your
-// components takes precedence over default styles.
-import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import React from 'react';
+import { store} from './store';
 import App from './components/app/app';
 
-ReactDOM.render(
-    <App />,
-  document.getElementById('root')
-)
+ReactDOM.render((
+  <Provider store={store}>
+  <App/>
+  </Provider>
 
+), document.getElementById('root'));
