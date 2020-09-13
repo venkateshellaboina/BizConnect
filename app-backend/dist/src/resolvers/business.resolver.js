@@ -21,7 +21,7 @@ const businessResolver = {
         })
     },
     Mutation: {
-        addBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business); })
+        addBusinessDetails: (root, args, { BusinessService, LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business, LocationService); })
     }
 };
 module.exports = businessResolver;

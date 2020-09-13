@@ -10,36 +10,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService = require('./base.service');
-class UserService extends BaseService {
+class SubscriptionService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getUser(user_email) {
+    subscribe(subscribe_mapping) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user = yield this.db('user')
-                .where('user_email', user_email)
-                .then(users => users[0]);
-            return user;
+            let subscribed = yield this.db('customer_subscription_mapping')
+                .insert(subscribe_mapping)
+                .then(result => result[0]);
+            return 'success';
         });
     }
-    addUser(user) {
+    unsubscribe(unsubscribe_mapping) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user_email = yield this.db('user')
-                .insert(user)
-                .then(result => user.user_email);
-            return user_email;
-        });
-    }
-    updateUser(user) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let user_email = user.user_email;
-            delete user.user_email;
-            let result = yield this.db('user')
-                .update(user)
-                .where('user_email', user_email)
-                .then(result => result);
-            return user_email;
+            let unsubscribed = yield this.db('customer_subscription_mapping')
+                .where({ customer_id: unsubscribe_mapping.customer_id })
+                .andWhere({ business_id: unsubscribe_mapping.business_id })
+                .del()
+                .then(result => result[0]);
+            return 'success';
         });
     }
 }
-module.exports = UserService;
+module.exports = SubscriptionService;

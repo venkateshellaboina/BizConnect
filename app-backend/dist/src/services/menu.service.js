@@ -10,36 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService = require('./base.service');
-class UserService extends BaseService {
+class MenuService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getUser(user_email) {
+    add(item) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user = yield this.db('user')
-                .where('user_email', user_email)
-                .then(users => users[0]);
-            return user;
+            let itemId = yield this.db('menu')
+                .insert(item)
+                .then(result => result[0]);
+            return itemId;
         });
     }
-    addUser(user) {
+    getAll(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user_email = yield this.db('user')
-                .insert(user)
-                .then(result => user.user_email);
-            return user_email;
-        });
-    }
-    updateUser(user) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let user_email = user.user_email;
-            delete user.user_email;
-            let result = yield this.db('user')
-                .update(user)
-                .where('user_email', user_email)
-                .then(result => result);
-            return user_email;
+            let menuList = yield this.db('menu')
+                .where('business_id', business_id)
+                .then(result => {
+                console.log(' All items', result);
+                return (result);
+            });
+            return menuList;
         });
     }
 }
-module.exports = UserService;
+module.exports = MenuService;

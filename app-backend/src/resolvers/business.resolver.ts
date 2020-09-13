@@ -13,7 +13,7 @@ const businessResolver = {
         } 
     },
     Mutation:{
-        addBusinessDetails: async (root, args, {BusinessService}) => BusinessService.addBusinessDetails(args.business)
+        addBusinessDetails: async (root, args, {BusinessService, LocationService}) => BusinessService.addBusinessDetails(args.business, LocationService)
     }
 }
 

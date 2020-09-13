@@ -1,42 +1,29 @@
-class LocationService{
-    protected event: any;
-    protected db: any;
+export {};
+const BaseService = require('./base.service');
+
+class LocationService extends BaseService{
     constructor(event: any, db: any){
-        this.event = event;
-        this.db = db;
+        super(event, db);
     }
     async getLocation(id: number){
         console.log('location id : ' + id);
-        return new Promise( (resolve, reject) => {
-            this.db('location_details')
-                .where('location_id', id)
-                .then(result => {
-                    console.log('result ' + result);
-                    if(!result){
-                        reject('No Locations found');
-                    }
-                    else{
-                        let location:any = result[0];
-                        resolve(location);
-                    }
-                })
-        })
+        let location = await this.db('location_details')
+                                .where('location_id', id)
+                                .then(result => {
+                                    console.log('result ' + result);
+                                
+                                    let location:any = result[0];
+                                    return location;
+                                });
+        return location;
      
     }
 
     async addLocation(location: any){
-        return new Promise( (resolve, reject) => {
-            this.db('location_details')
+        let location_id = await this.db('location_details')
                 .insert(location)
-                .then( result => {
-                    if(!result){
-                        reject('Error fetching location');
-                    }
-                    console.log('location result ' + result);
-                    resolve(result[0]);
-                })
-        })
-        
+                .then( result => result[0]);
+        return location_id;        
     }
 }
 

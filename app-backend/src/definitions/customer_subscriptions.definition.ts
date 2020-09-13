@@ -6,6 +6,11 @@ const Customer_Subscriptions = gql`
        customer_id : Int!
        business_id: Int!
     }
+
+    extend type Mutation{
+        addSubscription(subscribe_mapping: SubscriptionInput): String
+        removeSubscription(unsubscribe_mapping: SubscriptionInput): String
+    }
 `;
 
 module.exports = Customer_Subscriptions;
