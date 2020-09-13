@@ -9,6 +9,8 @@ const CustomerService = require("./services/customer.service");
 const BusinessService = require("./services/business.service");
 const LocationService = require("./services/location.service");
 const TimingsService = require("./services/timings.service");
+const MenuService = require("./services/menu.service");
+const SubscriptionService = require("./services/subscription.service");
 //typedefs
 const schemas = require("./definitions");
 const inputs = require("./inputs");
@@ -26,7 +28,9 @@ module.exports.graphqlHandler = (event, context, callback) => {
         CustomerService: new CustomerService(event, db),
         BusinessService: new BusinessService(event, db),
         LocationService: new LocationService(event, db),
-        TimingsService: new TimingsService(event, db)
+        TimingsService: new TimingsService(event, db),
+        MenuService: new MenuService(event, db),
+        SubscriptionService: new SubscriptionService(event, db)
     };
     server.context = serverContext;
     function callbackFilter(error, output) {

@@ -11,7 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const customerResolver = {
     Query: {
-        getCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.getCustomerDetails(args.user_email); })
+        getCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.getCustomerDetails(args.user_email); }),
+        getBusinessList: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getAll(args.category, args.searchKey); })
     },
+    Mutation: {
+        addCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.addCustomerDetails(args.customer); })
+    }
 };
 module.exports = customerResolver;

@@ -9,57 +9,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const LocationService = require('./location.service');
-class BusinessService {
+const BaseService = require('./base.service');
+class BusinessService extends BaseService {
     constructor(event, db) {
-        this.event = event;
-        this.db = db;
+        super(event, db);
     }
     getBusinessDetails(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                this.db('business_details')
-                    .where('user_email', email)
-                    .then(businesses => {
-                    if (!businesses) {
-                        reject('No Businesses found');
-                    }
-                    else {
-                        let business = businesses[0];
-                        resolve(business);
-                    }
-                });
+            let business = yield this.db('business_details')
+                .where('user_email', email)
+                .then(businesses => {
+                let business = businesses[0];
+                return business;
             });
+            return business;
         });
     }
-    addBusinessDetails(business) {
+    getAll(category, searchKey) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let businessList = yield this.db('business_details')
+                .where('category', category)
+                .then(result => result);
+            return businessList;
+        });
+    }
+    addBusinessDetails(business, LocationService) {
         return __awaiter(this, void 0, void 0, function* () {
             let location = business.location;
-            let locationService = new LocationService(this.event, this.db);
-            let location_id = yield locationService.addLocation(location);
+            let location_id = yield LocationService.addLocation(location);
             delete business.location;
             business.location_id = location_id;
-            return new Promise((resolve, reject) => {
-                this.db('business_details')
-                    .insert(business)
-                    .then(result => {
-                    let business_id = result[0];
-                    // this.db('business_details')
-                    //     .where('user_email', business.user_email)
-                    //     .then( businessList => {
-                    //         console.log(' business list ' + businessList);
-                    //         if(!businessList){
-                    //             reject('Error inserting record to business_details');
-                    //         }
-                    //         else{
-                    //             let business_id = businessList[0].business_id;
-                    //             resolve(business_id);
-                    //         }
-                    //     })
-                    resolve(business_id);
-                })
-                    .catch((err) => { console.log('Error inserting record to business_details'); reject(err); });
-            });
+            let business_id = yield this.db('business_details')
+                .insert(business)
+                .then(result => {
+                let business_id = result[0];
+                return business_id;
+            })
+                .catch((err) => { console.log('Error inserting record to business_details'); return err; });
+            return business_id;
         });
     }
 }

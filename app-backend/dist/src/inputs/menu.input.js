@@ -1,24 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const { gql } = require('apollo-server-lambda');
-const menu = gql `
-
-    type Menu{
-        item_id: Int!
+const MenuInput = gql `
+    input MenuInput{
         item_name: String!
-        price: String!
-        quantity: String!
+        price: Float!
+        quantity: Int!
         unit: String!
         description: String!
         item_category : String!
         business_id: Int!
         is_available: Int!
     }
-    extend type Query{
-        getMenuItems(business_id: Int): [Menu]
-    }
-    extend type Mutation{
-        addMenuItem(item: MenuInput): Int!
-    }
 `;
-module.exports = menu;
+module.exports = MenuInput;

@@ -1,25 +1,15 @@
-class TimingsService{
-    protected event: any;
-    protected db: any;
+export {};
+const BaseService = require('./base.service');
+
+class TimingsService extends BaseService{
     constructor(event: any, db: any){
-        this.event = event;
-        this.db = db;
+        super(event, db);
     }
     async get(business_id: number){
-        return new Promise( (resolve, reject) => {
-            this.db('timings')
+        let timings = await this.db('timings')
                 .where('business_id', business_id)
-                .then(result => {
-                    console.log('result ' + result);
-                    if(!result){
-                        reject('No Timings found');
-                    }
-                    else{
-                        let timings:any = result;
-                        resolve(timings);
-                    }
-                })
-        })
+                .then(result => result);
+        return timings;
      
     }
 }

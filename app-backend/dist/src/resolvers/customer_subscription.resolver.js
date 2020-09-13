@@ -8,19 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const BaseService = require('./base.service');
-class TimingsService extends BaseService {
-    constructor(event, db) {
-        super(event, db);
+const customerSubscriptionResolver = {
+    Mutation: {
+        addSubscription: (root, args, { SubscriptionService }) => __awaiter(void 0, void 0, void 0, function* () { return SubscriptionService.subscribe(args.subscribe_mapping); }),
+        removeSubscription: (root, args, { SubscriptionService }) => __awaiter(void 0, void 0, void 0, function* () { return SubscriptionService.unsubscribe(args.unsubscribe_mapping); })
     }
-    get(business_id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let timings = yield this.db('timings')
-                .where('business_id', business_id)
-                .then(result => result);
-            return timings;
-        });
-    }
-}
-module.exports = TimingsService;
+};
+module.exports = customerSubscriptionResolver;
