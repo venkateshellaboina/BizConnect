@@ -16,20 +16,14 @@ class MenuService extends BaseService {
     }
     add(item) {
         return __awaiter(this, void 0, void 0, function* () {
-            let itemId = yield this.db('menu')
-                .insert(item)
-                .then(result => result[0]);
+            let result = yield this.db('menu').insert(item);
+            let itemId = result[0];
             return itemId;
         });
     }
     getAll(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let menuList = yield this.db('menu')
-                .where('business_id', business_id)
-                .then(result => {
-                console.log(' All items', result);
-                return (result);
-            });
+            let menuList = yield this.db('menu').where('business_id', business_id);
             return menuList;
         });
     }

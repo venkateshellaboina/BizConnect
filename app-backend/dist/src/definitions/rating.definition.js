@@ -10,6 +10,17 @@ const Rating = gql `
         rating: Int!
         review_comment: String!
         created_date:  String!
+        first_name: String
+        last_name: String
+    }
+
+    extend type Query{
+        getAllRatings(business_id: Int): [Rating]
+    }
+
+    extend type Mutation{
+        addRating(rating: RatingAddInput): Int!
+        updateRating(rating: RatingAddInput): Int!
     }
 `;
 module.exports = Rating;

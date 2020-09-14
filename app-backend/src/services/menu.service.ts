@@ -6,19 +6,13 @@ class MenuService extends BaseService{
         super(event, db);
     }
     async add(item: any){
-        let itemId =  await this.db('menu')
-                        .insert(item)
-                        .then( result => result[0]);
+        let result =  await this.db('menu').insert(item)
+        let itemId = result[0];
         return itemId;
     }
 
     async getAll(business_id: number){
-        let menuList = await this.db('menu')
-                            .where('business_id', business_id)
-                            .then(result => {
-                                console.log(' All items', result);
-                                return(result);
-                            });
+        let menuList = await this.db('menu').where('business_id', business_id);
         return menuList;
     }
 }

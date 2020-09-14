@@ -2,7 +2,7 @@ export {}
 
 const businessResolver = {
     Query:{
-        getBusinessDetails : async (root, args, {BusinessService}) => BusinessService.getBusinessDetails(args.email),
+        getBusinessDetails : async (root, args, {BusinessService}) => BusinessService.getBusinessDetails(args.business_id),
         // getBusinessMenuList: async (root, args, {MenuService}) => MenuService.get(args.email)
     },
     Business:{

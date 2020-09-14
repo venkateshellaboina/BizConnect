@@ -14,22 +14,19 @@ class BusinessService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getBusinessDetails(email) {
+    getBusinessDetails(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let business = yield this.db('business_details')
-                .where('user_email', email)
-                .then(businesses => {
-                let business = businesses[0];
-                return business;
-            });
+            let businessInfo = this.getBusinessInfo(business_id);
+            let businessGallery = this.getBusinessGallery(business_id);
+            let result = yield Promise.all([businessInfo, businessGallery]);
+            let business = result[0];
+            business.gallery = result[1];
             return business;
         });
     }
     getAll(category, searchKey) {
         return __awaiter(this, void 0, void 0, function* () {
-            let businessList = yield this.db('business_details')
-                .where('category', category)
-                .then(result => result);
+            let businessList = yield this.db('business_details').where('category', category);
             return businessList;
         });
     }
@@ -39,14 +36,22 @@ class BusinessService extends BaseService {
             let location_id = yield LocationService.addLocation(location);
             delete business.location;
             business.location_id = location_id;
-            let business_id = yield this.db('business_details')
-                .insert(business)
-                .then(result => {
-                let business_id = result[0];
-                return business_id;
-            })
-                .catch((err) => { console.log('Error inserting record to business_details'); return err; });
+            let result = yield this.db('business_details').insert(business);
+            let business_id = result[0];
             return business_id;
+        });
+    }
+    getBusinessInfo(business_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.db('business_details').where('business_id', business_id);
+            let business = result[0];
+            return business;
+        });
+    }
+    getBusinessGallery(business_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let gallery = yield this.db('business_images').where('business_id', business_id);
+            return gallery;
         });
     }
 }

@@ -16,24 +16,15 @@ class CustomerService extends BaseService {
     }
     getCustomerDetails(user_email) {
         return __awaiter(this, void 0, void 0, function* () {
-            let customer = yield this.db('customer')
-                .where('user_email', user_email)
-                .then(customers => {
-                const customer = customers[0];
-                return customer;
-            });
+            let result = yield this.db('customer').where('user_email', user_email);
+            let customer = result[0];
             return customer;
         });
     }
     addCustomerDetails(customer) {
         return __awaiter(this, void 0, void 0, function* () {
-            let customer_id = yield this.db('customer')
-                .insert(customer)
-                .then(result => {
-                console.log(' customer result ' + result);
-                let customer_id = result[0];
-                return customer_id;
-            });
+            let result = yield this.db('customer').insert(customer);
+            let customer_id = result[0];
             return customer_id;
         });
     }

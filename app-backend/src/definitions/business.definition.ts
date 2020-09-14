@@ -12,10 +12,17 @@ const Business = gql`
        location_id: Int
        location: Location
        timings: [Timings]
+       gallery: [BusinessGallery]
+    }
+    type BusinessGallery{
+        image_id: Int,
+        business_id: Int,
+        location: String,
+        description: String
     }
     
     extend type Query{
-        getBusinessDetails(email: String!): Business!
+        getBusinessDetails(business_id: Int!): Business!
     }
     extend type Mutation{
         addBusinessDetails(business: BusinessInput): Int!

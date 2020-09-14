@@ -6,10 +6,8 @@ class TimingsService extends BaseService{
         super(event, db);
     }
     async get(business_id: number){
-        let timings = await this.db('timings')
-                .where('business_id', business_id)
-                .then(result => result);
-        return timings;
+        let result = await this.db('timings').where('business_id', business_id)
+        return result;
      
     }
 }

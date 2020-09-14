@@ -16,28 +16,22 @@ class UserService extends BaseService {
     }
     getUser(user_email) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user = yield this.db('user')
-                .where('user_email', user_email)
-                .then(users => users[0]);
+            let result = yield this.db('user').where('user_email', user_email);
+            let user = result[0];
             return user;
         });
     }
     addUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user_email = yield this.db('user')
-                .insert(user)
-                .then(result => user.user_email);
-            return user_email;
+            let result = yield this.db('user').insert(user);
+            return user.user_email;
         });
     }
     updateUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
             let user_email = user.user_email;
             delete user.user_email;
-            let result = yield this.db('user')
-                .update(user)
-                .where('user_email', user_email)
-                .then(result => result);
+            let result = yield this.db('user').update(user).where('user_email', user_email);
             return user_email;
         });
     }

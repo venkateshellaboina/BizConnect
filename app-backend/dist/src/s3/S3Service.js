@@ -3,9 +3,9 @@ const AWS = require('aws-sdk');
 class S3Service {
     constructor() {
         this.s3 = new AWS.S3({
-            region: process.env.region,
-            accessKeyId: process.env.accessKeyId,
-            secretAccessKey: process.env.secretAccessKey
+            region: process.env.S3_HOSTED_REGION,
+            accessKeyId: process.env.ACCESS_KEY_ID,
+            secretAccessKey: process.env.SECRET_ACCESS_KEY
         });
     }
     getSignedUrl(operation, bucket, key, expiry) {
