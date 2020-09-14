@@ -23,10 +23,26 @@ org: venkysmart1997
 provider:
   name: aws
   runtime: nodejs12.x
-
-# you can overwrite defaults here
   stage: dev
   region: ap-south-1
+
+  vpc:
+    securityGroupIds:
+      - sg-1a30137e 
+    subnetIds:
+      - subnet-55121d3d 
+      - subnet-07235f4b
+      - subnet-d70b8cac 
+  
+  environment:
+    ACCESS_KEY_ID: AKIAIRV2TOTYCUD4ENEQ
+    SECRET_ACCESS_KEY: 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
+    S3_BUCKET_NAME: awsome-s3-dev
+    S3_HOSTED_REGION: ap-south-1
+    
+  versionFunctions: false
+  
+
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -58,8 +74,7 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  # hello:
-  #   handler: handler.hello
+
   graphql:
     handler: dist/src/graphqlhandler.graphqlHandler
     role: arn:aws:iam::307373433494:role/sls_hack_test_lambda_role

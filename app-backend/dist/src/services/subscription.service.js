@@ -16,19 +16,16 @@ class SubscriptionService extends BaseService {
     }
     subscribe(subscribe_mapping) {
         return __awaiter(this, void 0, void 0, function* () {
-            let subscribed = yield this.db('customer_subscription_mapping')
-                .insert(subscribe_mapping)
-                .then(result => result[0]);
+            let result = yield this.db('customer_subscription_mapping').insert(subscribe_mapping);
             return 'success';
         });
     }
     unsubscribe(unsubscribe_mapping) {
         return __awaiter(this, void 0, void 0, function* () {
-            let unsubscribed = yield this.db('customer_subscription_mapping')
+            let result = yield this.db('customer_subscription_mapping')
                 .where({ customer_id: unsubscribe_mapping.customer_id })
                 .andWhere({ business_id: unsubscribe_mapping.business_id })
-                .del()
-                .then(result => result[0]);
+                .del();
             return 'success';
         });
     }

@@ -7,5 +7,6 @@ const customerResolver = require("./customer.resolver");
 const businessResolver = require("./business.resolver");
 const menuResolver = require("./menu.resolver");
 const customerSubscriptionResolver = require("./customer_subscription.resolver");
-const resolvers = _.merge(userResolver, customerResolver, businessResolver, menuResolver, customerSubscriptionResolver);
+const ratingResolver = require("./rating.resolver");
+const resolvers = _.merge(userResolver, customerResolver, businessResolver, menuResolver, customerSubscriptionResolver, ratingResolver);
 module.exports = resolvers;

@@ -4,7 +4,7 @@ const S3Service = require('./s3/S3Service');
 const uuid = require('uuid');
 module.exports.handle = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    let bucket = process.env.bucket;
+    let bucket = process.env.S3_BUCKET_NAME;
     let key = event.queryStringParameters['filename'];
     let expiry = 900;
     let s3 = new S3Service();

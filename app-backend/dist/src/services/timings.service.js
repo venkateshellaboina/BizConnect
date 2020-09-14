@@ -16,10 +16,8 @@ class TimingsService extends BaseService {
     }
     get(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let timings = yield this.db('timings')
-                .where('business_id', business_id)
-                .then(result => result);
-            return timings;
+            let result = yield this.db('timings').where('business_id', business_id);
+            return result;
         });
     }
 }
