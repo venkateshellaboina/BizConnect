@@ -10,23 +10,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService = require('./base.service');
-class CustomerService extends BaseService {
+class OfferService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getCustomerDetails(customer_id) {
+    ;
+    addOffer(offer) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = yield this.db('customer').where('customer_id', customer_id);
-            let customer = result[0];
-            return customer;
+            let result = yield this.db('offer').insert(offer);
+            let offer_id = result[0];
+            return offer_id;
         });
     }
-    addCustomerDetails(customer) {
+    updateOffer(offer) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = yield this.db('customer').insert(customer);
-            let customer_id = result[0];
-            return customer_id;
+            let offer_id = offer.offer_id;
+            delete offer.offer_id;
+            let result = yield this.db('offer').update(offer).where('offer_id', offer_id);
+            return offer_id;
+        });
+    }
+    getAllOffers(business_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let offerList = yield this.db('offer').where('business_id', business_id);
+            return offerList;
         });
     }
 }
-module.exports = CustomerService;
+;
+module.exports = OfferService;

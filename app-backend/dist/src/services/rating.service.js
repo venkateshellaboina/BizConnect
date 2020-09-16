@@ -35,7 +35,6 @@ class RatingService extends BaseService {
                 .union([
                 this.db.select('*').from('ratings').rightJoin('customer', { 'ratings.customer_id': 'customer.customer_id' }).where('ratings.business_id', business_id)
             ]);
-            // .where('ratings.business_id', business_id);
             console.log('ratings list ' + ratings);
             return ratings;
         });

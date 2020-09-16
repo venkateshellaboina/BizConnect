@@ -6,10 +6,12 @@ const Customer = gql `
     type Customer{
         customer_id : Int!
         user_email: String!
+        first_name: String
+        last_name: String
     }
 
     extend type Query{
-        getCustomerDetails(user_email: String!): Customer
+        getCustomerDetails(customer_id: Int!): Customer
         getBusinessList(category: String, searchKey: String): [Business]
     }
 

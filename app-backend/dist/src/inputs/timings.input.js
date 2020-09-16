@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const { gql } = require('apollo-server-lambda');
-const Timings = gql `
-
-    type Timings{
-        id: Int!
+const TimingsInput = gql `
+    input TimingsInput{
+        id: Int
         day: String!
         start_time: String!
         end_time: String!
@@ -12,10 +11,5 @@ const Timings = gql `
         break_end_time:  String
         business_id: Int!
     }
-
-    extend type Mutation{
-        addTimings(timings: [TimingsInput]): Int
-        updateTimings(timings: [TimingsInput]): Int
-    }
 `;
-module.exports = Timings;
+module.exports = TimingsInput;

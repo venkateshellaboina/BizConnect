@@ -8,14 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const customerResolver = {
+const timingsResolver = {
     Query: {
-        getCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.getCustomerDetails(args.customer_id); }),
-        getBusinessList: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getAll(args.category, args.searchKey); })
+    // getMenuItems: async(root, args, {MenuService}) => MenuService.getAll(args.business_id)
     },
     Mutation: {
-        addCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.addCustomerDetails(args.customer); })
+        addTimings: (root, { timings }, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return TimingsService.addTimings(timings); }),
+        updateTimings: (root, { timings }, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return TimingsService.updateTimings(timings); })
     }
 };
-module.exports = customerResolver;
+module.exports = timingsResolver;

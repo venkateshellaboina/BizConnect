@@ -2,7 +2,7 @@ export {}
 
 const customerResolver = {
     Query: {
-        getCustomerDetails : async (root, args, {CustomerService}) => CustomerService.getCustomerDetails(args.user_email),
+        getCustomerDetails : async (root, args, {CustomerService}) => CustomerService.getCustomerDetails(args.customer_id),
         getBusinessList: async (root, args, {BusinessService}) => BusinessService.getAll(args.category, args.searchKey)
     },
     Mutation:{
