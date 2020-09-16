@@ -1,15 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Container,Row,Col,Form,Button }from 'react-bootstrap'
+import {Container,Row,Col,Form,Button }from 'react-bootstrap';
+import client from "../../services/client";
+import gql from "graphql-tag";
+import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
     }};
-  
-  const mapDispatchToProps = dispatch => ({
-
-  });
-
 class Login extends React.Component {
+    constructor(props)
+    {
+        super(props)
+        this.changeEmail = ev => this.props.dispatch(login());
+        this.addUser= this.addUser.bind(this);
+    }
+    addUser(){
+        this.changeEmail();
+        
+        alert("hey");
+        client.query({
+            variables: { email:"negi@gmail.com" },
+            query: gql`
+            query RollDice($email:String!) {
+                getUser(user_email: $email){
+                    user_email
+                    first_name
+                    last_name
+                    contact_no
+                    type
+                  }
+              }
+            `
+          }).then(
+              response =>{
+                  console.log(response.data);
+                
+              }
+               ).catch((error) => { 
+                console.log(error);
+                 });
+    }
+
     renderForm() {
             return(
                 <div>
@@ -27,8 +58,8 @@ class Login extends React.Component {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
-                    Login
+                    <Button variant="primary"  onClick={this.addUser}>
+                     Login
                     </Button>
                 </Form>
                 </div>
@@ -51,4 +82,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);

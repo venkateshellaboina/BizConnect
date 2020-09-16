@@ -1,26 +1,22 @@
 import client from "./client";
 import gql from "graphql-tag";
 
-export default  class AppService{
-  getUser(){
-    console.log("i am called");
-    console.log(client.query({
+export default  class UserService{
+  async getUser(emails){
+   const response= await  client.query({
+      variables: { email:"negi@gmail.com" },
       query: gql`
-        {
-          getUser(user_email: "negi@gmail.com"){
-            user_email
-            first_name
-            last_name
-            contact_no
-            type
-          }
+      query RollDice($email:String!) {
+          getUser(user_email: $email){
+              user_email
+              first_name
+              last_name
+              contact_no
+              type
+            }
         }
       `
-    }).then(
-        response =>{
-            console.log(response.data.feed)
-        }
-         ));
-  
-  }
+    });
+  return response.data.getUser;
+}
 }

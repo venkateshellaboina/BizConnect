@@ -15,7 +15,7 @@ export function userReducer(state = initialState, action) {
     case userConstants.LOGIN_REQUEST:
         return {
           ...state,
-          authState: AuthState.LOGIN
+          authState: action.data
         };
     default:
       return state;

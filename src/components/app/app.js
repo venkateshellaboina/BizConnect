@@ -6,49 +6,18 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
-
+import { Provider } from 'react-redux'
+import configureStore from '../../store/index';
 import client from "../../services/client";
 import { ApolloProvider } from "react-apollo";
-import  AppService from "../../services/user";
-import gql from "graphql-tag";
 
-const mapStateToProps = (state) => {
-  return {};
-};
 
-const mapDispatchToProps = (dispatch) => ({
-  login,
-});
+const store = configureStore();
 
 class App extends React.Component {
-
-
-  checkGraphql()
-  {
-   
-    $.ajax({url: "http://localhost:4000",
-    contentType: "application/json",type:'POST',
-    data: JSON.stringify({ query:`{
-        feed
-        {
-            id
-            name
-            completed
-        }
-    }`}),
-    success: function(result) {
-         console.log(result);
-    }
-    
-});
-
-    
-    
-
-  }
-
   render() {
     return (
+      <Provider store={store}>
       <ApolloProvider client={client}>
         <Router>
           <div
@@ -58,7 +27,7 @@ class App extends React.Component {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                  <Nav.Link href="/about" onClick={()=>this.checkGraphql()}>About</Nav.Link>
+                  <Nav.Link href="/about">About</Nav.Link>
                   <Nav.Link href="/users">Users</Nav.Link>
                 </Nav>
                 <Nav>
@@ -86,7 +55,8 @@ class App extends React.Component {
           </div>
         </Router>
       </ApolloProvider>
+      </Provider>
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
