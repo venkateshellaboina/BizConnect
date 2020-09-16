@@ -16,29 +16,6 @@ class Login extends React.Component {
     }
     addUser(){
         this.changeEmail();
-        
-        alert("hey");
-        client.query({
-            variables: { email:"negi@gmail.com" },
-            query: gql`
-            query RollDice($email:String!) {
-                getUser(user_email: $email){
-                    user_email
-                    first_name
-                    last_name
-                    contact_no
-                    type
-                  }
-              }
-            `
-          }).then(
-              response =>{
-                  console.log(response.data);
-                
-              }
-               ).catch((error) => { 
-                console.log(error);
-                 });
     }
 
     renderForm() {
