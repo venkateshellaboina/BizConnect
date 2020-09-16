@@ -8,14 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const customerResolver = {
+const offerResolver = {
     Query: {
-        getCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.getCustomerDetails(args.customer_id); }),
-        getBusinessList: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getAll(args.category, args.searchKey); })
+        getAllOffers: (root, args, { OfferService }) => __awaiter(void 0, void 0, void 0, function* () { return OfferService.getAllOffers(args.business_id); })
     },
     Mutation: {
-        addCustomerDetails: (root, args, { CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return CustomerService.addCustomerDetails(args.customer); })
+        addOffer: (root, args, { OfferService }) => __awaiter(void 0, void 0, void 0, function* () { return OfferService.addOffer(args.offer); }),
+        updateOffer: (root, args, { OfferService }) => __awaiter(void 0, void 0, void 0, function* () { return OfferService.updateOffer(args.offer); }),
     }
 };
-module.exports = customerResolver;
+module.exports = offerResolver;

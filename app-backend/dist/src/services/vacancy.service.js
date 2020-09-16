@@ -10,23 +10,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService = require('./base.service');
-class CustomerService extends BaseService {
+class VacancyService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getCustomerDetails(customer_id) {
+    ;
+    addVacancy(vacancy) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = yield this.db('customer').where('customer_id', customer_id);
-            let customer = result[0];
-            return customer;
+            let result = yield this.db('vacancy').insert(vacancy);
+            let vacancy_id = result[0];
+            return vacancy_id;
         });
     }
-    addCustomerDetails(customer) {
+    updateVacancy(vacancy) {
         return __awaiter(this, void 0, void 0, function* () {
-            let result = yield this.db('customer').insert(customer);
-            let customer_id = result[0];
-            return customer_id;
+            let vacancy_id = vacancy.vacancy_id;
+            delete vacancy.vacancy_id;
+            let result = yield this.db('vacancy').update(vacancy).where('vacancy_id', vacancy_id);
+            return vacancy_id;
+        });
+    }
+    getAllVacancies(business_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let vacancyList = yield this.db('vacancy').where('business_id', business_id);
+            return vacancyList;
         });
     }
 }
-module.exports = CustomerService;
+;
+module.exports = VacancyService;

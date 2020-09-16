@@ -5,8 +5,8 @@ class CustomerService extends BaseService{
     constructor(event: any, db: any){
         super(event, db);
     }
-    async getCustomerDetails(user_email:any){
-        let result = await this.db('customer').where('user_email', user_email)
+    async getCustomerDetails(customer_id:number){
+        let result = await this.db('customer').where('customer_id', customer_id)
         let customer = result[0];           
         return customer;
     }

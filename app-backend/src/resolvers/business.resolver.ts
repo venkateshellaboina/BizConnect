@@ -7,10 +7,7 @@ const businessResolver = {
     },
     Business:{
         location: async (business, args, {LocationService}) => LocationService.getLocation(business.location_id),
-        timings: async (business, args, {TimingsService}) =>{
-            const timings: any = await TimingsService.get(business.business_id);
-            return timings;
-        } 
+        timings: async (business, args, {TimingsService}) => TimingsService.get(business.business_id)
     },
     Mutation:{
         addBusinessDetails: async (root, args, {BusinessService, LocationService}) => BusinessService.addBusinessDetails(args.business, LocationService)

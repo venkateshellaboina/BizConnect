@@ -9,16 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const businessResolver = {
+const vacancyResolver = {
     Query: {
-        getBusinessDetails: (root, args, { BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.getBusinessDetails(args.business_id); }),
-    },
-    Business: {
-        location: (business, args, { LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return LocationService.getLocation(business.location_id); }),
-        timings: (business, args, { TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return TimingsService.get(business.business_id); })
+        getAllVacancies: (root, args, { VacancyService }) => __awaiter(void 0, void 0, void 0, function* () { return VacancyService.getAllVacancies(args.business_id); })
     },
     Mutation: {
-        addBusinessDetails: (root, args, { BusinessService, LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business, LocationService); })
+        addVacancy: (root, { vacancy }, { VacancyService }) => __awaiter(void 0, void 0, void 0, function* () { return VacancyService.addVacancy(vacancy); }),
+        updateVacancy: (root, { vacancy }, { VacancyService }) => __awaiter(void 0, void 0, void 0, function* () { return VacancyService.updateVacancy(vacancy); }),
     }
 };
-module.exports = businessResolver;
+module.exports = vacancyResolver;
