@@ -14,10 +14,18 @@ class UserService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getUser(user_email) {
+    getUser(user_email, CustomerService, BusinessService) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('user').where('user_email', user_email);
             let user = result[0];
+            if (user.type == 'customer') {
+                let customer = yield CustomerService.getCustomerByEmail(user.user_email);
+                user.id = customer.customer_id;
+            }
+            else if (user.type == 'business') {
+                let business = yield BusinessService.getBusinessByEmail(user.user_email);
+                user.id = business.business_id;
+            }
             return user;
         });
     }

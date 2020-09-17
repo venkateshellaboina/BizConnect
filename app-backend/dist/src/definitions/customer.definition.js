@@ -12,7 +12,6 @@ const Customer = gql `
 
     extend type Query{
         getCustomerDetails(customer_id: Int!): Customer
-        getBusinessList(category: String, searchKey: String): [Business]
     }
 
     extend type Mutation{

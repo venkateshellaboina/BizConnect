@@ -11,6 +11,12 @@ class CustomerService extends BaseService{
         return customer;
     }
 
+    async getCustomerByEmail(user_email: string){
+        let result = await this.db('customer').where('user_email', user_email);
+        let customer = result[0];
+        return customer;
+    }
+
     async addCustomerDetails(customer: any){
         let result = await this.db('customer').insert(customer);
         let customer_id = result[0];

@@ -13,9 +13,28 @@ class BusinessService extends BaseService{
         business.gallery = result[1];
         return business;
     }
+    async getBusinessByEmail(user_email: string){
+        let result =  await this.db('business_details').where('user_email', user_email);
+        let business = result[0];
+        return business;
+    }
     async getAll(category: string, searchKey: string){
-        let businessList = await this.db('business_details').where('category', category)
+        // return new Promise( (resolve,reject) => {
+        let strQuery = "SELECT * FROM business_details ";
+        if(category){
+            strQuery += ` WHERE category = '${category}'`;
+        }
+        console.log('query : ' + strQuery);
+        let result =await this.db.raw(strQuery);
+        let businessList = result[0];
         return businessList;
+        //     .then(result => {
+        //         let businessList = result[0];
+        //         console.log('business list ' + JSON.stringify(businessList));
+        //         resolve(businessList)
+        //     })
+        // })
+       
     }
     async addBusinessDetails(business: any, LocationService: any){
         let location = business.location;
@@ -35,6 +54,13 @@ class BusinessService extends BaseService{
     async getBusinessGallery(business_id: number){
         let gallery = await this.db('business_images').where('business_id', business_id);
         return gallery;
+    }
+
+    async getBusinessCategories(){
+        let result = await this.db.select('name').from('business_categories');
+        let business_categories = result.map(category => category.name);
+        console.log('business_categories ' + JSON.stringify(business_categories));
+        return business_categories;
     }
     
 }

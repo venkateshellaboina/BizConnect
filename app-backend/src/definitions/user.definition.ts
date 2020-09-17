@@ -10,6 +10,7 @@ const User = gql`
         contact_no: String!
         type: String!
         password: String!
+        id: Int!
 
     }
     extend type Query{

@@ -5,9 +5,9 @@ class LocationService extends BaseService{
     constructor(event: any, db: any){
         super(event, db);
     }
-    async getLocation(id: number){
-        console.log('location id : ' + id);
-        let result = await this.db('location_details').where('location_id', id);
+    async getLocation(business_id: number){
+        console.log('location business id : ' + business_id);
+        let result = await this.db('location_details').where('business_id', business_id);
         let location:any = result[0];
         return location;
     }

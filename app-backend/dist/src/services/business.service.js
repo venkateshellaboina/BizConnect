@@ -24,10 +24,28 @@ class BusinessService extends BaseService {
             return business;
         });
     }
+    getBusinessByEmail(user_email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.db('business_details').where('user_email', user_email);
+            let business = result[0];
+            return business;
+        });
+    }
     getAll(category, searchKey) {
         return __awaiter(this, void 0, void 0, function* () {
-            let businessList = yield this.db('business_details').where('category', category);
-            return businessList;
+            return new Promise((resolve, reject) => {
+                let strQuery = "SELECT * FROM business_details ";
+                if (category) {
+                    strQuery += ` WHERE category = '${category}'`;
+                }
+                console.log('query : ' + strQuery);
+                this.db.raw(strQuery)
+                    .then(result => {
+                    let businessList = result[0];
+                    console.log('business list ' + JSON.stringify(businessList));
+                    resolve(businessList);
+                });
+            });
         });
     }
     addBusinessDetails(business, LocationService) {
@@ -52,6 +70,14 @@ class BusinessService extends BaseService {
         return __awaiter(this, void 0, void 0, function* () {
             let gallery = yield this.db('business_images').where('business_id', business_id);
             return gallery;
+        });
+    }
+    getBusinessCategories() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.db.select('name').from('business_categories');
+            let business_categories = result.map(category => category.name);
+            console.log('business_categories ' + JSON.stringify(business_categories));
+            return business_categories;
         });
     }
 }

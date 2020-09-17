@@ -21,6 +21,13 @@ class CustomerService extends BaseService {
             return customer;
         });
     }
+    getCustomerByEmail(user_email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.db('customer').where('user_email', user_email);
+            let customer = result[0];
+            return customer;
+        });
+    }
     addCustomerDetails(customer) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('customer').insert(customer);
