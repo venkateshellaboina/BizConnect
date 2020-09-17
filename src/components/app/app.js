@@ -4,8 +4,11 @@ import Nav from "react-bootstrap/Nav";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions";
+/* Components start */
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
+import Customer from "../../components/customer/customer";
+/* Components End */
 import { Provider } from 'react-redux'
 import configureStore from '../../store/index';
 import client from "../../services/client";
@@ -26,10 +29,10 @@ class App extends React.Component {
               <Navbar.Brand href="/home">BizConnect</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
+                {/* <Nav className="mr-auto">
                   <Nav.Link href="/about">About</Nav.Link>
                   <Nav.Link href="/users">Users</Nav.Link>
-                </Nav>
+                </Nav> */}
                 <Nav>
                   <Nav.Link href="/login">Login</Nav.Link>
                   <Nav.Link eventKey={2} href="/signup">
@@ -50,7 +53,9 @@ class App extends React.Component {
               <Route path="/signup">
                 <Signup />
               </Route>
-              <Route path="/">heelo</Route>
+              <Route path="/">
+                <Customer/>
+              </Route>
             </Switch>
           </div>
         </Router>

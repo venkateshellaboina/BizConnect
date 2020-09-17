@@ -7,7 +7,8 @@ export const AuthState= {
 const initialState = {
   authenticated:  false,
   authState: null,
-  user: null
+  user_email: null,
+  user_id: null
 };
 
 export function userReducer(state = initialState, action) {
@@ -15,7 +16,10 @@ export function userReducer(state = initialState, action) {
     case userConstants.LOGIN_REQUEST:
         return {
           ...state,
-          authState: action.data
+          authState: 'loggedIn',
+          authenticated: true,
+          user_email: action.data.user_email,
+          user_id: action.data.id
         };
     default:
       return state;

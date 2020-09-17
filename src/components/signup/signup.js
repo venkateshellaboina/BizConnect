@@ -137,7 +137,7 @@ class Signup extends React.Component {
             </Row>
             <Row className="justify-content-center align-items-center h-100">
             <Col xs={6} md={8} lg={6}>
-            {this.renderForm()}
+            {this.renderBuisnessForm()}
             </Col>
             </Row>
             </Container>

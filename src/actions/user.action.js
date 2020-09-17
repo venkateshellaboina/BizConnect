@@ -7,13 +7,15 @@ const service = new UserService();
  */
 
 
-  export function login() {
+  export function login(user) {
+    let user_email = user.user_email;
+    let password = user.password;
     return function(dispatch) {
-      return  service.getUser("negi@gmail.com").then(comments => {
+      return  service.getUser(user_email).then(user => {
           // dispatch
           dispatch({
               type: userConstants.LOGIN_REQUEST,
-              data:comments
+              data: user
           });
       });
   };

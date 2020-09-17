@@ -1,0 +1,29 @@
+.cardstyle{
+   height: 11vw;
+   padding: 1vw;
+   margin-bottom: 1vw;
+   border-radius: 5px;
+   box-shadow: 1px 0px 2px 1px rgb(187, 187, 187);
+   
+}
+
+.textthemecolor{
+    color:rgb(68, 184, 172);
+}
+
+.basicfont{
+    font-weight: 400;
+}
+.basicfontlight{
+    font-weight: 400;
+    color: grey;
+}
+.subscribe{
+    position: absolute;
+    bottom: 0;
+}
+
+.contactinfo{
+    position: absolute;
+    bottom: 0;
+}

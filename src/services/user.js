@@ -2,9 +2,9 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class UserService{
-  async getUser(emails){
+  async getUser(email){
    const response= await  client.query({
-      variables: { email:"negi@gmail.com" },
+      variables: { email: email },
       query: gql`
       query RollDice($email:String!) {
           getUser(user_email: $email){
@@ -13,6 +13,7 @@ export default  class UserService{
               last_name
               contact_no
               type
+              id
             }
         }
       `

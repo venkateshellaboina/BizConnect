@@ -11,11 +11,22 @@ class Login extends React.Component {
     constructor(props)
     {
         super(props)
-        this.changeEmail = ev => this.props.dispatch(login());
-        this.addUser= this.addUser.bind(this);
+        this.state = {
+            user_email : '',
+            password : ''
+        }
+        this.loginUserDispatch = user => this.props.dispatch(login(user));
     }
-    addUser(){
-        this.changeEmail();
+    loginUser = (event) =>{
+        let user = {};
+        user.user_email = this.state.user_email;
+        user.password = this.state.password;
+        this.loginUserDispatch(user);
+    }
+    handleChange = (event) =>{
+        this.setState({
+            [event.target.name] : event.target.value
+        })
     }
 
     renderForm() {
@@ -26,16 +37,16 @@ class Login extends React.Component {
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" name="user_email" value={this.state.user_email} onChange={this.handleChange}/>
                         <Form.Text className="text-muted">
                              We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange}/>
                     </Form.Group>
-                    <Button variant="primary"  onClick={this.addUser}>
+                    <Button variant="primary"  onClick={this.loginUser}>
                      Login
                     </Button>
                 </Form>
