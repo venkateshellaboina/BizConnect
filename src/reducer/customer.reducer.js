@@ -1,7 +1,9 @@
 import { customerConstants } from '../constant';
 
 const initialState = {
- businessList : null
+    businessList : null,
+    businessCategory: '',
+    businessCategoriesList : []
 };
 
 export function customerReducer(state = initialState, action) {
@@ -14,6 +16,16 @@ export function customerReducer(state = initialState, action) {
           ...state,
           businessList : action.data
         };
+    case customerConstants.CHANGE_BUSINESS_CATEGORY:
+        return{
+            ...state,
+            businessCategory : action.businessCategory
+        };
+    case customerConstants.GET_BUSINESS_CATEGORIES:
+        return{
+            ...state,
+            businessCategoriesList : action.businessCategoriesList
+        }
     default:
       return state;
   }

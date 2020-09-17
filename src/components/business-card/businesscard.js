@@ -12,29 +12,33 @@ const mapStateToProps = state => {
   });
 
 class BusinessCard extends React.Component {
+
+    constructor(props){
+        super(props);
+    }
    
     render(){
         return(
             <div>
-                <Container fluid className="cardstyle">
-                    <Row>
+                <Container fluid>
+                    <Row  className="cardstyle">
                        <Col sm={3}>
-                            <Image thumbnail src="https://awsome-s3-dev.s3.ap-south-1.amazonaws.com/my-mechanic-vashi-navi-mumbai-car-repair-and-services-xfu5f59518.jpg" rounded/>
+                            <Image thumbnail src={this.props.avatar} rounded/>
                        </Col>
                        <Col sm={6}>
-                           <h3 className="textthemecolor">My mechanic service</h3>
-                           <h6 className="basicfontlight"> Mechanic</h6>
-                           <h6> Grocery, shopping, digitial</h6>
+                           <h3 className="textthemecolor">{this.props.name}</h3>
+                           <h6 className="basicfontlight"> {this.props.category}</h6>
+                           <h6> {this.props.description}</h6>
                            <hr></hr>
                            <div className="contactinfo">
-                                <h6 className="basicfont">+91-928765422</h6>
-                                <h6 className="basicfont"> Hitech city, Near PVR, Hyderabad, 500075</h6>
+                                <h6 className="basicfont">{this.props.contact_details}</h6>
+                                <h6 className="basicfont">{this.props.address}</h6>
                            </div>
                            
                        </Col>
                        <Col sm={3}>
-                            <h6><Badge variant="success" style={{float: 'right'}}>5 </Badge></h6>
-                            <span className="subscribe textthemecolor">
+                            <h6><Badge variant="success" style={{float: 'right'}}>{this.props.rating}</Badge></h6>
+                            {/* <span className="subscribe textthemecolor">
                                 <h6>
                                 <Form.Check 
                                         type="switch"
@@ -43,7 +47,7 @@ class BusinessCard extends React.Component {
                                     />
                                 </h6>
                                 
-                           </span>
+                           </span> */}
                        </Col>
                     </Row>
                 </Container>

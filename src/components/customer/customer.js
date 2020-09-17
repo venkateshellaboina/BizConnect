@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button }from 'react-bootstrap';
 import BusinessCard from '../business-card/businesscard';
+import CustomerSearch from '../customersearch/customersearch';
 import { getBusinessList} from "../../actions";
 const mapStateToProps = state => {
     console.log(' store state ' + JSON.stringify(state));
@@ -22,7 +23,7 @@ class Customer extends React.Component {
     constructor(props){
         super(props);
         // this.getAllBusinessList = category => this.props.dispatch(getBusinessList(category));
-        this.props.getAllBusinessList('Grocery');
+        // this.props.getAllBusinessList('');
         console.log('business list' + this.props.businessList);
     }
 
@@ -31,6 +32,7 @@ class Customer extends React.Component {
     render(){
         return(
             <div>
+            <CustomerSearch/>
             <Container fluid>
                 <Row>
                     <Col sm={2} style={{padding: '1vw'}}> 
@@ -42,16 +44,12 @@ class Customer extends React.Component {
                         {this.props && this.props.businessList && this.props.businessList.map(business => {
                             return(
                                 <div>
-                                    hello
-                                    {business.business_id}
+                                    <BusinessCard name={business.name} category={business.category} description={business.description}
+                                        contact_details={business.contact_details} avatar={business.avatar} address={ (business.location && business.location.address1) ? business.location.address1 : ''}
+                                        rating={business.rating}/>
                                 </div>
                             )
                         })}
-                        <BusinessCard/>
-                        <BusinessCard/>
-                        <BusinessCard/>
-                        <BusinessCard/>
-                        <BusinessCard/>
                     </Col>
                 </Row>
             </Container>
