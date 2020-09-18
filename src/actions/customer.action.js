@@ -3,10 +3,11 @@ import { customerConstants} from '../constant';
 import CustomerService from  '../services/customer.service';
 const service = new CustomerService();
 
-export function getBusinessList(category) {
+export function getBusinessList(businessCategory, searchKey) {
    
     return function(dispatch) {
-      return  service.getBusinessList(category).then(businessList => {
+    console.log('searchKey ' + searchKey);
+      return  service.getBusinessList(businessCategory, searchKey).then(businessList => {
           // dispatch
           dispatch({
               type: customerConstants.GET_BUSINESS_LIST,
@@ -14,7 +15,6 @@ export function getBusinessList(category) {
           });
       });
   };
-    
 }
 
 export function changeBusinessCategory(businessCategory){
@@ -22,7 +22,7 @@ export function changeBusinessCategory(businessCategory){
         return dispatch({
                 type: customerConstants.CHANGE_BUSINESS_CATEGORY,
                 businessCategory : businessCategory
-            })   
+            })
     }
 }
 
@@ -35,5 +35,16 @@ export function getBusinessCategoriesList(){
                 businessCategoriesList: businessCategoriesList
             });
         });
+    }
+}
+
+
+export function onSearchKeyChange(searchKey){
+    return function(dispatch){
+
+       return dispatch({
+                type: customerConstants.SEARCH_KEY_CHANGE,
+                searchKey : searchKey
+            })
     }
 }

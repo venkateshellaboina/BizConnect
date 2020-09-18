@@ -3,15 +3,13 @@ import { customerConstants } from '../constant';
 const initialState = {
     businessList : null,
     businessCategory: '',
-    businessCategoriesList : []
+    businessCategoriesList : [],
+    searchKey: ''
 };
 
 export function customerReducer(state = initialState, action) {
   switch (action.type) {
     case customerConstants.GET_BUSINESS_LIST:
-        // let businessList = [...state.businessList];
-        // businessList.push(action.data);
-        console.log('data ' + action.data)
         return {
           ...state,
           businessList : action.data
@@ -25,6 +23,11 @@ export function customerReducer(state = initialState, action) {
         return{
             ...state,
             businessCategoriesList : action.businessCategoriesList
+        }
+    case customerConstants.SEARCH_KEY_CHANGE:
+        return{
+            ...state,
+            searchKey : action.searchKey
         }
     default:
       return state;

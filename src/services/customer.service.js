@@ -2,12 +2,13 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class CustomerService{
-    async getBusinessList(category = "Grocery"){
+    async getBusinessList(businessCategory, searchKey){
+        console.log(' business list category ' + businessCategory);
         const response= await  client.query({
-            variables: { category },
+            variables: { businessCategory, searchKey },
             query: gql`
-            query business($category:String!) {
-                getBusinessList(category: $category){
+            query business($businessCategory:String, $searchKey: String) {
+                getBusinessList(category: $businessCategory, searchKey: $searchKey){
                     business_id
                     user_email
                     name
@@ -15,7 +16,6 @@ export default  class CustomerService{
                     contact_details
                     description
                     avatar
-                    rating
                     location{
                         address1
                     }
