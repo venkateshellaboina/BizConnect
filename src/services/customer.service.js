@@ -19,8 +19,16 @@ export default  class CustomerService{
                     location{
                         address1
                     }
+                    timings{
+                        day
+                        start_time
+                        end_time
+                        break_start_time
+                        break_end_time
                     }
+                    rating
                 }
+            }
             `
         });
             return response.data.getBusinessList;

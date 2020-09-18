@@ -3,16 +3,37 @@ import { customerConstants} from '../constant';
 import CustomerService from  '../services/customer.service';
 const service = new CustomerService();
 
+const Days = Object.freeze({
+    0 : "Sunday",
+    1 : "Monday"
+})
+
 export function getBusinessList(businessCategory, searchKey) {
    
     return function(dispatch) {
     console.log('searchKey ' + searchKey);
       return  service.getBusinessList(businessCategory, searchKey).then(businessList => {
-          // dispatch
-          dispatch({
-              type: customerConstants.GET_BUSINESS_LIST,
-              data: businessList
-          });
+            // let now = Date.now();
+            // let date = new Date(now);
+            // let day = date.getDay(); //Ex: Wednesday
+            // let nowHours = date.getHours();
+            // let minutes = date.getMinutes();
+
+            // businessList.map(business => {
+            //     if(business.timings){
+
+            //         for(let i = 0;i < timings.length; i++){
+            //             if(timings[i].day.toLowerCase() == Days[day].toLowerCase()){
+                            
+            //             }
+            //         }
+            //     }
+            // })
+            // dispatch
+            dispatch({
+                type: customerConstants.GET_BUSINESS_LIST,
+                data: businessList
+            });
       });
   };
 }

@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Container,Row,Col,Form,Button, Pagination}from 'react-bootstrap';
+import {Container,Row,Col,Form,Button, Pagination, Image}from 'react-bootstrap';
 import BusinessCard from '../business-card/businesscard';
 import CustomerSearch from '../customersearch/customersearch';
 import { getBusinessList} from "../../actions";
 import "./customer.css";
 const mapStateToProps = state => {
-    // console.log(' store state ' + JSON.stringify(state));
     return{
-        // user_email: state.user_email,
-        // customer_id: state.customer_id,
-        // authState : state.authState,
-        // businessCategory : state.customerReducer.businessCategory,
         businessList : state.customerReducer.businessList
     }
 };
@@ -20,47 +15,47 @@ const mapDispatchToProps = dispatch => ({
     getAllBusinessList : category => dispatch(getBusinessList(category))
 });
 
+const initialState= {
+    activePage : 1,
+    totalPages: null,
+    paginationBarSize : 3,
+    items : [],
+    perPage : 5,
+    startPage: 1,
+    currentPageBusinessList : []
+};
+
 class Customer extends React.Component {
     
     constructor(props){
         super(props);
-        this.state= {
-            activePage : 1,
-            totalPages: null,
-            paginationBarSize : 10,
-            items : [],
-            perPage : 2,
-            startPage: 1,
-            currentPageBusinessList : []
-        }
-        // this.getAllBusinessList = category => this.props.dispatch(getBusinessList(category));
-        // this.props.getAllBusinessList(this.props.businessCategory);
-        console.log('business list' + this.props.businessList);
+        this.state= initialState;
+       
         this.populateCurrentPageBusinessList();
+        this.populatePaginationList();
     }
-
-    // componentDidMount(){
-    //     this.populateCurrentPageBusinessList();
-    // }
 
     componentDidUpdate(prevProps){
         let currentBusinessList = this.props.businessList;
         let prevBusinessList = prevProps.businessList;
 
         if(JSON.stringify(currentBusinessList) != JSON.stringify(prevBusinessList)){
-            this.populateCurrentPageBusinessList();
-            this.populatePaginationList();
+            this.setState(initialState, () => {
+                this.populateCurrentPageBusinessList();
+                this.populatePaginationList();
+            })
         }
     }
 
-    populateCurrentPageBusinessList = () => {
+    populateCurrentPageBusinessList = () => { // function to splice the required items from the list based on active page
         let businessList = this.props.businessList;
         if(!businessList) return;
         let totalBusinessList = businessList.length;
-        let totalPages =  this.calculateTotalPages();;
+        let totalPages =  this.calculateTotalPages();
         let startPage = this.state.startPage;
         let activePage = this.state.activePage;
         let perPage = this.state.perPage;
+
         let start = (activePage - 1) * perPage;
         let end = Math.min(start + perPage, totalBusinessList);
 
@@ -78,7 +73,8 @@ class Customer extends React.Component {
         });
     }
 
-    populatePaginationList = () =>{
+    populatePaginationList = () =>{ // function to populate the pagination buttons
+        if(this.props.businessList == null) return;
         let perPage = this.state.perPage;
         let activePage = this.state.activePage;
         let paginationBarSize = this.state.paginationBarSize;
@@ -89,7 +85,8 @@ class Customer extends React.Component {
         }, ()=> {
             let items = this.state.items;
             let totalPaginationItems = Math.min(startPage + paginationBarSize - 1, totalPages);
-            if(totalPaginationItems > 0){
+
+            if(totalPaginationItems > 0){ // Adding buttons to pagination bar
                 items.push( <Pagination.Prev onClick={(event) => this.onPrev(event)}/>)
                 for(let number = startPage; number<= totalPaginationItems; number++){
                     
@@ -102,7 +99,6 @@ class Customer extends React.Component {
                 items.push( <Pagination.Next onClick={(event) => this.onNext(event)}/>)
             }
            
-
             this.setState({
                 ...this.state,
                 items,
@@ -131,14 +127,20 @@ class Customer extends React.Component {
     onPrev = (event)=>{
         let activePage = this.state.activePage;
         activePage -= 1;
+
         let totalPages =  this.state.totalPages;
         let startPage = this.state.startPage;
-        if(activePage > totalPages || activePage < startPage) return;
+        if(activePage < 1) return; // when not in range
+
+        if(activePage < startPage){ // To move the pagination items left by 1 
+            startPage -=1
+        }
 
         this.setState({
             ...this.state,
-            activePage
-        }, ()=>{
+            activePage,
+            startPage
+        }, ()=>{   
             this.populateCurrentPageBusinessList();
             this.populatePaginationList();
 
@@ -147,13 +149,20 @@ class Customer extends React.Component {
     onNext = (event)=>{
         let activePage = this.state.activePage;
         activePage += 1;
+
         let totalPages =  this.state.totalPages;
         let startPage = this.state.startPage;
-        if(activePage > totalPages || activePage < startPage) return;
+        if(activePage > totalPages) return;// when not in range
 
+        let paginationBarSize = this.state.paginationBarSize;
+ 
+        if(activePage >= (startPage + paginationBarSize -1)){ // To move the pagination items right by 1
+            startPage +=1
+        }
         this.setState({
              ...this.state,
-            activePage
+            activePage,
+            startPage
         }, ()=>{
             this.populateCurrentPageBusinessList();
             this.populatePaginationList();
@@ -166,6 +175,7 @@ class Customer extends React.Component {
         return(
             <div>
             <CustomerSearch/>
+            <hr></hr>
             <Container fluid>
                 <Row>
                     <Col sm={2} style={{padding: '2vw'}}> 
@@ -174,22 +184,27 @@ class Customer extends React.Component {
                     </Col>
                     
                     <Col sm={5} style={{paddingTop:'2vw', paddingLeft:'2vw'}}> 
+                        
                         {this.state && this.state.currentPageBusinessList && this.state.currentPageBusinessList.map(business => 
-                        // {
-                        //     return(
                                 <div>
                                     <BusinessCard name={business.name} category={business.category} description={business.description}
                                         contact_details={business.contact_details} avatar={business.avatar} address={ (business.location && business.location.address1) ? business.location.address1 : ''}
                                         rating={business.rating}/>
                                 </div>
-                        //     )
-                        // }
                         )}
+                        {this.state && this.state.currentPageBusinessList && this.state.currentPageBusinessList.length == 0 &&
+                            <div>
+                                <Image style={{border: "0"}} thumbnail src="./nodata.jpg" rounded/>
+                                {/* <div>It is currently empty here. Please select a different Catgeory</div> */}
+
+                            </div>
+                            
+                        }
 
                     </Col>
                 </Row>
                 <Row fluid>
-                    <Col sm={2}>
+                    <Col sm={1}>
                     </Col>
                     <Col sm={5} className="paginationStyle">
                             <span>
@@ -198,6 +213,7 @@ class Customer extends React.Component {
                                 </Pagination>
                             </span>
                      </Col>
+                  
                    
                 </Row>
             </Container>

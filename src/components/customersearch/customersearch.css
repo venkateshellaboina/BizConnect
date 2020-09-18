@@ -51,6 +51,7 @@ select {
 /* Transition */
 .select:hover::after {
   color: #f39c12;
+  background: rgb(68, 184, 172)
 }
 .searchbar{
     height : 3em;

@@ -52,10 +52,12 @@ class CustomerSearch extends React.Component {
         event.preventDefault();
         this.setState({
             ...this.state,
-            selectedCategory: event.target.value
+            selectedCategory: event.target.value,
+            searchKey : ''
         }, ()=>{
             this.props.changeBusinessCategory(this.state.selectedCategory);
-            this.props.getBusinessList(this.state.selectedCategory, this.state.searchKey);
+            this.props.onSearchKeyChange('');//resetting search key in store when category changes
+            this.props.getBusinessList(this.state.selectedCategory, '');
         })
     }
     
@@ -66,35 +68,21 @@ class CustomerSearch extends React.Component {
             searchKey: event.target.value
         }, ()=>{
             this.props.onSearchKeyChange(this.state.searchKey);
-            // this.debounce(this.getBusinessListLocal, 500);
             this.getBusinessListDebounce(this.state.selectedCategory, this.state.searchKey);
-
-            // this.searchHandler();
-            // if(this.state.searchKey.length > 3){
-            //     this.getBusinessList(this.state.selectedCategory, this.state.searchKey);
-            // }
         })
     }
 
-    // static getDerivedStateFromProps(nextProps, nexState){
-    //     console.log('next props ' + JSON.stringify(nextProps));
-    //     console.log('next state ' + JSON.stringify(nexState));
-    // }
-    
+   
     render(){
-        // const searchHandler = useCallback(debounce(() => {
-        //     this.getBusinessList(this.state.selectedCategory, this.state.searchKey);
-        // }, 500), []);
-
         return(
             <div>
                 <Container className="containerStyle" fluid style={{marginLeft:"5vw", width: "70%"}}>
                     <InputGroup className="mb-3">
                             <span className="select">
                                 <select value={this.state.selectedCategory} onChange={(e) => this.onSelectCategory(e)} placeholder="Category">
-                                    <option selected disabled value="">Select a Category</option>
+                                    <option style={{margin: "20px"}} selected disabled value="">Select a Category</option>
                                     { (this.props.businessCategoriesList || []).map((category, id) => 
-                                        <option value={category} key={id} id={id+1}>{category}</option>      
+                                        <option style={{margin: "20px"}} value={category} key={id} id={id+1}>{category}</option>      
                                     )}
                                 </select>
                             </span> 
@@ -110,19 +98,3 @@ class CustomerSearch extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerSearch);
-
-  {/* <DropdownButton
-                            as={InputGroup.Prepend}
-                            variant="primary"
-                            title="Category"
-                            id="input-group-dropdown-1"
-                            onSelect={this.onSelectCategory}
-                            >
-                                { (this.props.businessCategoriesList || []).map((category, id) => 
-                                    <Dropdown.Item eventKey={id+1} active={this.state.selectedCategoryKey == id+1 ? true : false}>{category}</Dropdown.Item> 
-                                )}
-                                <Dropdown.Item href="#">Grocery</Dropdown.Item>
-                                <Dropdown.Item href="#">Shopping</Dropdown.Item>
-                                <Dropdown.Item href="#">Mechanic</Dropdown.Item>
-                                <Dropdown.Item href="#">Salon</Dropdown.Item> 
-                            </DropdownButton> */}
