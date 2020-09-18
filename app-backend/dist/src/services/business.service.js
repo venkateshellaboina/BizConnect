@@ -33,19 +33,24 @@ class BusinessService extends BaseService {
     }
     getAll(category, searchKey) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                let strQuery = "SELECT * FROM business_details ";
-                if (category) {
-                    strQuery += ` WHERE category = '${category}'`;
+            let strQuery = "SELECT * FROM business_details ";
+            if (category) {
+                strQuery += ` WHERE category = '${category}' `;
+                if (searchKey) {
+                    searchKey = searchKey.toLowerCase();
+                    strQuery += ` AND ( name LIKE '%${searchKey}%' OR description LIKE '%${searchKey}%' )`;
                 }
-                console.log('query : ' + strQuery);
-                this.db.raw(strQuery)
-                    .then(result => {
-                    let businessList = result[0];
-                    console.log('business list ' + JSON.stringify(businessList));
-                    resolve(businessList);
-                });
-            });
+            }
+            else {
+                if (searchKey) {
+                    searchKey = searchKey.toLowerCase();
+                    strQuery += ` WHERE ( name LIKE '%${searchKey}%' OR description LIKE '%${searchKey}%' )`;
+                }
+            }
+            console.log('query : ' + strQuery);
+            let result = yield this.db.raw(strQuery);
+            let businessList = result[0];
+            return businessList;
         });
     }
     addBusinessDetails(business, LocationService) {

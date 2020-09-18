@@ -19,21 +19,25 @@ class BusinessService extends BaseService{
         return business;
     }
     async getAll(category: string, searchKey: string){
-        // return new Promise( (resolve,reject) => {
         let strQuery = "SELECT * FROM business_details ";
         if(category){
-            strQuery += ` WHERE category = '${category}'`;
+            strQuery += ` WHERE category = '${category}' `;
+            if(searchKey){
+                searchKey = searchKey.toLowerCase();
+                strQuery += ` AND ( name LIKE '%${searchKey}%' OR description LIKE '%${searchKey}%' )`;
+            }
         }
+        else{
+            if(searchKey){
+                searchKey = searchKey.toLowerCase();
+                strQuery += ` WHERE ( name LIKE '%${searchKey}%' OR description LIKE '%${searchKey}%' )`;
+            }
+        }
+        
         console.log('query : ' + strQuery);
-        let result =await this.db.raw(strQuery);
+        let result = await this.db.raw(strQuery);
         let businessList = result[0];
         return businessList;
-        //     .then(result => {
-        //         let businessList = result[0];
-        //         console.log('business list ' + JSON.stringify(businessList));
-        //         resolve(businessList)
-        //     })
-        // })
        
     }
     async addBusinessDetails(business: any, LocationService: any){

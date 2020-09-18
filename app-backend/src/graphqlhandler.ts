@@ -1,7 +1,9 @@
 export{};
 
 const { ApolloServer } = require('apollo-server-lambda');
+// const DatabaseService = require("./knex/knexfile");
 const db = require("./knex/knexfile");
+
 var  _ = require("lodash");
 //services
 const UserService = require("./services/user.service");
@@ -30,6 +32,11 @@ const server = new ApolloServer({
  
 module.exports.graphqlHandler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
+
+  // let databaseService = new DatabaseService();
+  // databaseService.init(); // initialise db instance
+  // let db = databaseService.getInstance();
+  // console.log('db : ' + db);
   let serverContext:any = {
     UserService : new UserService(event, db),
     CustomerService : new CustomerService(event, db),
