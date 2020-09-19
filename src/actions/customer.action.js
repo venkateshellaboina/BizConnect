@@ -111,3 +111,12 @@ export function filterBusinessList(filters, businessList){
     }
 
 }
+
+export function onBusinessSelect(business_id){
+    return function(dispatch){
+        return dispatch({
+            type: customerConstants.ON_BUSINESS_SELECT,
+            selectedBusinessId : business_id
+        })
+    }
+}

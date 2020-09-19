@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button, Badge, Image }from 'react-bootstrap';
 import './businesscard.css';
+import { onBusinessSelect} from "../../actions";
 
 const mapStateToProps = state => {
     return {
     }};
   
   const mapDispatchToProps = dispatch => ({
-
+    onBusinessSelect : business_id => dispatch(onBusinessSelect(business_id))
   });
 
 class BusinessCard extends React.Component {
@@ -16,6 +17,12 @@ class BusinessCard extends React.Component {
     constructor(props){
         super(props);
     }
+
+    onBusinessSelect = ()=>{
+        let business_id = this.props.business_id;
+        this.props.onBusinessSelect(business_id);
+    }
+
     renderRating(rating){
         if(rating >= 4){
             return  <h5><Badge variant="success" style={{float: 'right'}}>{rating}</Badge></h5>
@@ -26,13 +33,12 @@ class BusinessCard extends React.Component {
         else{
             return  <h5><Badge variant="danger" style={{float: 'right'}}>{rating}</Badge></h5>
         }
-    }
-   
+    }   
     render(){
         return(
             <div>
-                <Container fluid>
-                    <Row  className="cardstyle">
+                <Container fluid >
+                    <Row  className="cardstyle" onClick={this.onBusinessSelect}>
                        <Col sm={3} xs={3}>
                             <Image thumbnail src={this.props.avatar} rounded/>
                        </Col>

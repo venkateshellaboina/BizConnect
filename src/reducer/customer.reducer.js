@@ -5,7 +5,8 @@ const initialState = {
     filteredBusinessList : null,
     businessCategory: '',
     businessCategoriesList : [],
-    searchKey: ''
+    searchKey: '',
+    selectedBusinessId : null
 };
 
 export function customerReducer(state = initialState, action) {
@@ -35,6 +36,11 @@ export function customerReducer(state = initialState, action) {
         return{
             ...state,
             filteredBusinessList : action.data
+        }
+    case customerConstants.ON_BUSINESS_SELECT:
+        return{
+            ...state,
+            selectedBusinessId: action.selectedBusinessId
         }
     default:
       return state;

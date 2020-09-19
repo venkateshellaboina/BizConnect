@@ -34,6 +34,9 @@ select {
   color: #fff;
   cursor: pointer;
 }
+select:hover{
+  background: rgb(68, 184, 172)
+}
 /* Arrow */
 .select::after {
   content: '\25BC';

@@ -188,7 +188,7 @@ class Customer extends React.Component {
                         
                         {this.state && this.state.currentPageBusinessList && this.state.currentPageBusinessList.map(business => 
                                 <div>
-                                    <BusinessCard name={business.name} category={business.category} description={business.description}
+                                    <BusinessCard business_id={business.business_id} name={business.name} category={business.category} description={business.description}
                                         contact_details={business.contact_details} avatar={business.avatar} address={ (business.location && business.location.address1) ? business.location.address1 : ''}
                                         rating={business.rating} isOpen={business.isOpen}/>
                                 </div>
