@@ -26,7 +26,7 @@ render(){
                 <Tab eventKey="menu" title="Menu">
                     <Menu/>
                 </Tab>
-                <Tab eventKey="review" title="Review">
+                <Tab eventKey="review" title="Reviews">
                     <Review/>
                 </Tab>
                 <Tab eventKey="services" title="Services">

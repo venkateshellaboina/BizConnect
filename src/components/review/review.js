@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Card, Container }from 'react-bootstrap';
+import {Card,Button, Container }from 'react-bootstrap';
 import {getReviews} from "../../actions";
 import './review.css';
 
@@ -33,10 +33,14 @@ class Reviews extends React.Component {
         this.props.getReviews('');
         console.log('reviews list ' + this.props.reviewsList);
     }
+    addReview(){
+        alert('add review!');
+    }
     render()
     {
         return(
             <div>
+            <Button href="#" onClick={()=>{this.addReview();}}>Add Review</Button>
             {this.props.reviewsList.map((review) => (
             <div key={review.id}>
                 <Review fName={review.first_name} lName={review.last_name} comment={review.review_comment} rating={review.rating}/>

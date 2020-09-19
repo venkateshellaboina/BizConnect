@@ -21,13 +21,13 @@ class Offers extends React.Component{
   }
       render(){
           return(
-            <div>
+            <Container className="container-fluid h-100">
               {this.props.offersList.map((offer) => (
                 <div>
                 {/* <Service title={offer.title} description={offer.description} image={offer.image}/> */}
                 </div>
               ))}
-            </div>
+            </Container>
           );
       }
 }
