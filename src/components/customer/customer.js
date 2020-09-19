@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Container,Row,Col,Form,Button, Pagination, Image}from 'react-bootstrap';
+import {Container,Row,Col,Form,Button, Pagination, Image, InputGroup, FormControl}from 'react-bootstrap';
 import BusinessCard from '../business-card/businesscard';
 import CustomerSearch from '../customersearch/customersearch';
-import { getBusinessList} from "../../actions";
+import CustomerFilter from '../customerfilter/customerfilter';
+
+import { getBusinessList, filterBusinessList} from "../../actions";
 import "./customer.css";
 const mapStateToProps = state => {
     return{
@@ -169,18 +171,17 @@ class Customer extends React.Component {
 
         });
     }
-   
-
+    
     render(){
         return(
             <div>
             <CustomerSearch/>
             <hr></hr>
             <Container fluid>
+
                 <Row>
                     <Col sm={2} style={{padding: '2vw'}}> 
-                        <h6>Now open</h6>
-
+                        <CustomerFilter/>
                     </Col>
                     
                     <Col sm={5} style={{paddingTop:'2vw', paddingLeft:'2vw'}}> 
@@ -189,14 +190,12 @@ class Customer extends React.Component {
                                 <div>
                                     <BusinessCard name={business.name} category={business.category} description={business.description}
                                         contact_details={business.contact_details} avatar={business.avatar} address={ (business.location && business.location.address1) ? business.location.address1 : ''}
-                                        rating={business.rating}/>
+                                        rating={business.rating} isOpen={business.isOpen}/>
                                 </div>
                         )}
                         {this.state && this.state.currentPageBusinessList && this.state.currentPageBusinessList.length == 0 &&
                             <div>
                                 <Image style={{border: "0"}} thumbnail src="./nodata.jpg" rounded/>
-                                {/* <div>It is currently empty here. Please select a different Catgeory</div> */}
-
                             </div>
                             
                         }
