@@ -40,14 +40,41 @@ class BusinessService extends BaseService{
         return businessList;
        
     }
-    async addBusinessDetails(business: any, LocationService: any){
-        let location = business.location;
-        let location_id = await LocationService.addLocation(location);
-        delete business.location;
-        business.location_id = location_id;
+    async addBusinessDetails(business: any, LocationService: any, TimingsService: any){
 
+        let location = business.location;
+        delete business.location;
+        let timings = business.timings;
+        delete business.timings;
+        let gallery = business.gallery;
+        delete business.gallery;
+       
         let result = await this.db('business_details').insert(business);
         let business_id = result[0];
+
+        let services: any  = [];
+        if(location){
+            location.business_id = business_id;
+            let locationService : any = LocationService.addLocation(location);
+            services.push(locationService);
+        }
+        if(timings && timings.length> 0){
+            timings = timings.map( timing => {
+                        timing.business_id = business_id;
+                        return timing;
+                    });
+            let timingsService = TimingsService.addTimings(timings);
+            services.push(timingsService);
+        }
+        if(gallery && gallery.length> 0){
+            gallery = gallery.map(galleryItem => {
+                        galleryItem.business_id = business_id;
+                        return galleryItem;
+                    });
+            let galleryService = this.addBusinessGallery(gallery);
+            services.push(galleryService);
+        }
+        let servicesResult = await Promise.all(services);
         return business_id;
     }
     async getBusinessInfo(business_id: number){
@@ -58,6 +85,10 @@ class BusinessService extends BaseService{
     async getBusinessGallery(business_id: number){
         let gallery = await this.db('business_images').where('business_id', business_id);
         return gallery;
+    }
+    async addBusinessGallery(gallery: number){
+        let result = await this.db('business_images').insert(gallery);
+        return result[0];
     }
 
     async getBusinessCategories(){

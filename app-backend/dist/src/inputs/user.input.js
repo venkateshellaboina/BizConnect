@@ -6,7 +6,7 @@ const UserInput = gql `
         user_email: String
         first_name: String!
         last_name: String
-        contact_no: String!
+        contact_no: String
         type: String!
         password: String!
     }

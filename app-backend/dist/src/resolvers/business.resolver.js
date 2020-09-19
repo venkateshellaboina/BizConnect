@@ -21,7 +21,7 @@ const businessResolver = {
         rating: (business, args, { RatingService }) => __awaiter(void 0, void 0, void 0, function* () { return RatingService.getAvgRating(business.business_id); })
     },
     Mutation: {
-        addBusinessDetails: (root, args, { BusinessService, LocationService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business, LocationService); })
+        addBusinessDetails: (root, args, { BusinessService, LocationService, TimingsService }) => __awaiter(void 0, void 0, void 0, function* () { return BusinessService.addBusinessDetails(args.business, LocationService, TimingsService); })
     }
 };
 module.exports = businessResolver;

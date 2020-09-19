@@ -9,7 +9,6 @@ const Business = gql`
        category : String
        contact_details: String
        description: String
-       location_id: Int
        avatar: String
        location: Location
        rating: Float

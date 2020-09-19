@@ -13,7 +13,7 @@ const businessResolver = {
         rating : async (business, args, {RatingService}) => RatingService.getAvgRating(business.business_id)
     },
     Mutation:{
-        addBusinessDetails: async (root, args, {BusinessService, LocationService}) => BusinessService.addBusinessDetails(args.business, LocationService)
+        addBusinessDetails: async (root, args, {BusinessService, LocationService, TimingsService}) => BusinessService.addBusinessDetails(args.business, LocationService, TimingsService)
     }
 }
 

@@ -8,6 +8,7 @@ const Customer = gql`
         user_email: String!
         first_name: String
         last_name: String
+        contact_no: String
     }
 
     extend type Query{
