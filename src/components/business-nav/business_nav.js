@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Tabs,Tab}from 'react-bootstrap';
-import Customer from '../customer/customer';
+import Menu from '../menu/menu';
 import Overview from '../overview/overview';
 import Review from  '../review/review';
 import Service from  '../services/services';
@@ -24,19 +24,19 @@ render(){
                     <Overview/>
                 </Tab>
                 <Tab eventKey="menu" title="Menu">
-                    <Customer/>
+                    <Menu/>
                 </Tab>
-                <Tab eventKey="review" title="Review">
+                <Tab eventKey="review" title="Reviews">
                     <Review/>
                 </Tab>
                 <Tab eventKey="services" title="Services">
                     <Service/>
                 </Tab>
                 <Tab eventKey="offer" title="Offers">
-                <Review/>
+                    <Review/>
                 </Tab>
                 <Tab eventKey="vacany" title="Vacancies">
-                <Review/>
+                  <Review/>
                 </Tab>
             </Tabs>
         );
