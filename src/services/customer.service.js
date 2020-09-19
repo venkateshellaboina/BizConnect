@@ -34,13 +34,19 @@ export default  class CustomerService{
             return response.data.getBusinessList;
     }
     async getBusinessCategoriesList(){
-        const response= await  client.query({
-            query: gql`
-                query business{
-                    getBusinessCategories
-                }
-            `
-        });
-            return response.data.getBusinessCategories;
+        try{
+            const response= await  client.query({
+                query: gql`
+                    query business{
+                        getBusinessCategories
+                    }
+                `
+            });
+                return response.data.getBusinessCategories;
+        }
+        catch(e){
+            return [];
+        }
+        
     }   
 }

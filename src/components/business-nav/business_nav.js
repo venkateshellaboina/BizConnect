@@ -33,10 +33,10 @@ render(){
                     <Service/>
                 </Tab>
                 <Tab eventKey="offer" title="Offers">
-                <Review/>
+                    <Review/>
                 </Tab>
                 <Tab eventKey="vacany" title="Vacancies">
-                <Review/>
+                  <Review/>
                 </Tab>
             </Tabs>
         );

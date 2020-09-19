@@ -64,15 +64,22 @@ export function changeBusinessCategory(businessCategory){
 }
 
 export function getBusinessCategoriesList(){
-    return function(dispatch){
-        return  service.getBusinessCategoriesList().then(businessCategoriesList => {
-            // dispatch
-            dispatch({
-                type: customerConstants.GET_BUSINESS_CATEGORIES,
-                businessCategoriesList: businessCategoriesList
+
+    try{
+        return function(dispatch){
+            return  service.getBusinessCategoriesList().then(businessCategoriesList => {
+                // dispatch
+                dispatch({
+                    type: customerConstants.GET_BUSINESS_CATEGORIES,
+                    businessCategoriesList: businessCategoriesList
+                });
             });
-        });
+        }
     }
+    catch(e){
+        console.log(e);
+    }
+    
 }
 
 

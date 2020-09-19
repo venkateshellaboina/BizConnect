@@ -47,7 +47,7 @@ class Navigation extends React.Component {
               <Route path="/signup">
                 <Signup />
               </Route>
-              <Route path="/buisness">
+              <Route path="/business">
               <Buisness />
               </Route>
               <Route path="/customer">
