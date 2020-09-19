@@ -18,9 +18,10 @@
     font-weight: 400;
     color: grey;
 }
-.subscribe{
+.status{
     position: absolute;
     bottom: 0;
+    right: 10px;
 }
 
 .contactinfo{
