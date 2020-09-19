@@ -18,7 +18,7 @@ class Login extends React.Component {
         this.loginUserDispatch = user => this.props.dispatch(login(user));
     }
     routeChange=()=> {
-        let path = `/buisness`;
+        let path = `/business`;
         window.location.href=path;
       }
     loginUser = (event) =>{
