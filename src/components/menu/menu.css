@@ -1,0 +1,38 @@
+.rowStyle{
+    margin-top : 3vh;
+}
+.rowStyle2{
+    /* width : 60%; */
+    margin-top : 3vh;
+}
+.buttonSpanStyle{
+    position : absolute;
+    left: 0;
+    padding-left: 1vw;
+    /* width: "100%"; */
+}
+
+.addButtonsStyle{
+    /* padding: 1vh; */
+    margin-left: 1vw;
+    font-size: 1.5vh;
+
+    /* padding: 0.3vw */
+
+}
+.menuItemStyle{
+    font-weight: 400;
+    font-size: 1.8vh;
+}
+.menuCategoryStyle{
+    /* font-size: 2.5vh; */
+}
+
+.menuCard{
+    /* width: 40vh; */
+    margin-left: 1vw;
+    padding: 1vw;
+    margin-bottom: 3vh;
+    border-radius: 5px;
+    box-shadow: 1px 0px 5px 1px rgb(187, 187, 187);
+ }
