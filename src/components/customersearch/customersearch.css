@@ -21,7 +21,7 @@ select::-ms-expand {
 .select {
   position: relative;
   display: flex;
-  width: 15em;
+  /* width: 12vw; */
   height: 3em;
   line-height: 3;
   background: #2c3e50;
@@ -55,4 +55,9 @@ select {
 }
 .searchbar{
     height : 3em;
+    /* width: 50vw; */
+}
+
+.optionStyle{
+  font-size: 1.5vh
 }

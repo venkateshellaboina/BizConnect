@@ -33,13 +33,13 @@ class BusinessCard extends React.Component {
             <div>
                 <Container fluid>
                     <Row  className="cardstyle">
-                       <Col sm={3}>
+                       <Col sm={3} xs={3}>
                             <Image thumbnail src={this.props.avatar} rounded/>
                        </Col>
-                       <Col sm={6}>
-                           <h3 className="textthemecolor">{this.props.name}</h3>
-                           <h6 className="basicfontlight"> {this.props.category}</h6>
-                           <h6> {this.props.description}</h6>
+                       <Col sm={6} xs={6}>
+                           <h3 style={{fontSize: '2vh'}} className="textthemecolor">{this.props.name}</h3>
+                           <h6 style={{fontSize: '2vh'}} className="basicfontlight"> {this.props.category}</h6>
+                           <h6 style={{fontSize: '1.5vh'}}> {this.props.description}</h6>
                            <hr></hr>
                            <div className="contactinfo">
                                 <h6 className="basicfont">{this.props.contact_details}</h6>
@@ -47,14 +47,14 @@ class BusinessCard extends React.Component {
                            </div>
                            
                        </Col>
-                       <Col sm={3}>
+                       <Col sm={3} xs={3}>
                            {this.renderRating(this.props.rating)}
                            <div className="status">
                                 {this.props && this.props.isOpen == true && 
-                                    <h5 className="basicfont"><Badge pill variant="success"> Open</Badge></h5>
+                                    <h5 className=""><Badge pill variant="success"> Open</Badge></h5>
                                 }
                                 {this.props && this.props.isOpen == false && 
-                                    <h5 className="basicfont"><Badge pill variant="light"> Closed</Badge></h5>
+                                    <h5 className=""><Badge pill variant="light"> Closed</Badge></h5>
                                 }
                            </div>
                        </Col>

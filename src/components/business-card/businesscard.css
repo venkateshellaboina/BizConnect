@@ -1,7 +1,7 @@
 .cardstyle{
-   height: 11vw;
+   height: 22vh;
    padding: 1vw;
-   margin-bottom: 1vw;
+   margin-bottom: 2vh;
    border-radius: 5px;
    box-shadow: 1px 0px 2px 1px rgb(187, 187, 187);
    
@@ -13,6 +13,7 @@
 
 .basicfont{
     font-weight: 400;
+    font-size: 1.7vh;
 }
 .basicfontlight{
     font-weight: 400;
@@ -22,6 +23,8 @@
     position: absolute;
     bottom: 0;
     right: 10px;
+    font-weight: 300;
+    font-size: 1.7vh;
 }
 
 .contactinfo{

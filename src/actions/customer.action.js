@@ -86,23 +86,28 @@ export function onSearchKeyChange(searchKey){
     }
 }
 
-export function filterBusinessList(filtername, value, businessList){
+export function filterBusinessList(filters, businessList){
     let filteredBusinessList = businessList;
-    if(filtername == "now-open"){
-        if(value){
-            filteredBusinessList = businessList.filter(business => business.isOpen == true);
-        }
-        else{
-            filteredBusinessList = businessList.filter(business => business.isOpen == false);
-        }
+    if(filters['nowOpen']){
+        filteredBusinessList = businessList.filter(business => business.isOpen == true);
     }
-
+    if(filters['rating_4']){
+        filteredBusinessList = businessList.filter(business => business.rating >= 4);
+    }
+    if(filters['rating_3']){
+        filteredBusinessList = businessList.filter(business => business.rating >= 3);
+    }
+    if(filters['rating_2']){
+        filteredBusinessList = businessList.filter(business => business.rating >= 2);
+    }
+    if(filters['rating_1']){
+        filteredBusinessList = businessList.filter(business => business.rating >= 1);
+    }
     return function(dispatch){
         return dispatch({
-                type: customerConstants.GET_BUSINESS_LIST,
+                type: customerConstants.SET_FILTERED_BUSINESS_LIST,
                 data: filteredBusinessList
             });
-        
     }
 
 }

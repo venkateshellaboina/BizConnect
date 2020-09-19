@@ -9,7 +9,7 @@ import { getBusinessList, filterBusinessList} from "../../actions";
 import "./customer.css";
 const mapStateToProps = state => {
     return{
-        businessList : state.customerReducer.businessList
+        filteredBusinessList : state.customerReducer.filteredBusinessList
     }
 };
   
@@ -38,8 +38,8 @@ class Customer extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        let currentBusinessList = this.props.businessList;
-        let prevBusinessList = prevProps.businessList;
+        let currentBusinessList = this.props.filteredBusinessList;
+        let prevBusinessList = prevProps.filteredBusinessList;
 
         if(JSON.stringify(currentBusinessList) != JSON.stringify(prevBusinessList)){
             this.setState(initialState, () => {
@@ -50,7 +50,7 @@ class Customer extends React.Component {
     }
 
     populateCurrentPageBusinessList = () => { // function to splice the required items from the list based on active page
-        let businessList = this.props.businessList;
+        let businessList = this.props.filteredBusinessList;
         if(!businessList) return;
         let totalBusinessList = businessList.length;
         let totalPages =  this.calculateTotalPages();
@@ -76,7 +76,7 @@ class Customer extends React.Component {
     }
 
     populatePaginationList = () =>{ // function to populate the pagination buttons
-        if(this.props.businessList == null) return;
+        if(this.props.filteredBusinessList == null) return;
         let perPage = this.state.perPage;
         let activePage = this.state.activePage;
         let paginationBarSize = this.state.paginationBarSize;
@@ -111,7 +111,7 @@ class Customer extends React.Component {
     }
 
     calculateTotalPages = () =>{
-        let totalPages = Math.ceil(this.props.businessList.length/this.state.perPage);
+        let totalPages = Math.ceil(this.props.filteredBusinessList.length/this.state.perPage);
         return totalPages;
     }
 
@@ -203,17 +203,15 @@ class Customer extends React.Component {
                     </Col>
                 </Row>
                 <Row fluid>
-                    <Col sm={1}>
+                    <Col sm={1} xs={1}>
                     </Col>
-                    <Col sm={5} className="paginationStyle">
+                    <Col sm={5} xs={6} className="paginationStyle">
                             <span>
                                 <Pagination onSelect={(pageNumber) => this.selectActivePage(pageNumber)}>
                                     {this.state.items}
                                 </Pagination>
                             </span>
-                     </Col>
-                  
-                   
+                     </Col> 
                 </Row>
             </Container>
             </div>
