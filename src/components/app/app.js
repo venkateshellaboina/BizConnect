@@ -8,6 +8,7 @@ import { login } from "../../actions";
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
 import Customer from "../../components/customer/customer";
+import Buisness from  "../../components/business/business";
 /* Components End */
 import { Provider } from 'react-redux'
 import configureStore from '../../store/index';
@@ -45,8 +46,6 @@ class App extends React.Component {
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
             <Switch>
-              <Route path="/about">About</Route>
-              <Route path="/users">Users</Route>
               <Route path="/login">
                 <Login />
               </Route>
@@ -54,7 +53,7 @@ class App extends React.Component {
                 <Signup />
               </Route>
               <Route path="/">
-                <Customer/>
+                <Buisness />
               </Route>
             </Switch>
           </div>
