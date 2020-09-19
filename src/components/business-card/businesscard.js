@@ -16,6 +16,17 @@ class BusinessCard extends React.Component {
     constructor(props){
         super(props);
     }
+    renderRating(rating){
+        if(rating >= 4){
+            return  <h5><Badge variant="success" style={{float: 'right'}}>{rating}</Badge></h5>
+        }
+        else if(rating >=2 && rating < 4){
+            return  <h5><Badge variant="warning" style={{float: 'right'}}>{rating}</Badge></h5>
+        }
+        else{
+            return  <h5><Badge variant="danger" style={{float: 'right'}}>{rating}</Badge></h5>
+        }
+    }
    
     render(){
         return(
@@ -37,17 +48,15 @@ class BusinessCard extends React.Component {
                            
                        </Col>
                        <Col sm={3}>
-                            <h6><Badge variant="success" style={{float: 'right'}}>{this.props.rating}</Badge></h6>
-                            {/* <span className="subscribe textthemecolor">
-                                <h6>
-                                <Form.Check 
-                                        type="switch"
-                                        id="subscribe-switch"
-                                        label="Subscribe"
-                                    />
-                                </h6>
-                                
-                           </span> */}
+                           {this.renderRating(this.props.rating)}
+                           <div className="status">
+                                {this.props && this.props.isOpen == true && 
+                                    <h5 className="basicfont"><Badge pill variant="success"> Open</Badge></h5>
+                                }
+                                {this.props && this.props.isOpen == false && 
+                                    <h5 className="basicfont"><Badge pill variant="light"> Closed</Badge></h5>
+                                }
+                           </div>
                        </Col>
                     </Row>
                 </Container>
