@@ -1,15 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Container,Row,Col,Form,Button }from 'react-bootstrap'
+import {Container,Row,Col,Form,Button }from 'react-bootstrap';
+import client from "../../services/client";
+import gql from "graphql-tag";
+import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
     }};
-  
-  const mapDispatchToProps = dispatch => ({
-
-  });
-
 class Login extends React.Component {
+    constructor(props)
+    {
+        super(props)
+        this.state = {
+            user_email : '',
+            password : ''
+        }
+        this.loginUserDispatch = user => this.props.dispatch(login(user));
+    }
+    routeChange=()=> {
+        let path = `/buisness`;
+        window.location.href=path;
+      }
+    loginUser = (event) =>{
+        let user = {};
+        user.user_email = this.state.user_email;
+        user.password = this.state.password;
+        this.routeChange();
+        this.loginUserDispatch(user);
+    }
+    handleChange = (event) =>{
+        this.setState({
+            [event.target.name] : event.target.value
+        })
+    }
+
     renderForm() {
             return(
                 <div>
@@ -18,17 +42,17 @@ class Login extends React.Component {
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" name="user_email" value={this.state.user_email} onChange={this.handleChange}/>
                         <Form.Text className="text-muted">
                              We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange}/>
                     </Form.Group>
-                    <Button variant="primary" type="submit">
-                    Login
+                    <Button variant="primary"  onClick={this.loginUser}>
+                     Login
                     </Button>
                 </Form>
                 </div>
@@ -51,4 +75,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);
