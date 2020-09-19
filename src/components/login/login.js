@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button }from 'react-bootstrap';
-import client from "../../services/client";
-import gql from "graphql-tag";
 import { login } from "../../actions";
 const mapStateToProps = state => {
     return {

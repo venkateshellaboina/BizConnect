@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import BusinessNav from '../business-nav/business_nav';
 import BusinessHeader from '../business-header/header';
-import {Container,Row}from 'react-bootstrap';
 const mapStateToProps = state => {
     return{
        

@@ -19,12 +19,12 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       user: {
-        user_email: "",
-        first_name: "",
-        last_name: "",
-        type: "",
-        password: "",
-        contact_no: "",
+        user_email: '',
+        first_name: '',
+        last_name: '',
+        type: '',
+        password: '',
+        contact_no: '',
       },
       business: {
         name: "",
@@ -71,8 +71,26 @@ class Signup extends React.Component {
       showBusinessForm: false,
     };
     this.props.getBusinessCategoriesList();
+    this.handleUserInputChange = this.handleUserInputChange.bind(this);
+    this.handleUser = this.handleUser.bind(this);
   }
-
+  handleUserInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    const newState = Object.assign({}, this.state);
+    newState.user[name]=value;
+    this.setState(newState);
+    
+  }
+  handleUser(){
+    if(this.state.user.type==="business"){
+      this.setState({
+        showBusinessForm: true
+      });
+    }
+    console.log(this.state);
+  }
   renderForm() {
     return (
       <div>
@@ -82,30 +100,52 @@ class Signup extends React.Component {
           <Form.Row>
             <Form.Group as={Col} controlId="formBasicFirstName">
               <Form.Label>First Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter First Name" />
+              <Form.Control 
+              name="first_name"
+              type="text" 
+              placeholder="Enter First Name" 
+              onChange={this.handleUserInputChange}
+               />
             </Form.Group>
             <Form.Group as={Col} controlId="formBasicLastName">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter Last Name" />
+              <Form.Control 
+              name="last_name"
+              type="text" 
+              defaultValue=""
+              placeholder="Enter Last Name" 
+              onChange={this.handleUserInputChange}
+              />
             </Form.Group>
           </Form.Row>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control 
+            name="user_email"
+            type="email" 
+            placeholder="Enter email" 
+            onChange={this.handleUserInputChange}
+             />
           </Form.Group>
           <Form.Row>
             <Form.Group as={Col} controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Form.Group as={Col} controlId="formConfirmPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type="password" placeholder="Confirm Password" />
+              <Form.Control 
+              name="password"
+              type="password" 
+              placeholder="Password" 
+              onChange={this.handleUserInputChange}
+               />
             </Form.Group>
           </Form.Row>
           <Form.Group controlId="formConfirmPassword">
             <Form.Label>Contact Number</Form.Label>
-            <Form.Control type="number" placeholder="Contact Number" />
+            <Form.Control 
+            name="contact_no"
+            type="number" 
+            placeholder="Contact Number" 
+            onChange={this.handleUserInputChange}
+             />
           </Form.Group>
 
           <Form.Group>
@@ -115,22 +155,26 @@ class Signup extends React.Component {
                 <Form.Check
                   type="radio"
                   label="Customer"
-                  name="formHorizontalRadios"
+                  name="type"
+                  value="customer"
                   id="formHorizontalRadios1"
+                  onChange={this.handleUserInputChange}
                 />
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Check
                   type="radio"
                   label="Business"
-                  name="formHorizontalRadios"
+                  name="type"
+                  value="business"
                   id="formHorizontalRadios2"
+                  onChange={this.handleUserInputChange}
                 />
               </Form.Group>
             </Form.Row>
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" onClick={this.handleUser}>
             Sign Up
           </Button>
         </Form>
