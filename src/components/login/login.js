@@ -17,10 +17,15 @@ class Login extends React.Component {
         }
         this.loginUserDispatch = user => this.props.dispatch(login(user));
     }
+    routeChange=()=> {
+        let path = `/buisness`;
+        window.location.href=path;
+      }
     loginUser = (event) =>{
         let user = {};
         user.user_email = this.state.user_email;
         user.password = this.state.password;
+        this.routeChange();
         this.loginUserDispatch(user);
     }
     handleChange = (event) =>{

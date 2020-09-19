@@ -19,7 +19,7 @@ class BusinessHeader extends React.Component {
            
             <Row>
             <Col xs={12} md={2} >
-            <Image  src="./nodata.jpg" roundedCircle fluid/>
+            <Image  src="./logo.png" roundedCircle fluid/>
             </Col>
             <Col xs={12} md={10}>
             <div>
