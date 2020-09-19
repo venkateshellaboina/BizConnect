@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
 import Customer from "../../components/customer/customer";
-import Buisness from  "../../components/business/business";
+import Business from  "../../components/business/business";
 /* Components End */
 
 const mapStateToProps = state => {
@@ -48,7 +48,7 @@ class Navigation extends React.Component {
                 <Signup />
               </Route>
               <Route path="/business">
-              <Buisness />
+              <Business />
               </Route>
               <Route path="/customer">
               <Customer/>
