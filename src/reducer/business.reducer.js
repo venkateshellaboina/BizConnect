@@ -5,7 +5,7 @@ const initialState = {
    business_details:null
 };
 
-export function customerReducer(state = initialState, action) {
+export function businessReducer(state = initialState, action) {
   switch (action.type) {
     case businessConstants.SET_BUSINESS_ID:
         return {
