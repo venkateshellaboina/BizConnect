@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
 class Review extends React.Component {
     render() {
         return (
-            <Card fluid className="cardstyle">
+            <Card className="cardstyle">
                     <Card.Title>{this.props.fName} {this.props.lName} ({this.props.rating})</Card.Title>
                     <Card.Text>{this.props.comment}</Card.Text>
             </Card>

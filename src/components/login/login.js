@@ -5,7 +5,8 @@ import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
         user_email:state.userReducer.user_email,
-        authenticated:state.userReducer.authenticated
+        authenticated:state.userReducer.authenticated,
+        user:state.userReducer.user
         
     }};
 const mapDispatchToProps = (dispatch) => ({
@@ -22,7 +23,7 @@ class Login extends React.Component {
         }
     }
     routeChange=()=> {
-        let path = `/business`;
+        let path = `/${this.props.user.type}`;
         window.location.href=path;
       }
    loginUser = async(event) =>{
