@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Navbar,Nav}from 'react-bootstrap';
-import { BrowserRouter as  Switch, Route } from "react-router-dom";
+import { BrowserRouter as  Switch, Route ,NavLink} from "react-router-dom";
 /* Components start */
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
@@ -24,16 +24,16 @@ class Navigation extends React.Component {
         return(
             <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-              <Navbar.Brand href="/customer">BizConnect</Navbar.Brand>
+              <NavLink className="navbar-brand" to="/customer">BizConnect</NavLink>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                  <Nav className="mr-auto">
                 </Nav> 
                 <Nav>
-                  <Nav.Link href="/login">Login</Nav.Link>
-                  <Nav.Link eventKey={2} href="/signup">
+                  <NavLink className="nav-link" to="/login">Login</NavLink>
+                  <NavLink className="nav-link" to="/signup">
                     SignUp
-                  </Nav.Link>
+                  </NavLink>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
