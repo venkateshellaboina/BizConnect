@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { customerConstants } from "../constant";
+import { businessConstants, customerConstants } from "../constant";
 import BusinessService from "../services/business.service";
 const service = new BusinessService();
 
@@ -29,6 +29,23 @@ export function updateBusiness(business) {
         dispatch({
           type: customerConstants.ON_BUSINESS_SELECT,
           data: response.data.updateBusiness,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+}
+
+export function getBusiness(id) {
+  return function (dispatch) {
+    return service
+      .getBuisnessDetails(id)
+      .then((response) => {
+        // dispatch
+        dispatch({
+          type: businessConstants.SET_BUSINESS_DETAILS,
+          data: response.data.getBusinessDetails,
         });
       })
       .catch((e) => {

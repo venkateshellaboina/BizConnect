@@ -32,5 +32,42 @@ export default class BusinessService {
       });
       return response;
     } 
-  
+    async getBuisnessDetails(id) {
+      const response = await client.query({
+        variables: { id:id },
+        query: gql`
+        query getBusinessDetails($id:Int!){
+          getBusinessDetails(business_id: $id
+          ){
+            user_email
+            name
+            category
+            contact_details
+            location{
+              address1
+              address2
+              city
+              region
+              country
+              zipcode
+            }
+            avatar
+            rating
+            timings{
+              day
+              start_time
+              end_time
+              break_start_time
+              break_end_time
+            }
+           
+          }
+        }
+        
+        `,
+      });
+      return response;
+    }
 }
+
+
