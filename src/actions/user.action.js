@@ -8,14 +8,15 @@ const service = new UserService();
 
 export function login(user) {
   let user_email = user.user_email;
-  let password = user.password;
   return function (dispatch) {
-    return service.getUser(user_email).then((user) => {
+    return service.getUser(user_email).then((response) => {
       // dispatch
       dispatch({
         type: userConstants.LOGIN_REQUEST,
-        data: user,
+        data: response.data.getUser
       });
+    }).catch((e) => {
+      console.log(e);
     });
   };
 }

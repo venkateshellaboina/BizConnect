@@ -6,14 +6,13 @@ export default class UserService {
     const response = await client.query({
       variables: { email: email },
       query: gql`
-        query RollDice($email: String!) {
+        query getUser($email: String!) {
           getUser(user_email: $email) {
             user_email
             first_name
             last_name
             contact_no
             type
-            id
           }
         }
       `,
