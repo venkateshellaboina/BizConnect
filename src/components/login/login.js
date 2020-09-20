@@ -25,14 +25,14 @@ class Login extends React.Component {
         let path = `/business`;
         window.location.href=path;
       }
-    loginUser = (event) =>{
+   loginUser = async(event) =>{
         event.preventDefault();
         const form = event.currentTarget;
     if (form.checkValidity()) {
         let user = {};
         user.user_email = this.state.user_email;
         user.password = this.state.password;
-        this.props.login(user);
+       await this.props.login(user);
         if(this.props.user_email&&this.props.authenticated){
             this.routeChange();
         }
@@ -88,6 +88,7 @@ class Login extends React.Component {
                         </Form.Control.Feedback>
                     </Form.Group>
                     <button type="submit" className="btn btn-primary">
+                 
                         Login
                     </button>
                 </Form>

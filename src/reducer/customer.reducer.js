@@ -1,12 +1,13 @@
 import { customerConstants } from '../constant';
-
+import * as Cookies from 'es-cookie';
+let id = Cookies.get('business_id');
 const initialState = {
     businessList : null,
     filteredBusinessList : null,
     businessCategory: '',
     businessCategoriesList : [],
     searchKey: '',
-    selectedBusinessId : null
+    selectedBusinessId : id
 };
 
 export function customerReducer(state = initialState, action) {
@@ -38,6 +39,9 @@ export function customerReducer(state = initialState, action) {
             filteredBusinessList : action.data
         }
     case customerConstants.ON_BUSINESS_SELECT:
+        const expires = new Date();
+        expires.setSeconds(expires.getSeconds() + 3600 * 24);
+        Cookies.set('business_id',action.selectedBusinessId,expires);
         return{
             ...state,
             selectedBusinessId: action.selectedBusinessId

@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { userConstants } from "../constant";
+import { customerConstants, userConstants } from "../constant";
 import UserService from "../services/user";
 const service = new UserService();
 /**
@@ -14,6 +14,10 @@ export function login(user) {
       dispatch({
         type: userConstants.LOGIN_REQUEST,
         data: response.data.getUser
+      });
+      dispatch({
+        type: customerConstants.ON_BUSINESS_SELECT,
+        selectedBusinessId: response.data.getUser.id
       });
     }).catch((e) => {
       console.log(e);

@@ -40,7 +40,7 @@ export function updateBusiness(business) {
 export function getBusiness(id) {
   return function (dispatch) {
     return service
-      .getBuisnessDetails(id)
+      .getBuisnessDetails(Number(id))
       .then((response) => {
         // dispatch
         dispatch({

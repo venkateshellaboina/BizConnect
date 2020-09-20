@@ -13,6 +13,7 @@ export default class UserService {
             last_name
             contact_no
             type
+            id
           }
         }
       `,
