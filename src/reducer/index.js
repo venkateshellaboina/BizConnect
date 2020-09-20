@@ -6,6 +6,7 @@ import { reviewReducer } from './review.reducer';
 import { offerReducer } from './offer.reducer';
 import { vacancyReducer } from './vacancy.reducer';
 import { serviceReducer } from './service.reducer';
+import {businessReducer} from './business.reducer';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -14,7 +15,9 @@ const rootReducer = combineReducers({
   reviewReducer,
   offerReducer,
   vacancyReducer,
-  serviceReducer
+  serviceReducer,
+  businessReducer
+
 });
 
 export default rootReducer;

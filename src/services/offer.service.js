@@ -8,7 +8,7 @@ export default  class OfferService{
             query: gql`
             query getAllOffers($business_id: Int!){
                 getAllOffers(business_id: $business_id){
-                    title
+                    offer_title
                     description
                     image
                   }

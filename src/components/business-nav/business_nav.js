@@ -5,6 +5,8 @@ import Menu from '../menu/menu';
 import Overview from '../overview/overview';
 import Review from  '../review/review';
 import Service from  '../services/services';
+import Offers from  '../offers/offers';
+import Vacancies from  '../vacancies/vacancies';
 
 const mapStateToProps = state => {
     return{
@@ -33,10 +35,10 @@ render(){
                     <Service/>
                 </Tab>
                 <Tab eventKey="offer" title="Offers">
-                    <Review/>
+                    <Offers/>
                 </Tab>
                 <Tab eventKey="vacany" title="Vacancies">
-                  <Review/>
+                  <Vacancies/>
                 </Tab>
             </Tabs>
         );

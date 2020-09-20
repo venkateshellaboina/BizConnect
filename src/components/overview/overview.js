@@ -1,26 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Card}from 'react-bootstrap'
-const mapStateToProps = state => {
-    return {
-    }};
-  
+
+    const mapStateToProps = (state) => {
+      return {
+        business_details:state.businessReducer.business_details,
+        selectedBusinessId:state.customerReducer.selectedBusinessId
+      };
+    };
   const mapDispatchToProps = dispatch => ({
 
   });
 
   class Overview extends React.Component {
+    constructor(props) {
+      super(props);}
       render()
       {
           return(
-              <Container>
-              <Row>
+           <Container>
+           {this.props.business_details?
+               <Row>
               <Col>
               <Row>
               <Card.Body>
               <Card.Title>Contact</Card.Title>
               <Card.Text>
-                9751110889
+                {this.props.business_details.contact_details}
               </Card.Text>
               </Card.Body>
               </Row>
@@ -28,25 +34,35 @@ const mapStateToProps = state => {
               <Card.Body>
               <Card.Title>Address</Card.Title>
               <Card.Text>
-              Gachibowli,
-              Hyderabad,
-              500032	
+              {this.props.business_details.location.address1},<br/>
+              {this.props.business_details.location.city},<br/>
+              {this.props.business_details.location.region},<br/>
+              {this.props.business_details.location.zipcode}
               </Card.Text>
             </Card.Body>
               </Row>
              
               </Col>
               <Col>
+              {this.props.business_details.timings&&
               <Row>
               <Card.Body>
               <Card.Title>Regular Timings:</Card.Title>
               <Card.Text>
-              Monday : 10 a.m - 10 p.m, Break: 1p.m - 2p.m
+              {this.props.business_details.timings.map((timing)=>{
+                return(
+                  <div>
+                    {timing.day}  - {timing.start_time} - {timing.end_time}
+                  </div>
+                )
+              })}
               </Card.Text>
             </Card.Body>
               </Row>
+            }
               </Col>
               </Row>
+              :null}
               </Container>
           );
       }

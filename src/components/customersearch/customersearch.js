@@ -76,10 +76,10 @@ class CustomerSearch extends React.Component {
     render(){
         return(
             <div>
-                <Container className="containerStyle" fluid > 
-                    <InputGroup className="mb-3">
-                        <Row style={{width : "80%"}}>
-                            <Col sm={2} xs={5}>
+                <Container > 
+                    <br></br>
+                        <Row>
+                            <Col  xs={6} sm={3} md={3} lg={4}>
                                 <span className="select">
                                     <select value={this.state.selectedCategory} onChange={(e) => this.onSelectCategory(e)} placeholder="Category">
                                         <option className="optionStyle" selected disabled value="">Select a Category</option>
@@ -89,11 +89,13 @@ class CustomerSearch extends React.Component {
                                     </select>
                                 </span> 
                             </Col>
-                            <Col sm={8} xs={7}>
+                            <Col  xs={6} sm={4} md={4} lg={8}>
                                 <FormControl className="searchbar" value={this.state.searchKey} onChange={this.onSearchKeyChange} aria-describedby="basic-addon1" />
                             </Col>
+                            <Col sm={4}>
+                            </Col>
                         </Row>
-                    </InputGroup>
+              
                 </Container>
                 
             </div>

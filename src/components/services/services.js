@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Card,Image,Button }from 'react-bootstrap';
+import {Container,Card,Image,Button,Row,Col }from 'react-bootstrap';
 import {getServices} from "../../actions";
+import Service from './service';
 
 const mapStateToProps = state => {
     return {
@@ -12,22 +13,7 @@ const mapDispatchToProps = dispatch => ({
     getServices : (business_id) => dispatch(getServices(business_id))
 });
 
-class Service extends React.Component{
-      render()
-      {
-          return(
-            <Card>
-            <Card.Body style={{}}>
-                <Card.Title>{this.props.title} {this.props.type}</Card.Title>
-                <Card.Text style={{float: "left",clear: "none"}} >
-                <Image src={this.props.image} alt="this is service image" height="50"/>
-                &emsp;{this.props.description}
-                </Card.Text>
-            </Card.Body>
-            </Card>
-          )
-      }
-  }
+
 class Services extends React.Component {
     constructor(props){
         super(props);
@@ -40,14 +26,16 @@ class Services extends React.Component {
     }
     render(){
         return(
-            <div>
+            <Container className="container-fluid">
+                <br/>
             <Button href="#" onClick={()=>{this.addService();}}>Add Service</Button>
+            <br/><br/>
             {this.props.servicesList && this.props.servicesList.map((service) => (
             <div key={service.service_id}>
                 <Service title={service.title} description={service.description} type={`(${service.type})`} image={service.image}/>
             </div>
             ))}
-            </div>
+            </Container>
         );
     }
 

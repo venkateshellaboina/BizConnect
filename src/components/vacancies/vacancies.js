@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Service} from '../../components/services/services';
+import {Container,Button}from 'react-bootstrap';
+import Service from '../services/service';
 import {getVacancies} from "../../actions";
 
 const mapStateToProps = state => {
@@ -22,13 +23,16 @@ class Vacancies extends React.Component{
   }
     render(){
         return(
-          <div>
+          <Container className="container-fluid h-100">
+            <br/>
+            <Button href="#" onClick={()=>{this.addService();}}>Add Vacancy</Button>
+            <br/><br/>
             {this.props.vacanciesList.map((vacancy) => (
                 <div>
-              {/* <Service title={vacancy.title} description={vacancy.description} type={`(${vacancy.count})`} image={vacancy.image}/> */}
+              <Service title={vacancy.title} description={vacancy.description} type={`(${vacancy.count})`} image={vacancy.image}/>
               </div>
             ))}
-          </div>
+          </Container>
         );
     }
 }
