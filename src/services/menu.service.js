@@ -19,9 +19,23 @@ export default  class MenuService{
                 }
             `
         });
-        return response.data.getMenuItems;
+        if(response.data.getMenuItems)
+            return response.data.getMenuItems;
+
+        return [
+            {item_category: "Fruits",
+            item_name: "Apple Royal",
+            price: "199",
+            quantity: "4",
+            __typename: "Menu"},
+            {item_category: "Grocery",
+            item_name: "Sample item",
+            price: "100",
+            quantity: "1",
+            __typename: "Menu"}
+        ];
     }
-    async getMenuCategories(business_id =1){
+    async getMenuCategories(business_id){
         const response= await  client.query({
             variables: { business_id },
             query: gql`
