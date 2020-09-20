@@ -41,6 +41,7 @@ export default class BusinessService {
           ){
             user_email
             name
+            description
             category
             contact_details
             location{

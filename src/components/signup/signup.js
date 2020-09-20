@@ -83,7 +83,7 @@ class Signup extends React.Component {
             end_time: "",
           },
         ],
-        avatar: "",
+        avatar: "./logo.png",
         gallery: "",
       },
       showBusinessForm: false,
