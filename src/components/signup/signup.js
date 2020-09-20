@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import { getBusinessCategoriesList,addUser,addBusiness } from "../../actions";
 import { TimePicker } from "antd";
 import "antd/dist/antd.css";
+import "./signup.css";
 
 const mapStateToProps = (state) => {
   return {
@@ -69,7 +70,7 @@ class Signup extends React.Component {
             end_time: "",
           },
           {
-            day: "Satuarday",
+            day: "Saturday",
             start_time: "",
             end_time: "",
           },
@@ -84,6 +85,7 @@ class Signup extends React.Component {
       },
       showBusinessForm: false,
       userValidated: false,
+      businessValidated: false
     };
     this.props.getBusinessCategoriesList();
     this.handleUserInputChange = this.handleUserInputChange.bind(this);
@@ -142,6 +144,12 @@ class Signup extends React.Component {
         window.location.href = "/login";
       }
     }
+    else{
+      this.setState({
+        ...this.state,
+        userValidated: true,
+      });
+    }
 
     console.log(this.state);
   }
@@ -152,6 +160,12 @@ class Signup extends React.Component {
     if(businessValidation){
       await this.props.addBusiness(this.state.business);
       window.location.href = "/login";
+    }
+    else{
+      this.setState({
+        ...this.state,
+        businessValidated: true
+      });
     }
 
   }
@@ -182,12 +196,12 @@ class Signup extends React.Component {
   }
   renderForm() {
     return (
-      <div>
-        <h3>SignUp Form</h3>
+      <div className="formStyle">
+        <h5>Howdy!! Please go ahead and create an account.</h5>
         <hr />
         <Form
           noValidate
-          validated={this.userValidated}
+          validated={this.state.userValidated}
           onSubmit={this.handleUser}
         >
           <Form.Row>
@@ -201,7 +215,7 @@ class Signup extends React.Component {
                 required={true}
               />
               <Form.Control.Feedback type="invalid">
-                Please provide your name.
+                Please provide your first name.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col}>
@@ -213,6 +227,7 @@ class Signup extends React.Component {
                 onChange={this.handleUserInputChange}
               />
             </Form.Group>
+
           </Form.Row>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -249,8 +264,12 @@ class Signup extends React.Component {
               name="contact_no"
               type="number"
               placeholder="Contact Number"
+              required={true}
               onChange={this.handleUserInputChange}
             />
+            <Form.Control.Feedback type="invalid">
+                Please provide contact number.
+              </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
@@ -278,11 +297,11 @@ class Signup extends React.Component {
                   required
                 />
               </Form.Group>
-              <Form.Control.Feedback type="invalid">
-                Please select user type.
-              </Form.Control.Feedback>
             </Form.Row>
-          </Form.Group>
+            <Form.Control.Feedback type="invalid">
+                  Please select user type.
+                </Form.Control.Feedback>
+            </Form.Group>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -292,10 +311,10 @@ class Signup extends React.Component {
   }
   renderBuisnessForm() {
     return (
-      <div>
-        <h3>Business Registration Form</h3>
+      <div className="formStyle">
+        <h6>You are just a step away from listing your business</h6>
         <hr />
-        <Form  onSubmit={this.handleBusiness}>
+        <Form noValidate onSubmit={this.handleBusiness} validated={this.state.businessValidated} >
           <Form.Group controlId="formBasicName">
             <Form.Label>Business Name</Form.Label>
             <Form.Control
@@ -303,7 +322,11 @@ class Signup extends React.Component {
               type="text"
               placeholder="Enter Name"
               onChange={this.handleBusinessInputChange}
+              required
             />
+             <Form.Control.Feedback type="invalid">
+                  Please enter your Business/Service name
+              </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicDescription">
             <Form.Label>Description</Form.Label>
@@ -312,7 +335,11 @@ class Signup extends React.Component {
               as="textarea"
               rows="3"
               onChange={this.handleBusinessInputChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+                  Please enter a short description about what you do.
+              </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicBusinessEmail">
             <Form.Label>Business Email</Form.Label>
@@ -333,7 +360,11 @@ class Signup extends React.Component {
               defaultValue=""
               placeholder="Enter Contact Number"
               onChange={this.handleBusinessInputChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+                  Providing a contact number helps your customers to connect with you easily.
+              </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicCategory">
             <Form.Label>Category</Form.Label>
@@ -342,6 +373,7 @@ class Signup extends React.Component {
               as="select"
               defaultValue="Choose..."
               onChange={this.handleBusinessInputChange}
+              required
             >
               <option>Choose...</option>
               {(this.props.businessCategoriesList || []).map((category, id) => (
@@ -350,6 +382,9 @@ class Signup extends React.Component {
                 </option>
               ))}
             </Form.Control>
+            <Form.Control.Feedback type="invalid">
+                  Please select a category
+              </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formGridAddress1">
             <Form.Label>Address</Form.Label>
@@ -358,7 +393,11 @@ class Signup extends React.Component {
               type="text"
               placeholder="1234 Main St"
               onChange={this.handleBusinessLocationChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+                  Please provide your address
+              </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formGridAddress2">
@@ -379,7 +418,11 @@ class Signup extends React.Component {
                 type="text"
                 placeholder="City"
                 onChange={this.handleBusinessLocationChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                  Please select your City
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
@@ -389,6 +432,7 @@ class Signup extends React.Component {
                 as="select"
                 defaultValue="Choose..."
                 onChange={this.handleBusinessLocationChange}
+                required
               >
                 <option>Choose...</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -432,6 +476,9 @@ class Signup extends React.Component {
                 <option value="Uttarakhand">Uttarakhand</option>
                 <option value="West Bengal">West Bengal</option>
               </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                  Please select your State
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridZip">
@@ -441,7 +488,11 @@ class Signup extends React.Component {
                 placeholder="Zip Code"
                 type="text"
                 onChange={this.handleBusinessLocationChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                  Please enter your zipcode
+              </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
           <Form.Row>
@@ -459,6 +510,7 @@ class Signup extends React.Component {
                   <td>Monday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(0, "start_time", time)
@@ -467,6 +519,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(0, "end_time", time)
@@ -478,6 +531,7 @@ class Signup extends React.Component {
                   <td>Tuesday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(1, "start_time", time)
@@ -486,6 +540,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(1, "end_time", time)
@@ -497,6 +552,7 @@ class Signup extends React.Component {
                   <td>Wednesday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(2, "start_time", time)
@@ -505,6 +561,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(2, "end_time", time)
@@ -516,6 +573,7 @@ class Signup extends React.Component {
                   <td>Thusrday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(3, "start_time", time)
@@ -524,6 +582,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(3, "end_time", time)
@@ -535,6 +594,7 @@ class Signup extends React.Component {
                   <td>Friday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(4, "start_time", time)
@@ -543,6 +603,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(4, "end_time", time)
@@ -551,9 +612,10 @@ class Signup extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>Satuarday</td>
+                  <td>Saturday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(5, "start_time", time)
@@ -562,6 +624,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(5, "end_time", time)
@@ -573,6 +636,7 @@ class Signup extends React.Component {
                   <td>Sunday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(6, "start_time", time)
@@ -581,6 +645,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(6, "end_time", time)
@@ -590,10 +655,14 @@ class Signup extends React.Component {
                 </tr>
               </tbody>
             </Table>
+            <Form.Control.Feedback type="invalid">
+                  Please select your day-to-day timings
+              </Form.Control.Feedback>
           </Form.Row>
           <button type="submit" className="btn btn-primary">
           Register
         </button>
+
         </Form>
       </div>
     );
