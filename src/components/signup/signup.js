@@ -29,57 +29,57 @@ class Signup extends React.Component {
         contact_no: null,
       },
       business: {
-        name: "",
-        description: "",
-        user_email: "",
-        contact_details: "",
-        category: "",
+        name: null,
+        description: null,
+        user_email: null,
+        contact_details: null,
+        category: null,
         location: {
-          address1: "",
-          address2: "",
-          city: "",
-          region: "",
-          zipcode: "",
+          address1: null,
+          address2: null,
+          city: null,
+          region: null,
+          zipcode: null,
         },
         timing: [
           {
             day: "Monday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Tuesday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Wednesday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Thursday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Friday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Satuarday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
           {
             day: "Sunday",
-            start_time: "",
-            end_time: "",
+            start_time: null,
+            end_time: null,
           },
         ],
-        avatar: "",
-        gallery: "",
+        avatar: null,
+        gallery: null,
       },
       showBusinessForm: false,
       userValidated: false,
@@ -205,7 +205,6 @@ class Signup extends React.Component {
               <Form.Control
                 name="last_name"
                 type="text"
-                defaultValue=""
                 placeholder="Enter Last Name"
                 onChange={this.handleUserInputChange}
               />
