@@ -1,9 +1,8 @@
 import React from 'react';
-import Popup from 'reactjs-popup';
 import { connect } from 'react-redux';
-import { Card, Button, Container } from 'react-bootstrap';
+import { Card,Col,Row, Button, Container } from 'react-bootstrap';
 import { getReviews } from "../../actions";
-import './review.css';
+// import './review.css';
 
 const mapStateToProps = state => {
     return {
@@ -18,11 +17,9 @@ const mapDispatchToProps = dispatch => ({
 class Review extends React.Component {
     render() {
         return (
-            <Card>
-                <Card.Body >
+            <Card fluid className="cardstyle">
                     <Card.Title>{this.props.fName} {this.props.lName} ({this.props.rating})</Card.Title>
                     <Card.Text>{this.props.comment}</Card.Text>
-                </Card.Body>
             </Card>
         )
     }
@@ -36,17 +33,18 @@ class Reviews extends React.Component {
     }
     render() {
         return (
-            <Container>
+            <div fluid>
+                <Col sm={6} >
                 <br/>
-                <Popup trigger={<Button>Add Review</Button>} position="right center">
-                    <div>Popup content here !!</div>
-                </Popup>
+                <Button>Add Review</Button>
+                <br/><br/>
                 {this.props.reviewsList.map((review) => (
                     <div key={review.id}>
                         <Review fName={review.first_name} lName={review.last_name} comment={review.review_comment} rating={review.rating} />
                     </div>
                 ))}
-            </Container>
+                </Col>
+            </div>
         );
     }
 

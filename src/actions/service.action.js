@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux';
 import { serviceConstants} from '../constant';
 import ServiceService from  '../services/service.service';
 const service = new ServiceService();

@@ -9,6 +9,7 @@ export function serviceReducer(state = initialState, action) {
     case serviceConstants.GET_SERVICE_LIST:
         console.log('data ' + action.data)
         return {
+          ...state,
           servicesList : action.data
         };
     default:
