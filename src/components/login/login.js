@@ -63,7 +63,7 @@ class Login extends React.Component {
             <Row>
             </Row>
             <Row className="justify-content-center align-items-center h-100">
-            <Col xs={6} md={6} lg={4}>
+            <Col xs={12} md={6} lg={4}>
             {this.renderForm()}
             </Col>
             </Row>

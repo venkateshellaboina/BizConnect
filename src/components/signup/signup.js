@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import { getBusinessCategoriesList } from "../../actions";
-import moment from 'moment';
-import { TimePicker } from 'antd';
-import 'antd/dist/antd.css'; 
+import moment from "moment";
+import { TimePicker } from "antd";
+import "antd/dist/antd.css";
 
 const mapStateToProps = (state) => {
   return {
@@ -21,16 +21,18 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       user: {
-        user_email: "",
-        first_name: "",
-        last_name: "",
-        type: "",
-        password: "",
-        contact_no: "",
+        user_email: null,
+        first_name: null,
+        last_name: null,
+        type: null,
+        password: null,
+        contact_no: null,
       },
       business: {
         name: "",
         description: "",
+        user_email: "",
+        contact_details: "",
         category: "",
         location: {
           address1: "",
@@ -39,41 +41,48 @@ class Signup extends React.Component {
           region: "",
           zipcode: "",
         },
-        timing: {
-          monday: {
-            start_Time: "",
-            end_Time: "",
+        timing: [
+          {
+            day: "Monday",
+            start_time: "",
+            end_time: "",
           },
-          tuesday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Tuesday",
+            start_time: "",
+            end_time: "",
           },
-          wednesday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Wednesday",
+            start_time: "",
+            end_time: "",
           },
-          thursday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Thursday",
+            start_time: "",
+            end_time: "",
           },
-          friday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Friday",
+            start_time: "",
+            end_time: "",
           },
-          satuarday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Satuarday",
+            start_time: "",
+            end_time: "",
           },
-          sunday: {
-            start_Time: "",
-            end_Time: "",
+          {
+            day: "Sunday",
+            start_time: "",
+            end_time: "",
           },
-        },
+        ],
         avatar: "",
+        gallery: "",
       },
       showBusinessForm: false,
       userValidated: false,
-      userSetValidated: false,
     };
     this.props.getBusinessCategoriesList();
     this.handleUserInputChange = this.handleUserInputChange.bind(this);
@@ -85,6 +94,9 @@ class Signup extends React.Component {
       this
     );
     this.handleUser = this.handleUser.bind(this);
+    this.handleBusiness = this.handleBusiness.bind(this);
+    this.validateUser = this.validateUser.bind(this);
+    this.validateBusiness = this.validateBusiness.bind(this);
   }
   handleUserInputChange(event) {
     const target = event.target;
@@ -110,42 +122,85 @@ class Signup extends React.Component {
     newState.business.location[name] = value;
     this.setState(newState);
   }
-  handleBusinessTimingChange(event) {
-    // const target = event.target;
-    // const value = target.value;
-    // const name = target.name;
-    // const label = target.label;
-    // const newState = Object.assign({}, this.state);
-    // newState.business.timing[label][name] = value;
-    // this.setState(newState);
-    console.log(event.format("HH:mm:ss"));
+  handleBusinessTimingChange(index, key, value) {
+    const newState = Object.assign({}, this.state);
+    newState.business.timing[index][key] = value.format("HH:mm");
+    this.setState(newState);
   }
   handleUser(event) {
-    if (this.state.user.type === "business") {
-      this.setState({
-        showBusinessForm: true,
-      });
+    event.preventDefault();
+    const userValidation = this.validateUser();
+    if (userValidation) {
+      if (this.state.user.type === "business") {
+        this.setState({
+          showBusinessForm: true,
+        });
+      } else {
+        window.location.href = "/login";
+      }
     }
+
     console.log(this.state);
+  }
+  handleBusiness(event) {
+    event.preventDefault();
+    const businessValidation  = this.validateBusiness();
+    if(businessValidation){
+      window.location.href = "/login";
+    }
+
+  }
+  validateBusiness() {
+    let business = this.state.business;
+    if (
+      business["name"] &&
+      business["description"] &&
+      business["user_email"] &&
+      business["category"] &&
+      business["location"]["address1"] &&
+      business["location"]["city"]
+    ) {
+      return true;
+    }
+    return false;
+  }
+  validateUser() {
+    let user = this.state.user;
+    if (
+      user["first_name"] &&
+      user["password"] &&
+      user["user_email"] &&
+      user["type"]
+    ) {
+      return true;
+    }
+    return false;
   }
   renderForm() {
     return (
       <div>
         <h3>SignUp Form</h3>
         <hr />
-        <Form noValidate validated={this.state.validated}>
+        <Form
+          noValidate
+          validated={this.userValidated}
+          onSubmit={this.handleUser}
+        >
           <Form.Row>
-            <Form.Group as={Col} controlId="formBasicFirstName">
+            <Form.Group as={Col}>
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 name="first_name"
                 type="text"
                 placeholder="Enter First Name"
                 onChange={this.handleUserInputChange}
-                required
+                required={true}
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide your name.
+              </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} controlId="formBasicLastName">
+            <Form.Group as={Col}>
               <Form.Label>Last Name</Form.Label>
               <Form.Control
                 name="last_name"
@@ -153,7 +208,6 @@ class Signup extends React.Component {
                 defaultValue=""
                 placeholder="Enter Last Name"
                 onChange={this.handleUserInputChange}
-                required
               />
             </Form.Group>
           </Form.Row>
@@ -166,6 +220,9 @@ class Signup extends React.Component {
               onChange={this.handleUserInputChange}
               required
             />
+            <Form.Control.Feedback type="invalid">
+              Please provide your email.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Row>
             <Form.Group as={Col} controlId="formBasicPassword">
@@ -174,9 +231,13 @@ class Signup extends React.Component {
                 name="password"
                 type="password"
                 placeholder="Password"
+                minLength="6"
                 onChange={this.handleUserInputChange}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide your password.
+              </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
           <Form.Group controlId="formConfirmPassword">
@@ -186,7 +247,6 @@ class Signup extends React.Component {
               type="number"
               placeholder="Contact Number"
               onChange={this.handleUserInputChange}
-              required
             />
           </Form.Group>
 
@@ -201,6 +261,7 @@ class Signup extends React.Component {
                   value="customer"
                   id="formHorizontalRadios1"
                   onChange={this.handleUserInputChange}
+                  required
                 />
               </Form.Group>
               <Form.Group as={Col}>
@@ -211,14 +272,17 @@ class Signup extends React.Component {
                   value="business"
                   id="formHorizontalRadios2"
                   onChange={this.handleUserInputChange}
+                  required
                 />
               </Form.Group>
+              <Form.Control.Feedback type="invalid">
+                Please select user type.
+              </Form.Control.Feedback>
             </Form.Row>
           </Form.Group>
-
-          <Button variant="primary" onClick={this.handleUser}>
-            Sign Up
-          </Button>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </Form>
       </div>
     );
@@ -228,7 +292,7 @@ class Signup extends React.Component {
       <div>
         <h3>Business Registration Form</h3>
         <hr />
-        <Form>
+        <Form  onSubmit={this.handleBusiness}>
           <Form.Group controlId="formBasicName">
             <Form.Label>Business Name</Form.Label>
             <Form.Control
@@ -247,7 +311,25 @@ class Signup extends React.Component {
               onChange={this.handleBusinessInputChange}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicDescription">
+          <Form.Group controlId="formBasicBusinessEmail">
+            <Form.Label>Business Email</Form.Label>
+            <Form.Control
+              name="user_email"
+              type="text"
+              placeholder="Enter Email"
+              onChange={this.handleBusinessInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicBusinessContact">
+            <Form.Label>Business Contact</Form.Label>
+            <Form.Control
+              name="contact_details"
+              type="Number"
+              placeholder="Enter Contact Number"
+              onChange={this.handleBusinessInputChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicCategory">
             <Form.Label>Category</Form.Label>
             <Form.Control
               name="category"
@@ -370,78 +452,140 @@ class Signup extends React.Component {
                 <tr>
                   <td>Monday</td>
                   <td>
-                  <TimePicker 
-                  id="mondayStart"
-                  format="HH:mm:ss"
-                  onChange={this.handleBusinessTimingChange}
-                  />
-
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(0, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker 
-  
-                    
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(0, "end_time", time)
+                      }
                     />
                   </td>
                 </tr>
                 <tr>
                   <td>Tuesday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(1, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(1, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Wednesday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(2, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(2, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Thusrday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(3, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(3, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Friday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(4, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(4, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Satuarday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(5, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(5, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Sunday</td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(6, "start_time", time)
+                      }
+                    />
                   </td>
                   <td>
-                    <TimePicker />
+                    <TimePicker
+                      format="HH:mm"
+                      onChange={(time) =>
+                        this.handleBusinessTimingChange(6, "end_time", time)
+                      }
+                    />
                   </td>
                 </tr>
               </tbody>
             </Table>
           </Form.Row>
-          <Button variant="primary" onClick={this.handleUser}>
+          <Button variant="primary" type="submit">
             Register
           </Button>
         </Form>

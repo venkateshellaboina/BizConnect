@@ -1,0 +1,4 @@
+export const businessConstants = {
+    SET_BUSINESS_DETAILS: 'SET_BUSINESS_DETAILS',
+    SET_BUSINESS_ID:'SET_BUSINESS_ID'
+}

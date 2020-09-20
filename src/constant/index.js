@@ -5,3 +5,4 @@ export * from './offer.constant';
 export * from './review.constant';
 export * from './service.constant';
 export * from './vacancy.constant';
+export * from  './business.constant';
