@@ -5,7 +5,7 @@ import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
         user_email:state.userReducer.user_email,
-        authenticated:state.authenticated.authenticated
+        authenticated:state.userReducer.authenticated
         
     }};
 const mapDispatchToProps = (dispatch) => ({
