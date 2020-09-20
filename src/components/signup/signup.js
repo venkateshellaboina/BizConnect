@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
-import { getBusinessCategoriesList } from "../../actions";
-import moment from "moment";
+import { getBusinessCategoriesList,addUser,addBusiness } from "../../actions";
 import { TimePicker } from "antd";
 import "antd/dist/antd.css";
 
@@ -14,6 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getBusinessCategoriesList: () => dispatch(getBusinessCategoriesList()),
+  addUser:(user)=> dispatch(addUser(user)),
+  addBusiness:(business)=>dispatch(addBusiness(business))
 });
 
 class Signup extends React.Component {
@@ -21,65 +22,65 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       user: {
-        user_email: null,
-        first_name: null,
-        last_name: null,
-        type: null,
-        password: null,
-        contact_no: null,
+        user_email: "",
+        first_name: "",
+        last_name: "",
+        type: "",
+        password: "",
+        contact_no: "",
       },
       business: {
-        name: null,
-        description: null,
-        user_email: null,
-        contact_details: null,
-        category: null,
+        name: "",
+        description: "",
+        user_email: "",
+        contact_details: "",
+        category: "",
         location: {
-          address1: null,
-          address2: null,
-          city: null,
-          region: null,
-          zipcode: null,
+          address1: "",
+          address2: "",
+          city: "",
+          region: "",
+          zipcode: "",
         },
         timing: [
           {
             day: "Monday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Tuesday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Wednesday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Thursday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Friday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Satuarday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
           {
             day: "Sunday",
-            start_time: null,
-            end_time: null,
+            start_time: "",
+            end_time: "",
           },
         ],
-        avatar: null,
-        gallery: null,
+        avatar: "",
+        gallery: "",
       },
       showBusinessForm: false,
       userValidated: false,
@@ -112,6 +113,7 @@ class Signup extends React.Component {
     const name = target.name;
     const newState = Object.assign({}, this.state);
     newState.business[name] = value;
+    newState.business["user_email"]=newState.user.user_email;
     this.setState(newState);
   }
   handleBusinessLocationChange(event) {
@@ -127,10 +129,11 @@ class Signup extends React.Component {
     newState.business.timing[index][key] = value.format("HH:mm");
     this.setState(newState);
   }
-  handleUser(event) {
+  async handleUser(event) {
     event.preventDefault();
     const userValidation = this.validateUser();
     if (userValidation) {
+      await this.props.addUser(this.state.user);
       if (this.state.user.type === "business") {
         this.setState({
           showBusinessForm: true,
@@ -142,10 +145,12 @@ class Signup extends React.Component {
 
     console.log(this.state);
   }
-  handleBusiness(event) {
+ async handleBusiness(event) {
+   console.log(event);
     event.preventDefault();
     const businessValidation  = this.validateBusiness();
     if(businessValidation){
+      await this.props.addBusiness(this.state.business);
       window.location.href = "/login";
     }
 
@@ -157,8 +162,7 @@ class Signup extends React.Component {
       business["description"] &&
       business["user_email"] &&
       business["category"] &&
-      business["location"]["address1"] &&
-      business["location"]["city"]
+      business["contact_details"]
     ) {
       return true;
     }
@@ -316,6 +320,8 @@ class Signup extends React.Component {
               name="user_email"
               type="text"
               placeholder="Enter Email"
+              value={this.state.user.user_email}
+              readOnly
               onChange={this.handleBusinessInputChange}
             />
           </Form.Group>
@@ -324,6 +330,7 @@ class Signup extends React.Component {
             <Form.Control
               name="contact_details"
               type="Number"
+              defaultValue=""
               placeholder="Enter Contact Number"
               onChange={this.handleBusinessInputChange}
             />
@@ -584,9 +591,9 @@ class Signup extends React.Component {
               </tbody>
             </Table>
           </Form.Row>
-          <Button variant="primary" type="submit">
-            Register
-          </Button>
+          <button type="submit" className="btn btn-primary">
+          Register
+        </button>
         </Form>
       </div>
     );

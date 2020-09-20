@@ -26,7 +26,7 @@ export function userReducer(state = initialState, action) {
     case userConstants.USER_SIGNUP:
       return{
         ...state,
-        signUp:action.data
+        user_email:action.data
       }
     default:
       return state;
