@@ -17,7 +17,7 @@ export default class UserService {
         }
       `,
     });
-    return response.data.getUser;
+    return response;
   }
 
   async addUser(user) {
