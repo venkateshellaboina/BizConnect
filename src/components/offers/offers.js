@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Service} from '../../components/services/services';
+import {Container,Button}from 'react-bootstrap';
+import Service from '../services/service';
 import {getOffers} from "../../actions";
 
 const mapStateToProps = state => {
@@ -15,16 +16,18 @@ const mapStateToProps = state => {
 class Offers extends React.Component{
   constructor(props){
     super(props);
-    this.getOffers = business_id => this.props.dispatch(getOffers(business_id));
-    this.props.getOffers('');
+    this.props.getOffers();
     console.log('offers list ' + this.props.offersList);
   }
       render(){
           return(
             <Container className="container-fluid h-100">
+              <br/>
+            <Button href="#" onClick={()=>{this.addService();}}>Add Offer</Button>
+            <br/><br/>
               {this.props.offersList.map((offer) => (
                 <div>
-                {/* <Service title={offer.title} description={offer.description} image={offer.image}/> */}
+                <Service title={offer.offer_title} description={offer.description} image={offer.image}/>
                 </div>
               ))}
             </Container>
