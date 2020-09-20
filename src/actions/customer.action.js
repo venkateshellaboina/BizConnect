@@ -21,12 +21,12 @@ const findIsOpenNow = (timing)=>{
     let startDateTime = new Date(nowDateTime.getTime());
     startDateTime.setHours(timing.start_time.split(":")[0]);
     startDateTime.setMinutes(timing.start_time.split(":")[1]);
-    startDateTime.setSeconds(timing.start_time.split(":")[2]);
+    // startDateTime.setSeconds(timing.start_time.split(":")[2]);
 
     let endDateTime = new Date(nowDateTime.getTime());
     endDateTime.setHours(timing.end_time.split(":")[0]);
     endDateTime.setMinutes(timing.end_time.split(":")[1]);
-    endDateTime.setSeconds(timing.end_time.split(":")[2]);
+    // endDateTime.setSeconds(timing.end_time.split(":")[2]);
 
     let breakStartDateTime = null, breakEndDateTime = null;
 
@@ -34,14 +34,14 @@ const findIsOpenNow = (timing)=>{
         breakStartDateTime = new Date(nowDateTime.getTime());
         breakStartDateTime.setHours(timing.break_start_time.split(":")[0]);
         breakStartDateTime.setMinutes(timing.break_start_time.split(":")[1]);
-        breakStartDateTime.setSeconds(timing.break_start_time.split(":")[2]);
+        // breakStartDateTime.setSeconds(timing.break_start_time.split(":")[2]);
     }
 
     if(timing.break_end_time){
         breakEndDateTime = new Date(nowDateTime.getTime());
         breakEndDateTime.setHours(timing.break_end_time.split(":")[0]);
         breakEndDateTime.setMinutes(timing.break_end_time.split(":")[1]);
-        breakEndDateTime.setSeconds(timing.break_end_time.split(":")[2]);
+        // breakEndDateTime.setSeconds(timing.break_end_time.split(":")[2]);
     }
 
     if(startDateTime <= nowDateTime && endDateTime > nowDateTime){
@@ -75,15 +75,6 @@ const setOpenStatus = (businessList) => {
             for(let i = 0;i < timings.length; i++){
                 if(timings[i].day && timings[i].day.toLowerCase() == Days[day].toLowerCase()){
                     let status = findIsOpenNow(timings[i]);
-                    // let start_time = timings[i].start_time;
-                    // let end_time = timings[i].end_time;
-                    // let break_start_time = timings[i].break_start_time;
-                    // let break_end_time = timings[i].break_end_time;
-                    // let start_time_hours = start_time ? (start_time.split[':'])[0] : null;
-                    // let end_time_hours = end_time ? (end_time.split[':'])[0] : null;
-                    // let break_start_time_hours = break_start_time ? (start_time.split[':'])[0] : null;
-                    // let break_end_time_hours = break_end_time ? (start_time.split[':'])[0] : null;
-
                     business.status = status;
                 }
             }
@@ -149,7 +140,7 @@ export function onSearchKeyChange(searchKey){
 export function filterBusinessList(filters, businessList){
     let filteredBusinessList = businessList;
     if(filters['nowOpen']){
-        filteredBusinessList = businessList.filter(business => business.isOpen == true);
+        filteredBusinessList = businessList.filter(business => business.status == 'open');
     }
     if(filters['rating_4']){
         filteredBusinessList = businessList.filter(business => business.rating >= 4);
