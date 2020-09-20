@@ -10,6 +10,8 @@ import _ from "lodash";
 const mapStateToProps = (state) => {
   return {
     businessCategoriesList: state.customerReducer.businessCategoriesList,
+    selectedBusinessId:state.customerReducer.selectedBusinessId,
+    user_email:state.userReducer.user_email
   };
 };
 
@@ -144,7 +146,9 @@ class Signup extends React.Component {
           showBusinessForm: true,
         });
       } else {
-        window.location.href = "/login";
+        if(this.props.user_email){
+          window.location.href = "/login";
+        }
       }
     } else {
       this.setState({
@@ -205,7 +209,9 @@ class Signup extends React.Component {
     if (form.checkValidity()) {
       let buisness_details = this.addBuisnessDetails(this.state.business);
       await this.props.addBusiness(buisness_details);
-      // window.location.href = "/login";
+      if(this.props.selectedBusinessId){
+        window.location.href = "/login";
+      }
     } else {
       event.stopPropagation();
     }
