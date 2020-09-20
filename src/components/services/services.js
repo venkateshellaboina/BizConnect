@@ -32,7 +32,7 @@ class Services extends React.Component {
     constructor(props){
         super(props);
         // this.getServices = business_id => this.props.dispatch(getServices(business_id));
-        this.props.getServices();
+        // this.props.getServices();
         console.log('services list ' + this.props.servicesList);
     }
     addService(){
