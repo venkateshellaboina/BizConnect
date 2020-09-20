@@ -98,8 +98,6 @@ class Signup extends React.Component {
     );
     this.handleUser = this.handleUser.bind(this);
     this.handleBusiness = this.handleBusiness.bind(this);
-    this.validateUser = this.validateUser.bind(this);
-    this.validateBusiness = this.validateBusiness.bind(this);
   }
   handleUserInputChange(event) {
     const target = event.target;
@@ -133,8 +131,8 @@ class Signup extends React.Component {
   }
   async handleUser(event) {
     event.preventDefault();
-    const userValidation = this.validateUser();
-    if (userValidation) {
+    const form = event.currentTarget;
+    if (form.checkValidity()) {
       await this.props.addUser(this.state.user);
       if (this.state.user.type === "business") {
         this.setState({
@@ -145,54 +143,30 @@ class Signup extends React.Component {
       }
     }
     else{
-      this.setState({
-        ...this.state,
-        userValidated: true,
-      });
+      event.stopPropagation();
     }
+    this.setState({
+      ...this.state,
+      userValidated: true,
+    });
 
     console.log(this.state);
   }
  async handleBusiness(event) {
-   console.log(event);
     event.preventDefault();
-    const businessValidation  = this.validateBusiness();
-    if(businessValidation){
+    const form = event.currentTarget;
+    if(form.checkValidity()){
       await this.props.addBusiness(this.state.business);
       window.location.href = "/login";
     }
     else{
-      this.setState({
-        ...this.state,
-        businessValidated: true
-      });
+      event.stopPropagation();
     }
+    this.setState({
+      ...this.state,
+      businessValidated: true
+    });
 
-  }
-  validateBusiness() {
-    let business = this.state.business;
-    if (
-      business["name"] &&
-      business["description"] &&
-      business["user_email"] &&
-      business["category"] &&
-      business["contact_details"]
-    ) {
-      return true;
-    }
-    return false;
-  }
-  validateUser() {
-    let user = this.state.user;
-    if (
-      user["first_name"] &&
-      user["password"] &&
-      user["user_email"] &&
-      user["type"]
-    ) {
-      return true;
-    }
-    return false;
   }
   renderForm() {
     return (
@@ -255,6 +229,7 @@ class Signup extends React.Component {
               />
               <Form.Control.Feedback type="invalid">
                 Please provide your password.
+                It must have min 6 characters
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
@@ -262,10 +237,12 @@ class Signup extends React.Component {
             <Form.Label>Contact Number</Form.Label>
             <Form.Control
               name="contact_no"
-              type="number"
+              type="tel"
               placeholder="Contact Number"
+              pattern="[0-9]{10}"
               required={true}
               onChange={this.handleUserInputChange}
+
             />
             <Form.Control.Feedback type="invalid">
                 Please provide contact number.
@@ -356,8 +333,9 @@ class Signup extends React.Component {
             <Form.Label>Business Contact</Form.Label>
             <Form.Control
               name="contact_details"
-              type="Number"
-              defaultValue=""
+              type="tel"
+              defaultValue={''}
+              pattern="[0-9]{10}"
               placeholder="Enter Contact Number"
               onChange={this.handleBusinessInputChange}
               required
@@ -366,16 +344,15 @@ class Signup extends React.Component {
                   Providing a contact number helps your customers to connect with you easily.
               </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="formBasicCategory">
+          <Form.Group >
             <Form.Label>Category</Form.Label>
             <Form.Control
+              required
               name="category"
               as="select"
-              defaultValue="Choose..."
               onChange={this.handleBusinessInputChange}
-              required
             >
-              <option>Choose...</option>
+              <option value={''}>Select a Category</option>
               {(this.props.businessCategoriesList || []).map((category, id) => (
                 <option value={category} key={id} id={id + 1}>
                   {category}
@@ -428,13 +405,12 @@ class Signup extends React.Component {
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State</Form.Label>
               <Form.Control
+                required
                 name="region"
                 as="select"
-                defaultValue="Choose..."
                 onChange={this.handleBusinessLocationChange}
-                required
               >
-                <option>Choose...</option>
+                <option value={''}>Select your State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Andaman and Nicobar Islands">
                   Andaman and Nicobar Islands
@@ -675,9 +651,9 @@ class Signup extends React.Component {
           <Row></Row>
           <Row className="justify-content-center align-items-center h-100">
             <Col xs={12} md={8} lg={6}>
-              {this.state.showBusinessForm
-                ? this.renderBuisnessForm()
-                : this.renderForm()}
+             { this.showBusinessForm ?this.renderBuisnessForm() :
+            this.renderForm()}
+             
             </Col>
           </Row>
         </Container>
