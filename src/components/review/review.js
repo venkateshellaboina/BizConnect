@@ -1,52 +1,52 @@
 import React from 'react';
+import Popup from 'reactjs-popup';
 import { connect } from 'react-redux';
-import {Card,Button, Container }from 'react-bootstrap';
-import {getReviews} from "../../actions";
+import { Card, Button, Container } from 'react-bootstrap';
+import { getReviews } from "../../actions";
 import './review.css';
 
 const mapStateToProps = state => {
     return {
-        reviewsList : state.reviewReducer.reviewsList
-    }};
-  
-const mapDispatchToProps = dispatch => ({
-    getReviews : () => dispatch(getReviews())
-  });
+        reviewsList: state.reviewReducer.reviewsList
+    }
+};
 
-class Review extends React.Component{
-    render()
-    {
-        return(
+const mapDispatchToProps = dispatch => ({
+    getReviews: () => dispatch(getReviews())
+});
+
+class Review extends React.Component {
+    render() {
+        return (
             <Card>
-            <Card.Body >
-                <Card.Title>{this.props.fName} {this.props.lName} ({this.props.rating})</Card.Title>
-                <Card.Text>{this.props.comment}</Card.Text>
-            </Card.Body>
+                <Card.Body >
+                    <Card.Title>{this.props.fName} {this.props.lName} ({this.props.rating})</Card.Title>
+                    <Card.Text>{this.props.comment}</Card.Text>
+                </Card.Body>
             </Card>
         )
     }
 }
 class Reviews extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         // this.getReviews = business_id => this.props.dispatch(getReviews(business_id));
         this.props.getReviews('');
         console.log('reviews list ' + this.props.reviewsList);
     }
-    addReview(){
-        alert('add review!');
-    }
-    render()
-    {
-        return(
-            <div>
-            <Button href="#" onClick={()=>{this.addReview();}}>Add Review</Button>
-            {this.props.reviewsList.map((review) => (
-            <div key={review.id}>
-                <Review fName={review.first_name} lName={review.last_name} comment={review.review_comment} rating={review.rating}/>
-            </div>
-            ))}
-            </div>
+    render() {
+        return (
+            <Container>
+                <br/>
+                <Popup trigger={<Button>Add Review</Button>} position="right center">
+                    <div>Popup content here !!</div>
+                </Popup>
+                {this.props.reviewsList.map((review) => (
+                    <div key={review.id}>
+                        <Review fName={review.first_name} lName={review.last_name} comment={review.review_comment} rating={review.rating} />
+                    </div>
+                ))}
+            </Container>
         );
     }
 
