@@ -11,6 +11,8 @@ export default  class MenuService{
                     item_id
                     item_category
                     item_name
+                    description
+                    unit
                     quantity
                     price
                   }
@@ -19,6 +21,7 @@ export default  class MenuService{
         });
         if(response.data.getMenuItems)
             return response.data.getMenuItems;
+
         return [
             {item_category: "Fruits",
             item_name: "Apple Royal",
@@ -32,14 +35,19 @@ export default  class MenuService{
             __typename: "Menu"}
         ];
     }
-    // async getBusinessCategoriesList(){
-    //     const response= await  client.query({
-    //         query: gql`
-    //             query business{
-    //                 getBusinessCategories
-    //             }
-    //         `
-    //     });
-    //         return response.data.getBusinessCategories;
-    // }   
+    async getMenuCategories(business_id){
+        const response= await  client.query({
+            variables: { business_id },
+            query: gql`
+            query getMenuCategoriesQuery($business_id: Int!){
+                getMenuCategories(business_id: $business_id){
+                    item_category
+                    description
+                    business_id
+                  }
+                }
+            `
+        });
+        return response.data.getMenuCategories;
+    }
 }

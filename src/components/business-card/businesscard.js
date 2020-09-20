@@ -56,11 +56,14 @@ class BusinessCard extends React.Component {
                        <Col sm={3} xs={3}>
                            {this.renderRating(this.props.rating)}
                            <div className="status">
-                                {this.props && this.props.isOpen == true && 
-                                    <h5 className=""><Badge pill variant="success"> Open</Badge></h5>
+                                {this.props && this.props.status == 'open' && 
+                                    <h5 className="basicfontlight"><Badge pill variant="success"> Open</Badge></h5>
                                 }
-                                {this.props && this.props.isOpen == false && 
-                                    <h5 className=""><Badge pill variant="light"> Closed</Badge></h5>
+                                {this.props && this.props.status == 'closed' && 
+                                    <h5 className="basicfontlight"><Badge pill variant="light"> Closed</Badge></h5>
+                                }
+                                {this.props && this.props.status == 'break' && 
+                                    <h5 className="basicfontlight"><Badge pill variant="warning"> On Break</Badge></h5>
                                 }
                            </div>
                        </Col>

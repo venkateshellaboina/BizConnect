@@ -13,25 +13,78 @@ const Days = Object.freeze({
     6: "Saturday"
 });
 
+const findIsOpenNow = (timing)=>{
+    if(timing.start_time == null || timing.end_time == null) return false;
+
+    let nowDateTime = new Date();
+
+    let startDateTime = new Date(nowDateTime.getTime());
+    startDateTime.setHours(timing.start_time.split(":")[0]);
+    startDateTime.setMinutes(timing.start_time.split(":")[1]);
+    startDateTime.setSeconds(timing.start_time.split(":")[2]);
+
+    let endDateTime = new Date(nowDateTime.getTime());
+    endDateTime.setHours(timing.end_time.split(":")[0]);
+    endDateTime.setMinutes(timing.end_time.split(":")[1]);
+    endDateTime.setSeconds(timing.end_time.split(":")[2]);
+
+    let breakStartDateTime = null, breakEndDateTime = null;
+
+    if(timing.break_start_time){
+        breakStartDateTime = new Date(nowDateTime.getTime());
+        breakStartDateTime.setHours(timing.break_start_time.split(":")[0]);
+        breakStartDateTime.setMinutes(timing.break_start_time.split(":")[1]);
+        breakStartDateTime.setSeconds(timing.break_start_time.split(":")[2]);
+    }
+
+    if(timing.break_end_time){
+        breakEndDateTime = new Date(nowDateTime.getTime());
+        breakEndDateTime.setHours(timing.break_end_time.split(":")[0]);
+        breakEndDateTime.setMinutes(timing.break_end_time.split(":")[1]);
+        breakEndDateTime.setSeconds(timing.break_end_time.split(":")[2]);
+    }
+
+    if(startDateTime <= nowDateTime && endDateTime > nowDateTime){
+        if(breakStartDateTime && breakEndDateTime){
+            if(breakStartDateTime <= nowDateTime && breakEndDateTime > nowDateTime){
+                return 'break';
+            }
+            else{
+                return 'open';
+            }
+        }
+        else{
+            return 'open';
+        }
+    }
+    else{
+        return 'closed';
+    }
+
+}
+
 const setOpenStatus = (businessList) => {
     let now = Date.now();
     let date = new Date(now);
     let day = date.getDay(); //Ex: Wednesday
-    let nowHours = date.getHours();
-    let nowminutes = date.getMinutes();
 
     businessList.map(business => {
-        business.isOpen = false;
+        business.status = 'closed';
         let timings = business.timings;
         if(timings && timings.length > 0){
             for(let i = 0;i < timings.length; i++){
                 if(timings[i].day && timings[i].day.toLowerCase() == Days[day].toLowerCase()){
-                    let start_time = timings[i].start_time;
-                    let end_time = timings[i].end_time;
-                    let break_start_time = timings[i].break_start_time;
-                    let break_end_time = timings[i].break_end_time;
+                    let status = findIsOpenNow(timings[i]);
+                    // let start_time = timings[i].start_time;
+                    // let end_time = timings[i].end_time;
+                    // let break_start_time = timings[i].break_start_time;
+                    // let break_end_time = timings[i].break_end_time;
                     // let start_time_hours = start_time ? (start_time.split[':'])[0] : null;
-                    business.isOpen = true;
+                    // let end_time_hours = end_time ? (end_time.split[':'])[0] : null;
+                    // let break_start_time_hours = break_start_time ? (start_time.split[':'])[0] : null;
+                    // let break_end_time_hours = break_end_time ? (start_time.split[':'])[0] : null;
+
+                    business.status = status;
                 }
             }
         }
