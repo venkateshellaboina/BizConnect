@@ -1,19 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
-import { getBusinessCategoriesList } from "../../actions";
-import moment from "moment";
+import { Container, Row, Col, Form, Table } from "react-bootstrap";
+import { getBusinessCategoriesList, addUser, addBusiness } from "../../actions";
 import { TimePicker } from "antd";
 import "antd/dist/antd.css";
+import "./signup.css";
+import _ from "lodash";
 
 const mapStateToProps = (state) => {
   return {
     businessCategoriesList: state.customerReducer.businessCategoriesList,
+    selectedBusinessId:state.customerReducer.selectedBusinessId,
+    user_email:state.userReducer.user_email
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getBusinessCategoriesList: () => dispatch(getBusinessCategoriesList()),
+  addUser: (user) => dispatch(addUser(user)),
+  addBusiness: (business) => dispatch(addBusiness(business)),
 });
 
 class Signup extends React.Component {
@@ -21,12 +26,12 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       user: {
-        user_email: null,
-        first_name: null,
-        last_name: null,
-        type: null,
-        password: null,
-        contact_no: null,
+        user_email: "",
+        first_name: "",
+        last_name: "",
+        type: "",
+        password: "",
+        contact_no: "",
       },
       business: {
         name: "",
@@ -68,7 +73,7 @@ class Signup extends React.Component {
             end_time: "",
           },
           {
-            day: "Satuarday",
+            day: "Saturday",
             start_time: "",
             end_time: "",
           },
@@ -83,6 +88,7 @@ class Signup extends React.Component {
       },
       showBusinessForm: false,
       userValidated: false,
+      businessValidated: false,
     };
     this.props.getBusinessCategoriesList();
     this.handleUserInputChange = this.handleUserInputChange.bind(this);
@@ -95,8 +101,9 @@ class Signup extends React.Component {
     );
     this.handleUser = this.handleUser.bind(this);
     this.handleBusiness = this.handleBusiness.bind(this);
-    this.validateUser = this.validateUser.bind(this);
-    this.validateBusiness = this.validateBusiness.bind(this);
+    this.addBuisnessDetails = this.addBuisnessDetails.bind(this);
+    this.addLocationToBuisness = this.addLocationToBuisness.bind(this);
+    this.addTimingsToBuiness = this.addTimingsToBuiness.bind(this);
   }
   handleUserInputChange(event) {
     const target = event.target;
@@ -112,6 +119,7 @@ class Signup extends React.Component {
     const name = target.name;
     const newState = Object.assign({}, this.state);
     newState.business[name] = value;
+    newState.business["user_email"] = newState.user.user_email;
     this.setState(newState);
   }
   handleBusinessLocationChange(event) {
@@ -127,63 +135,99 @@ class Signup extends React.Component {
     newState.business.timing[index][key] = value.format("HH:mm");
     this.setState(newState);
   }
-  handleUser(event) {
+  async handleUser(event) {
     event.preventDefault();
-    const userValidation = this.validateUser();
-    if (userValidation) {
+    const form = event.currentTarget;
+    if (form.checkValidity()) {
+      await this.props.addUser(this.state.user);
       if (this.state.user.type === "business") {
         this.setState({
+          ...this.state,
           showBusinessForm: true,
         });
       } else {
-        window.location.href = "/login";
+        if(this.props.user_email){
+          window.location.href = "/login";
+        }
       }
+    } else {
+      this.setState({
+        ...this.state,
+        userValidated: true,
+      });
+      event.stopPropagation();
     }
 
     console.log(this.state);
   }
-  handleBusiness(event) {
-    event.preventDefault();
-    const businessValidation  = this.validateBusiness();
-    if(businessValidation){
-      window.location.href = "/login";
-    }
 
+  addLocationToBuisness(location_details) {
+    let location = {};
+    Object.entries(location_details).forEach((element) => {
+      const [location_key, location_value] = element;
+      if (!_.isEmpty(location_value)) {
+        location[location_key] = location_value;
+      }
+    });
+    return location;
   }
-  validateBusiness() {
-    let business = this.state.business;
-    if (
-      business["name"] &&
-      business["description"] &&
-      business["user_email"] &&
-      business["category"] &&
-      business["location"]["address1"] &&
-      business["location"]["city"]
-    ) {
-      return true;
-    }
-    return false;
+  addTimingsToBuiness(timing_details) {
+    let timings = [];
+    timing_details.forEach((timing) => {
+      if (!_.isEmpty(timing["start_time"]) && !_.isEmpty(timing["end_time"])) {
+        timings.push(timing);
+      }
+    });
+    return timings;
   }
-  validateUser() {
-    let user = this.state.user;
-    if (
-      user["first_name"] &&
-      user["password"] &&
-      user["user_email"] &&
-      user["type"]
-    ) {
-      return true;
+  addBuisnessDetails(business) {
+    let business_details = {};
+    Object.entries(business).forEach((element) => {
+      const [key, value] = element;
+      if (!_.isEmpty(value) && _.isString(value)) {
+        business_details[key] = value;
+      }
+    });
+    if (_.isEmpty(business_details["contact_details"])) {
+      business_details["contact_details"] = this.state.user.contact_no;
     }
-    return false;
+    let location_details = this.addLocationToBuisness(
+      this.state.business.location
+    );
+    let timings = this.addTimingsToBuiness(this.state.business.timing);
+    if (!_.isEmpty(location_details)) {
+      business_details["location"] = location_details;
+    }
+    if (!_.isEmpty(timings)) {
+      business_details["timing"] = timings;
+    }
+    return business_details;
+  }
+  async handleBusiness(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity()) {
+      let buisness_details = this.addBuisnessDetails(this.state.business);
+      await this.props.addBusiness(buisness_details);
+      if(this.props.selectedBusinessId){
+        window.location.href = "/login";
+      }
+    } else {
+      event.stopPropagation();
+    }
+    this.setState({
+      ...this.state,
+      businessValidated: true,
+    });
   }
   renderForm() {
     return (
-      <div>
-        <h3>SignUp Form</h3>
+      <div className="formStyle">
+        <h5>Howdy!! Please go ahead and create an account.</h5>
         <hr />
         <Form
           noValidate
-          validated={this.userValidated}
+          validated={this.state.userValidated}
           onSubmit={this.handleUser}
         >
           <Form.Row>
@@ -197,7 +241,7 @@ class Signup extends React.Component {
                 required={true}
               />
               <Form.Control.Feedback type="invalid">
-                Please provide your name.
+                Please provide your first name.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col}>
@@ -205,7 +249,6 @@ class Signup extends React.Component {
               <Form.Control
                 name="last_name"
                 type="text"
-                defaultValue=""
                 placeholder="Enter Last Name"
                 onChange={this.handleUserInputChange}
               />
@@ -236,7 +279,7 @@ class Signup extends React.Component {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide your password.
+                Please provide your password. It must have min 6 characters
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
@@ -244,10 +287,15 @@ class Signup extends React.Component {
             <Form.Label>Contact Number</Form.Label>
             <Form.Control
               name="contact_no"
-              type="number"
+              type="tel"
               placeholder="Contact Number"
+              pattern="[0-9]{10}"
+              required={true}
               onChange={this.handleUserInputChange}
             />
+            <Form.Control.Feedback type="invalid">
+              Please provide contact number.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
@@ -275,10 +323,10 @@ class Signup extends React.Component {
                   required
                 />
               </Form.Group>
-              <Form.Control.Feedback type="invalid">
-                Please select user type.
-              </Form.Control.Feedback>
             </Form.Row>
+            <Form.Control.Feedback type="invalid">
+              Please select user type.
+            </Form.Control.Feedback>
           </Form.Group>
           <button type="submit" className="btn btn-primary">
             Submit
@@ -289,10 +337,14 @@ class Signup extends React.Component {
   }
   renderBuisnessForm() {
     return (
-      <div>
-        <h3>Business Registration Form</h3>
+      <div className="formStyle">
+        <h6>You are just a step away from listing your business</h6>
         <hr />
-        <Form  onSubmit={this.handleBusiness}>
+        <Form
+          noValidate
+          onSubmit={this.handleBusiness}
+          validated={this.state.businessValidated}
+        >
           <Form.Group controlId="formBasicName">
             <Form.Label>Business Name</Form.Label>
             <Form.Control
@@ -300,7 +352,11 @@ class Signup extends React.Component {
               type="text"
               placeholder="Enter Name"
               onChange={this.handleBusinessInputChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter your Business/Service name
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicDescription">
             <Form.Label>Description</Form.Label>
@@ -309,7 +365,11 @@ class Signup extends React.Component {
               as="textarea"
               rows="3"
               onChange={this.handleBusinessInputChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a short description about what you do.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formBasicBusinessEmail">
             <Form.Label>Business Email</Form.Label>
@@ -317,6 +377,8 @@ class Signup extends React.Component {
               name="user_email"
               type="text"
               placeholder="Enter Email"
+              value={this.state.user.user_email}
+              readOnly
               onChange={this.handleBusinessInputChange}
             />
           </Form.Group>
@@ -324,26 +386,36 @@ class Signup extends React.Component {
             <Form.Label>Business Contact</Form.Label>
             <Form.Control
               name="contact_details"
-              type="Number"
+              type="tel"
+              defaultValue={""}
+              pattern="[0-9]{10}"
               placeholder="Enter Contact Number"
               onChange={this.handleBusinessInputChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Providing a contact number helps your customers to connect with
+              you easily.
+            </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="formBasicCategory">
+          <Form.Group>
             <Form.Label>Category</Form.Label>
             <Form.Control
+              required
               name="category"
               as="select"
-              defaultValue="Choose..."
               onChange={this.handleBusinessInputChange}
             >
-              <option>Choose...</option>
+              <option value={""}>Select a Category</option>
               {(this.props.businessCategoriesList || []).map((category, id) => (
                 <option value={category} key={id} id={id + 1}>
                   {category}
                 </option>
               ))}
             </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Please select a category
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formGridAddress1">
             <Form.Label>Address</Form.Label>
@@ -352,7 +424,11 @@ class Signup extends React.Component {
               type="text"
               placeholder="1234 Main St"
               onChange={this.handleBusinessLocationChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Please provide your address
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formGridAddress2">
@@ -369,22 +445,26 @@ class Signup extends React.Component {
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
               <Form.Control
-                name="address2"
+                name="city"
                 type="text"
                 placeholder="City"
                 onChange={this.handleBusinessLocationChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Please select your City
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State</Form.Label>
               <Form.Control
+                required
                 name="region"
                 as="select"
-                defaultValue="Choose..."
                 onChange={this.handleBusinessLocationChange}
               >
-                <option>Choose...</option>
+                <option value={""}>Select your State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Andaman and Nicobar Islands">
                   Andaman and Nicobar Islands
@@ -426,16 +506,23 @@ class Signup extends React.Component {
                 <option value="Uttarakhand">Uttarakhand</option>
                 <option value="West Bengal">West Bengal</option>
               </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                Please select your State
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridZip">
               <Form.Label>Zip</Form.Label>
               <Form.Control
-                name=" zipcode"
+                name="zipcode"
                 placeholder="Zip Code"
                 type="text"
                 onChange={this.handleBusinessLocationChange}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Please enter your zipcode
+              </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
           <Form.Row>
@@ -453,6 +540,7 @@ class Signup extends React.Component {
                   <td>Monday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(0, "start_time", time)
@@ -461,6 +549,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(0, "end_time", time)
@@ -472,6 +561,7 @@ class Signup extends React.Component {
                   <td>Tuesday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(1, "start_time", time)
@@ -480,6 +570,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(1, "end_time", time)
@@ -491,6 +582,7 @@ class Signup extends React.Component {
                   <td>Wednesday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(2, "start_time", time)
@@ -499,6 +591,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(2, "end_time", time)
@@ -510,6 +603,7 @@ class Signup extends React.Component {
                   <td>Thusrday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(3, "start_time", time)
@@ -518,6 +612,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(3, "end_time", time)
@@ -529,6 +624,7 @@ class Signup extends React.Component {
                   <td>Friday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(4, "start_time", time)
@@ -537,6 +633,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(4, "end_time", time)
@@ -545,9 +642,10 @@ class Signup extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>Satuarday</td>
+                  <td>Saturday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(5, "start_time", time)
@@ -556,6 +654,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(5, "end_time", time)
@@ -567,6 +666,7 @@ class Signup extends React.Component {
                   <td>Sunday</td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(6, "start_time", time)
@@ -575,6 +675,7 @@ class Signup extends React.Component {
                   </td>
                   <td>
                     <TimePicker
+                      required
                       format="HH:mm"
                       onChange={(time) =>
                         this.handleBusinessTimingChange(6, "end_time", time)
@@ -584,10 +685,13 @@ class Signup extends React.Component {
                 </tr>
               </tbody>
             </Table>
+            <Form.Control.Feedback type="invalid">
+              Please select your day-to-day timings
+            </Form.Control.Feedback>
           </Form.Row>
-          <Button variant="primary" type="submit">
+          <button type="submit" className="btn btn-primary">
             Register
-          </Button>
+          </button>
         </Form>
       </div>
     );

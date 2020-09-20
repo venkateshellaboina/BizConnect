@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Navbar,Nav}from 'react-bootstrap';
-import { BrowserRouter as  Switch, Route } from "react-router-dom";
+import { BrowserRouter as  Switch, Route ,N} from "react-router-dom";
 /* Components start */
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
@@ -53,6 +53,7 @@ class Navigation extends React.Component {
               <Route path="/customer">
               <Customer/>
               </Route>
+              <Route exact path="/" component={Customer}/>
             </Switch>
           </div>
         )

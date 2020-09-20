@@ -190,7 +190,7 @@ class Customer extends React.Component {
                                 <div>
                                     <BusinessCard business_id={business.business_id} name={business.name} category={business.category} description={business.description}
                                         contact_details={business.contact_details} avatar={business.avatar} address={ (business.location && business.location.address1) ? business.location.address1 : ''}
-                                        rating={business.rating} isOpen={business.isOpen}/>
+                                        rating={business.rating} status={business.status}/>
                                 </div>
                         )}
                         {this.state && this.state.currentPageBusinessList && this.state.currentPageBusinessList.length == 0 &&

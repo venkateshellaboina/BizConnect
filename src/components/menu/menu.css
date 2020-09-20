@@ -1,7 +1,5 @@
-.card-header{
-    color:rgb(68, 184, 172);
-    font-size: 150%;
-    font-weight:bold;
+.rowStyle{
+    margin-top : 3vh;
 }
 .rowStyle2{
     /* width : 60%; */

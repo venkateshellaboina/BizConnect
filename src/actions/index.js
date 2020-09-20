@@ -5,3 +5,4 @@ export * from './offer.action';
 export * from './review.action';
 export * from './service.action';
 export * from './vacancy.action';
+export * from './business.action';

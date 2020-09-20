@@ -28,6 +28,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.3",
     "react-time-picker": "^4.0.1",
+    "reactjs-popup": "^2.0.3",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
