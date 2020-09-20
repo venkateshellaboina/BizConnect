@@ -53,6 +53,7 @@ class Navigation extends React.Component {
               <Route path="/customer">
               <Customer/>
               </Route>
+              <Route exact path="/" component={Customer}/>
             </Switch>
           </div>
         )

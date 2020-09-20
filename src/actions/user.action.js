@@ -21,17 +21,18 @@ export function login(user) {
 }
 
 export function addUser(user) {
-  try {
-    return function (dispatch) {
-      return service.addUser(user).then((user) => {
+  return function (dispatch) {
+    return service
+      .addUser(user)
+      .then((user) => {
         // dispatch
         dispatch({
           type: userConstants.USER_SIGNUP,
-          data: user,
+          data: user.data.addUser,
         });
+      })
+      .catch((e) => {
+        console.log(e);
       });
-    };
-  } catch (e) {
-    console.log(e);
-  }
+  };
 }

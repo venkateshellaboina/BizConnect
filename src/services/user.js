@@ -22,7 +22,7 @@ export default class UserService {
   }
 
   async addUser(user) {
-    try {
+   
       const mutation = gql`
         mutation addUser($user: UserInput) {
           addUser(user: $user)
@@ -32,9 +32,7 @@ export default class UserService {
         variables: { user: user },
         mutation
       });
-      return response.data.addUser;
-    } catch (e) {
-      return e.message;
-    }
+      return response;
+    
   }
 }

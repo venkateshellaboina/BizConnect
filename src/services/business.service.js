@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 
 export default class BusinessService {
   async addBusiness(business) {
-    try {
+    
       const mutation = gql`
         mutation addBusinessDetails($business: BusinessInput) {
           addBusinessDetails(business: $business)
@@ -13,14 +13,12 @@ export default class BusinessService {
         variables: { business: business },
         mutation
       });
-      return response.data.addBusinessDetails;
-    } catch (e) {
-      return e.message;
-    }
+      return response;
+    
   }
 
   async updateBusinessDetailsBusiness(business) {
-    try {
+    
       const mutation = gql`
         mutation updateBusinessDetailsBusinessDetails(
           $business: BusinessInput
@@ -32,9 +30,7 @@ export default class BusinessService {
         variables: { business: business },
         mutation
       });
-      return response.data;
-    } catch (e) {
-      return e.message;
-    }
-  }
+      return response;
+    } 
+  
 }
