@@ -6,39 +6,90 @@ import {  filterBusinessList} from "../../actions";
 
 const mapStateToProps = state => {
     return {
-        businessList : state.customerReducer.businessList
+        businessList : state.customerReducer.businessList,
+        filteredBusinessList : state.customerReducer.filteredBusinessList
     }};
   
-  const mapDispatchToProps = dispatch => ({
-    filterBusinessList : (filtername, value, businessList) => dispatch(filterBusinessList(filtername, value, businessList))
-  });
+const mapDispatchToProps = dispatch => ({
+    filterBusinessList : (filters, businessList) => dispatch(filterBusinessList(filters, businessList))
+});
+
+const initialState = {
+    nowOpen: false,
+    rating_4 : false,
+    rating_3 : false,
+    rating_1 : false,
+    rating_1 : false
+}
 
 class CustomerFilter extends React.Component {
 
     constructor(props){
         super(props);
+        this.state = initialState;
     }
     changeFilter = (event) =>{
-        let filtername = event.target.id;
-        let value = event.target.value;
-        this.props.filterBusinessList(filtername, value, this.props.businessList)
+        this.setState({
+            ...this.state,
+            [event.target.name] : event.currentTarget.checked
+        }, () => {
+            this.props.filterBusinessList(this.state, this.props.businessList)
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        let currentBusinessList = this.props.businessList;
+        let prevBusinessList = prevProps.businessList;
+        if(JSON.stringify(currentBusinessList) != JSON.stringify(prevBusinessList)){
+            this.setState(initialState);
+        }
     }
    
     render(){
         return(
             <div>
-                 <InputGroup className="filters">
+                <Container>
+                    <Row>
+                        <InputGroup className="filters">
+                                <InputGroup.Prepend>
+                                    <InputGroup.Checkbox id="now-open" className="checkboxStyle" name="nowOpen" checked={this.state.nowOpen} onClick={this.changeFilter}/>
+                                </InputGroup.Prepend>
+                                <FormControl value="Now Open" disabled/>
+                        </InputGroup>
+                    </Row>
+                    <Row>
+                        <InputGroup className="filters">
                             <InputGroup.Prepend>
-                                <InputGroup.Checkbox id="now-open" onClick={this.changeFilter}/>
+                                <InputGroup.Checkbox checked={this.state.rating_4} className="checkboxStyle"  id="rating-4" name="rating_4" onClick={this.changeFilter}/>
                             </InputGroup.Prepend>
-                            <FormControl value="Now Open" disabled/>
-                </InputGroup>
-                <InputGroup className="filters">
-                    <InputGroup.Prepend>
-                        <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-                    </InputGroup.Prepend>
-                    <FormControl value="Rating above 4" disabled/>
-                </InputGroup>
+                            <FormControl value="Rating 4 and above" disabled/>
+                        </InputGroup>
+                    </Row>
+                    <Row>
+                        <InputGroup className="filters">
+                            <InputGroup.Prepend>
+                                <InputGroup.Checkbox checked={this.state.rating_3}  className="checkboxStyle" id="rating-3" name="rating_3" onClick={this.changeFilter}/>
+                            </InputGroup.Prepend>
+                            <FormControl value="Rating 3 and above" disabled/>
+                        </InputGroup>
+                    </Row>
+                    <Row>
+                        <InputGroup className="filters">
+                            <InputGroup.Prepend>
+                                <InputGroup.Checkbox checked={this.state.rating_2}  className="checkboxStyle" id="rating-2" name="rating_2" onClick={this.changeFilter}/>
+                            </InputGroup.Prepend>
+                            <FormControl value="Rating 2 and above" disabled/>
+                        </InputGroup>
+                    </Row>
+                    <Row>
+                        <InputGroup className="filters">
+                            <InputGroup.Prepend>
+                                <InputGroup.Checkbox checked={this.state.rating_1}  className="checkboxStyle" id="rating-1" name="rating_1" onClick={this.changeFilter}/>
+                            </InputGroup.Prepend>
+                            <FormControl value="Rating 1 and above" disabled/>
+                        </InputGroup>
+                    </Row>
+                </Container>
             </div>
         )
     }

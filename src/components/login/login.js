@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button }from 'react-bootstrap';
-import client from "../../services/client";
-import gql from "graphql-tag";
 import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
@@ -18,7 +16,7 @@ class Login extends React.Component {
         this.loginUserDispatch = user => this.props.dispatch(login(user));
     }
     routeChange=()=> {
-        let path = `/buisness`;
+        let path = `/business`;
         window.location.href=path;
       }
     loginUser = (event) =>{
@@ -65,7 +63,7 @@ class Login extends React.Component {
             <Row>
             </Row>
             <Row className="justify-content-center align-items-center h-100">
-            <Col xs={6} md={6} lg={4}>
+            <Col xs={12} md={6} lg={4}>
             {this.renderForm()}
             </Col>
             </Row>

@@ -8,7 +8,8 @@ const initialState = {
   authenticated:  false,
   authState: null,
   user_email: null,
-  user_id: null
+  user_id: null,
+  signUp:false
 };
 
 export function userReducer(state = initialState, action) {
@@ -21,6 +22,12 @@ export function userReducer(state = initialState, action) {
           user_email: action.data.user_email,
           user_id: action.data.id
         };
+      
+    case userConstants.USER_SIGNUP:
+      return{
+        ...state,
+        signUp:action.data
+      }
     default:
       return state;
   }

@@ -21,7 +21,7 @@ select::-ms-expand {
 .select {
   position: relative;
   display: flex;
-  width: 15em;
+  /* width: 12vw; */
   height: 3em;
   line-height: 3;
   background: #2c3e50;
@@ -33,6 +33,9 @@ select {
   padding: 0 .5em;
   color: #fff;
   cursor: pointer;
+}
+select:hover{
+  background: rgb(68, 184, 172)
 }
 /* Arrow */
 .select::after {
@@ -55,4 +58,9 @@ select {
 }
 .searchbar{
     height : 3em;
+    /* width: 50vw; */
+}
+
+.optionStyle{
+  font-size: 1.5vh
 }

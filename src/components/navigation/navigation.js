@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Navbar,Nav}from 'react-bootstrap';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as  Switch, Route } from "react-router-dom";
 /* Components start */
 import Login from "../../components/login/login";
 import Signup from "../../components/signup/signup";
 import Customer from "../../components/customer/customer";
-import Buisness from  "../../components/business/business";
+import Business from  "../../components/business/business";
 /* Components End */
 
 const mapStateToProps = state => {
@@ -24,7 +24,7 @@ class Navigation extends React.Component {
         return(
             <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-              <Navbar.Brand href="/home">BizConnect</Navbar.Brand>
+              <Navbar.Brand href="/customer">BizConnect</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                  <Nav className="mr-auto">
@@ -47,13 +47,10 @@ class Navigation extends React.Component {
               <Route path="/signup">
                 <Signup />
               </Route>
-              <Route path="/buisness">
-              <Buisness />
+              <Route path="/business">
+              <Business />
               </Route>
               <Route path="/customer">
-              <Customer/>
-              </Route>
-              <Route path="/">
               <Customer/>
               </Route>
             </Switch>

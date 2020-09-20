@@ -76,20 +76,26 @@ class CustomerSearch extends React.Component {
     render(){
         return(
             <div>
-                <Container className="containerStyle" fluid style={{marginLeft:"5vw", width: "70%"}}>
-                    <InputGroup className="mb-3">
-                            <span className="select">
-                                <select value={this.state.selectedCategory} onChange={(e) => this.onSelectCategory(e)} placeholder="Category">
-                                    <option style={{margin: "20px"}} selected disabled value="">Select a Category</option>
-                                    { (this.props.businessCategoriesList || []).map((category, id) => 
-                                        <option style={{margin: "20px"}} value={category} key={id} id={id+1}>{category}</option>      
-                                    )}
-                                </select>
-                            </span> 
-                           
-                            <FormControl className="searchbar" value={this.state.searchKey} onChange={this.onSearchKeyChange} aria-describedby="basic-addon1" />
-                    </InputGroup>
-                    
+                <Container > 
+                    <br></br>
+                        <Row>
+                            <Col  xs={6} sm={3} md={3} lg={4}>
+                                <span className="select">
+                                    <select value={this.state.selectedCategory} onChange={(e) => this.onSelectCategory(e)} placeholder="Category">
+                                        <option className="optionStyle" selected disabled value="">Select a Category</option>
+                                        { (this.props.businessCategoriesList || []).map((category, id) => 
+                                            <option className="optionStyle" value={category} key={id} id={id+1}>{category}</option>      
+                                        )}
+                                    </select>
+                                </span> 
+                            </Col>
+                            <Col  xs={6} sm={4} md={4} lg={8}>
+                                <FormControl className="searchbar" value={this.state.searchKey} onChange={this.onSearchKeyChange} aria-describedby="basic-addon1" />
+                            </Col>
+                            <Col sm={4}>
+                            </Col>
+                        </Row>
+              
                 </Container>
                 
             </div>
@@ -98,3 +104,5 @@ class CustomerSearch extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerSearch);
+
+// style={{marginLeft:"5vw", width: "70%"}}
