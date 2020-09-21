@@ -44,7 +44,7 @@ import {Container,Row,Col,Card}from 'react-bootstrap'
              
               </Col>
               <Col>
-              {this.props.business_details.timings&&
+              {this.props.business_details.timings.length>0&&
               <Row>
               <Card.Body>
               <Card.Title>Regular Timings:</Card.Title>
