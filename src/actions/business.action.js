@@ -11,7 +11,7 @@ export function addBusiness(business) {
         console.log(response)
         dispatch({
           type: customerConstants.ON_BUSINESS_SELECT,
-          data: response.data.addBusinessDetails
+          selectedBusinessId: response.data.addBusinessDetails
         });
       })
       .catch((e) => {
