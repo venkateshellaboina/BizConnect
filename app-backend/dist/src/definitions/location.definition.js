@@ -12,6 +12,7 @@ const Location = gql `
        longitude: Float!
        address1: String
        address2: String
+       business_id: Int
     }
    
 `;

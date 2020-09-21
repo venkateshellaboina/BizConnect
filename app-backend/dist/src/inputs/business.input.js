@@ -3,14 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { gql } = require('apollo-server-lambda');
 const BusinessInput = gql `
     input BusinessInput{
+        business_id : Int
         user_email: String!
-        business_id: Int
-        name : String
-        category : String
-        contact_details: String
-        description: String
+        name : String!
+        category : String!
+        contact_details: String!
+        description: String!
+        avatar: String
         location: LocationInput
-        avatar : String
+        timings: [TimingsInput]
+        gallery: [BusinessGalleryInput]
+    }
+    input BusinessGalleryInput{
+        image_id: Int,
+        business_id: Int!,
+        location: String!,
+        description: String
     }
 `;
 module.exports = BusinessInput;

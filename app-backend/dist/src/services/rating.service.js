@@ -39,5 +39,17 @@ class RatingService extends BaseService {
             return ratings;
         });
     }
+    getAvgRating(business_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let result = yield this.db('ratings').where('business_id', business_id).select(this.db.raw('ROUND(AVG(rating), 2) AS rating'));
+            console.log(' avg result ' + JSON.stringify(result));
+            let rating;
+            if (result && result[0].rating)
+                rating = result[0].rating;
+            else
+                rating = 0.00;
+            return rating;
+        });
+    }
 }
 module.exports = RatingService;

@@ -10,7 +10,7 @@ const Service = gql `
         image: String
         type: String!
         business_id:  Int!
-        is_available: Boolean
+        is_available: Int
     }
     extend type Query{
         getAllServices(business_id: Int!): [Service]

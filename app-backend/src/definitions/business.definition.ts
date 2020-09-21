@@ -5,13 +5,13 @@ const Business = gql`
     type Business{
        business_id : Int!
        user_email: String!
-       name : String
+       name : String!
        category : String
        contact_details: String
        description: String
-       location_id: Int
        avatar: String
        location: Location
+       rating: Float
        timings: [Timings]
        gallery: [BusinessGallery]
     }
@@ -21,14 +21,15 @@ const Business = gql`
         location: String,
         description: String
     }
-    
     extend type Query{
         getBusinessDetails(business_id: Int!): Business!
+        getBusinessList(category: String, searchKey: String): [Business]
+        getBusinessCategories : [String]
     }
     extend type Mutation{
         addBusinessDetails(business: BusinessInput): Int!
+        updateBusinessDetails(business: BusinessInput): Int!
     }
 `;
 
 module.exports = Business;
-// getBusinessMenuList(email: String!): [Menu]

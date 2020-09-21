@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService = require('./base.service');
+const EmailService = require('./email.service');
 class TimingsService extends BaseService {
     constructor(event, db) {
         super(event, db);
@@ -33,6 +34,8 @@ class TimingsService extends BaseService {
                 this.transaction = yield this.db.transaction();
                 result = yield Promise.all(timings.map(timing => this.updateTiming(timing)));
                 yield this.transaction.commit();
+                // let emailService = new EmailService();
+                // emailService.sendEmail();
             }
             catch (error) {
                 console.log('error in transaction commit ' + error);

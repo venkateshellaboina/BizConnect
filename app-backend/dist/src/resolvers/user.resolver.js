@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const userResolver = {
     Query: {
-        getUser: (root, args, { UserService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.getUser(args.user_email); })
+        getUser: (root, args, { UserService, CustomerService, BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.getUser(args.user_email, CustomerService, BusinessService); })
     },
     Mutation: {
         addUser: (root, args, { UserService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.addUser(args.user); }),

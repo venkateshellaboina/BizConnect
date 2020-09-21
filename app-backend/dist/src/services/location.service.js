@@ -14,10 +14,10 @@ class LocationService extends BaseService {
     constructor(event, db) {
         super(event, db);
     }
-    getLocation(id) {
+    getLocation(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('location id : ' + id);
-            let result = yield this.db('location_details').where('location_id', id);
+            console.log('location business id : ' + business_id);
+            let result = yield this.db('location_details').where('business_id', business_id);
             let location = result[0];
             return location;
         });
@@ -27,6 +27,15 @@ class LocationService extends BaseService {
             let result = yield this.db('location_details').insert(location);
             let location_id = result[0];
             return location_id;
+        });
+    }
+    updateLocation(location) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let location_id = location.location_id;
+            delete location.location_id;
+            let result = yield this.db('location_details').update(location).where('location_id', location_id);
+            // let location_id = result[0];
+            return result[0];
         });
     }
 }

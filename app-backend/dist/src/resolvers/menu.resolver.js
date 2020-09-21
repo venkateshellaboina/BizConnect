@@ -10,10 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const menuResolver = {
     Query: {
-        getMenuItems: (root, args, { MenuService }) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.getAll(args.business_id); })
+        getMenuItems: (root, args, { MenuService }) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.getAll(args.business_id); }),
+        getMenuCategories: (root, args, { MenuService }) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.getMenuCategories(args.business_id); })
     },
     Mutation: {
-        addMenuItem: (root, args, { MenuService }) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.add(args.item); })
+        addMenuItem: (root, args, { MenuService }) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.add(args.item); }),
+        addMenuCategory: (root, { category }, MenuService) => __awaiter(void 0, void 0, void 0, function* () { return MenuService.addMenuCategory(category); })
     }
 };
 module.exports = menuResolver;

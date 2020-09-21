@@ -35,10 +35,9 @@ provider:
       - subnet-d70b8cac 
   
   environment:
-    ACCESS_KEY_ID: AKIAIRV2TOTYCUD4ENEQ
-    SECRET_ACCESS_KEY: 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
     S3_BUCKET_NAME: awsome-s3-dev
     S3_HOSTED_REGION: ap-south-1
+    DB_HOST: dev.cf4kfzd8lktx.ap-south-1.rds.amazonaws.com
     
   versionFunctions: false
   

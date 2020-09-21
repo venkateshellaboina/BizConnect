@@ -9,7 +9,7 @@ const TimingsInput = gql `
         end_time: String!
         break_start_time: String
         break_end_time:  String
-        business_id: Int!
+        business_id: Int
     }
 `;
 module.exports = TimingsInput;
