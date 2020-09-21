@@ -16,7 +16,7 @@ module.exports.handle = (event, context, callback) => {
     let result: any = {
         statusCode : 200,
         headers:{
-            "Access-Control-Allow_Origin" : "*",
+            "Access-Control-Allow-Origin" : "*",
             "Content-Type" : "application/json"
         },
         body : JSON.stringify({

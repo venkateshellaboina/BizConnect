@@ -17,6 +17,7 @@ class MenuService extends BaseService {
     add(item) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('menu').insert(item);
+            console.log('menu result : ' + result);
             let itemId = result[0];
             return itemId;
         });
@@ -31,6 +32,7 @@ class MenuService extends BaseService {
     getAll(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
             let menuList = yield this.db('menu').where('business_id', business_id);
+            console.log('menu result : ' + JSON.stringify(menuList));
             return menuList;
         });
     }

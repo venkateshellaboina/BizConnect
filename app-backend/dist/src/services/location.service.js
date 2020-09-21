@@ -29,5 +29,14 @@ class LocationService extends BaseService {
             return location_id;
         });
     }
+    updateLocation(location) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let location_id = location.location_id;
+            delete location.location_id;
+            let result = yield this.db('location_details').update(location).where('location_id', location_id);
+            // let location_id = result[0];
+            return result[0];
+        });
+    }
 }
 module.exports = LocationService;

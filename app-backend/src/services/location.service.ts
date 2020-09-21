@@ -17,6 +17,13 @@ class LocationService extends BaseService{
         let location_id = result[0];
         return location_id;        
     }
+    async updateLocation(location: any){
+        let location_id = location.location_id;
+        delete location.location_id;
+        let result = await this.db('location_details').update(location).where('location_id', location_id);
+        // let location_id = result[0];
+        return result[0];        
+    }
 }
 
 module.exports = LocationService;

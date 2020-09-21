@@ -89,6 +89,35 @@ class BusinessService extends BaseService {
             return business_id;
         });
     }
+    updateBusinessDetails(business, LocationService, TimingsService) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let location = business.location;
+            delete business.location;
+            let timings = business.timings;
+            delete business.timings;
+            let gallery = business.gallery;
+            delete business.gallery;
+            let business_id = business.business_id;
+            delete business.business_id;
+            delete business.user_email;
+            let result = yield this.db('business_details').update(business).where('business_id', business_id);
+            let services = [];
+            if (location) {
+                let locationService = LocationService.updateLocation(location);
+                services.push(locationService);
+            }
+            if (timings && timings.length > 0) {
+                let timingsService = TimingsService.updateTimings(timings);
+                services.push(timingsService);
+            }
+            if (gallery && gallery.length > 0) {
+                let galleryService = this.updateBusinessGallery(gallery);
+                services.push(galleryService);
+            }
+            let servicesResult = yield Promise.all(services);
+            return business_id;
+        });
+    }
     getBusinessInfo(business_id) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('business_details').where('business_id', business_id);
@@ -102,7 +131,7 @@ class BusinessService extends BaseService {
             return gallery;
         });
     }
-    addBusinessGallery(gallery) {
+    updateBusinessGallery(gallery) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('business_images').insert(gallery);
             return result[0];

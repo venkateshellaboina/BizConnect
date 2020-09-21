@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-lambda');
 
 const UserInput = gql`
     input UserInput{
-        user_email: String
+        user_email: String!
         first_name: String!
         last_name: String
         contact_no: String

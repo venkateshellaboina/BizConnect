@@ -77,6 +77,36 @@ class BusinessService extends BaseService{
         let servicesResult = await Promise.all(services);
         return business_id;
     }
+    async updateBusinessDetails(business: any, LocationService: any, TimingsService: any){
+        let location = business.location;
+        delete business.location;
+        let timings = business.timings;
+        delete business.timings;
+        let gallery = business.gallery;
+        delete business.gallery;
+
+        let business_id = business.business_id;
+        delete business.business_id;
+        delete business.user_email;
+       
+        let result = await this.db('business_details').update(business).where('business_id', business_id);
+
+        let services: any  = [];
+        if(location){
+            let locationService : any = LocationService.updateLocation(location);
+            services.push(locationService);
+        }
+        if(timings && timings.length> 0){
+            let timingsService = TimingsService.updateTimings(timings);
+            services.push(timingsService);
+        }
+        if(gallery && gallery.length> 0){
+            let galleryService = this.updateBusinessGallery(gallery);
+            services.push(galleryService);
+        }
+        let servicesResult = await Promise.all(services);
+        return business_id;
+    }
     async getBusinessInfo(business_id: number){
         let result =  await this.db('business_details').where('business_id', business_id);
         let business = result[0];
@@ -86,7 +116,7 @@ class BusinessService extends BaseService{
         let gallery = await this.db('business_images').where('business_id', business_id);
         return gallery;
     }
-    async addBusinessGallery(gallery: number){
+    async updateBusinessGallery(gallery: number){
         let result = await this.db('business_images').insert(gallery);
         return result[0];
     }

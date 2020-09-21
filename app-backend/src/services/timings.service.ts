@@ -1,5 +1,6 @@
 export {};
 const BaseService = require('./base.service');
+const EmailService = require('./email.service');
 
 class TimingsService extends BaseService{
     protected transaction: any;
@@ -21,6 +22,8 @@ class TimingsService extends BaseService{
             this.transaction = await this.db.transaction();
             result = await Promise.all(timings.map(timing =>  this.updateTiming(timing)));
             await this.transaction.commit();
+            // let emailService = new EmailService();
+            // emailService.sendEmail();
         }
         catch(error){
             console.log('error in transaction commit ' + error);

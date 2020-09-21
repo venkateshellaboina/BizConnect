@@ -5,7 +5,7 @@ const ServiceInput = gql `
     input ServiceInput{
         service_id: Int
         title: String!
-        description: String
+        description: String!
         image: String
         type: String!
         business_id:  Int!

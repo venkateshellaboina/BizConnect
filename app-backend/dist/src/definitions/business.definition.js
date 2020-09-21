@@ -5,7 +5,7 @@ const Business = gql `
     type Business{
        business_id : Int!
        user_email: String!
-       name : String
+       name : String!
        category : String
        contact_details: String
        description: String
@@ -28,7 +28,7 @@ const Business = gql `
     }
     extend type Mutation{
         addBusinessDetails(business: BusinessInput): Int!
+        updateBusinessDetails(business: BusinessInput): Int!
     }
 `;
 module.exports = Business;
-// getBusinessMenuList(email: String!): [Menu]
