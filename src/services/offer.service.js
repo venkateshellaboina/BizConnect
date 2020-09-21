@@ -2,7 +2,7 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class OfferService{
-    async getOffers(business_id = 1){
+    async getOffers(business_id){
         const response= await  client.query({
             variables: { business_id },
             query: gql`

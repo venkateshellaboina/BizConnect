@@ -6,12 +6,14 @@ import { getReviews } from "../../actions";
 
 const mapStateToProps = state => {
     return {
-        reviewsList: state.reviewReducer.reviewsList
+        reviewsList: state.reviewReducer.reviewsList,
+        selectedBusinessId : state.customerReducer.selectedBusinessId,
+        userType: state.userReducer.user ? state.userReducer.user.type : null
     }
 };
 
 const mapDispatchToProps = dispatch => ({
-    getReviews: () => dispatch(getReviews())
+    getReviews: (selectedBusinessId) => dispatch(getReviews(selectedBusinessId))
 });
 
 class Review extends React.Component {
@@ -28,7 +30,7 @@ class Reviews extends React.Component {
     constructor(props) {
         super(props);
         // this.getReviews = business_id => this.props.dispatch(getReviews(business_id));
-        this.props.getReviews('');
+        this.props.getReviews(this.props.selectedBusinessId);
         console.log('reviews list ' + this.props.reviewsList);
     }
     render() {
@@ -36,7 +38,7 @@ class Reviews extends React.Component {
             <div fluid>
                 <Col sm={6} >
                 <br/>
-                <Button>Add Review</Button>
+                {this.props.userType == 'customer' && <Button>Add Review</Button>}
                 <br/><br/>
                 {this.props.reviewsList.map((review) => (
                     <div key={review.id}>

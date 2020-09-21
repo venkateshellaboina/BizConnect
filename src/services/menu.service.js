@@ -2,7 +2,7 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class MenuService{
-    async getMenuItems(business_id = 1){
+    async getMenuItems(business_id){
         const response= await  client.query({
             variables: { business_id },
             query: gql`

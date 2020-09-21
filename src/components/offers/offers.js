@@ -6,24 +6,26 @@ import {getOffers} from "../../actions";
 
 const mapStateToProps = state => {
     return {
-      offersList : state.offerReducer.offersList
+      offersList : state.offerReducer.offersList,
+      selectedBusinessId : state.customerReducer.selectedBusinessId,
+      userType: state.userReducer.user ? state.userReducer.user.type : null
     }};
   
   const mapDispatchToProps = dispatch => ({
-    getOffers : () => dispatch(getOffers())
+    getOffers : (selectedBusinessId) => dispatch(getOffers(selectedBusinessId))
   });
 
 class Offers extends React.Component{
   constructor(props){
     super(props);
-    this.props.getOffers();
+    this.props.getOffers(this.props.selectedBusinessId);
     console.log('offers list ' + this.props.offersList);
   }
       render(){
           return(
             <Container className="container-fluid h-100">
               <br/>
-            <Button href="#" onClick={()=>{this.addService();}}>Add Offer</Button>
+            {this.props.userType == 'business' && <Button href="#">Add Offer</Button>}
             <br/><br/>
               {this.props.offersList.map((offer) => (
                 <div>
