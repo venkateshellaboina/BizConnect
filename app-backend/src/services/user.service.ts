@@ -9,6 +9,7 @@ class UserService extends BaseService{
         let result = await this.db('user').where('user_email', user_email);
         let user = result[0];
         if(user.type == 'customer'){
+          
             let customer = await CustomerService.getCustomerByEmail(user.user_email);
             user.id = customer.customer_id;
         }
@@ -18,8 +19,19 @@ class UserService extends BaseService{
         }
         return user;
     }
-    async addUser(user: any){
+    async addUser(user: any, CustomerService){
         let result = await this.db('user').insert(user);
+        if(user.type == 'customer'){
+            let customer: any = {};
+            customer.first_name = user.first_name;
+            customer.last_name = user.last_name;
+            customer.contact_no = user.contact_no;
+            customer.user_email = user.user_email;
+            console.log('add customer : '+ JSON.stringify(customer));
+            let result = await CustomerService.addCustomerDetails(customer);
+            console.log('add customer id : '+ result);
+
+        }
         return user.user_email;
     }
 

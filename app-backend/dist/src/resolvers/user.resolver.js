@@ -14,7 +14,7 @@ const userResolver = {
         getUser: (root, args, { UserService, CustomerService, BusinessService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.getUser(args.user_email, CustomerService, BusinessService); })
     },
     Mutation: {
-        addUser: (root, args, { UserService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.addUser(args.user); }),
+        addUser: (root, args, { UserService, CustomerService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.addUser(args.user, CustomerService); }),
         updateUser: (root, args, { UserService }) => __awaiter(void 0, void 0, void 0, function* () { return UserService.updateUser(args.user); })
     }
 };

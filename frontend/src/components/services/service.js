@@ -13,7 +13,7 @@ class Service extends React.Component{
               <Card.Title>{this.props.title} {this.props.type}</Card.Title>
               <Card.Text style={{float: "left",clear: "none"}} >
               <Row>
-              <Col sm={2} xs={2}><Image src="nodata.jpg" thumbnail rounded/></Col>
+              <Col sm={2} xs={2}><Image src="https://awsome-s3-dev.s3.ap-south-1.amazonaws.com/original.png" thumbnail rounded/></Col>
               <Col>&emsp;{this.props.description}</Col>
               </Row>
               </Card.Text>

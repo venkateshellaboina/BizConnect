@@ -29,9 +29,19 @@ class UserService extends BaseService {
             return user;
         });
     }
-    addUser(user) {
+    addUser(user, CustomerService) {
         return __awaiter(this, void 0, void 0, function* () {
             let result = yield this.db('user').insert(user);
+            if (user.type == 'customer') {
+                let customer = {};
+                customer.first_name = user.first_name;
+                customer.last_name = user.last_name;
+                customer.contact_no = user.contact_no;
+                customer.user_email = user.user_email;
+                console.log('add customer : ' + JSON.stringify(customer));
+                let result = yield CustomerService.addCustomerDetails(customer);
+                console.log('add customer id : ' + result);
+            }
             return user.user_email;
         });
     }
