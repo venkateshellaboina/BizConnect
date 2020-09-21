@@ -232,14 +232,9 @@ class Signup extends React.Component {
       .then(response => response.json())
       .then(response => {
         let signedUrl = response.url;
-        let formData = new FormData();
-        formData.append('file', image);
         const options = {
           method : 'PUT',
-          headers:{
-            "Content-Type" : image.type,
-          },
-          body: formData
+          body: image
         }
         fetch(signedUrl, options)
         .then(response => {
@@ -764,6 +759,7 @@ class Signup extends React.Component {
           <Row></Row>
           <Row className="justify-content-center align-items-center h-100">
             <Col xs={12} md={8} lg={6}>
+            {/* {this.renderBuisnessForm()} */}
               {this.state.showBusinessForm
                 ? this.renderBuisnessForm()
                 : this.renderForm()
