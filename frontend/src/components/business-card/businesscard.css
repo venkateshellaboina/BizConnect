@@ -1,0 +1,37 @@
+.cardstyle{
+   height: 22vh;
+   padding: 1vw;
+   margin-bottom: 2vh;
+   border-radius: 5px;
+   box-shadow: 1px 0px 5px 1px rgb(187, 187, 187);
+   cursor: pointer;
+}
+
+.cardstyle:hover{
+    background: rgb(231, 231, 231);
+}
+
+.textthemecolor{
+    color:rgb(68, 184, 172);
+}
+
+.basicfont{
+    font-weight: 400;
+    font-size: 1.7vh;
+}
+.basicfontlight{
+    font-weight: 400;
+    color: grey;
+}
+.status{
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    font-weight: 300;
+    font-size: 1.7vh;
+}
+
+.contactinfo{
+    position: absolute;
+    bottom: 0;
+}
