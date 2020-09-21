@@ -4,9 +4,9 @@ import MenuService from  '../services/menu.service';
 const service = new MenuService();
 
 export function getMenuItems(businessId) {
-   
+    let business_id = parseInt(businessId);
     return function(dispatch) {
-      return  service.getMenuItems(businessId).then(menuItemsList => {
+      return  service.getMenuItems(business_id).then(menuItemsList => {
           // dispatch
           dispatch({
               type: menuConstants.GET_MENU_LIST,
@@ -18,9 +18,9 @@ export function getMenuItems(businessId) {
 }
 
 export function getMenuCategories(businessId) {
-   
+    let business_id = parseInt(businessId);
     return function(dispatch) {
-      return  service.getMenuCategories(businessId).then(menuCategories => {
+      return  service.getMenuCategories(business_id).then(menuCategories => {
           // dispatch
           dispatch({
               type: menuConstants.GET_MENU_CATEGORIES,

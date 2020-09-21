@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button, Badge, Image }from 'react-bootstrap';
 import './businesscard.css';
 import { onBusinessSelect} from "../../actions";
+import { Redirect } from 'react-router';
+
 
 const mapStateToProps = state => {
-    return {
-    }};
+    return{
+        selectedBusinessId: state.customerReducer.selectedBusinessId
+    }
+};
   
   const mapDispatchToProps = dispatch => ({
     onBusinessSelect : business_id => dispatch(onBusinessSelect(business_id))
@@ -16,11 +20,21 @@ class BusinessCard extends React.Component {
 
     constructor(props){
         super(props);
+        this.state={
+            redirectToBusiness: false
+        }
     }
 
     onBusinessSelect = ()=>{
         let business_id = this.props.business_id;
         this.props.onBusinessSelect(business_id);
+        if(this.props.selectedBusinessId){
+            this.setState({
+                redirectToBusiness : true
+            });
+            // window.location.href = "/business";
+        }
+
     }
 
     renderRating(rating){
@@ -35,6 +49,9 @@ class BusinessCard extends React.Component {
         }
     }   
     render(){
+        if(this.state.redirectToBusiness){
+            return <Redirect push to='/business' />
+        }
         return(
             <div>
                 <Container fluid >

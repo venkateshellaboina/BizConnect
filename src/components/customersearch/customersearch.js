@@ -33,6 +33,8 @@ class CustomerSearch extends React.Component {
         this.getBusinessListDebounce = this.debounce(this.getBusinessListDebounce, 500);
     }
 
+    
+
     debounce = (fn, delay) => {
         let timer = null;
         return function (...args) {

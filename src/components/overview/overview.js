@@ -34,17 +34,17 @@ import {Container,Row,Col,Card}from 'react-bootstrap'
               <Card.Body>
               <Card.Title>Address</Card.Title>
               <Card.Text>
-              {this.props.business_details.location.address1},<br/>
-              {this.props.business_details.location.city},<br/>
-              {this.props.business_details.location.region},<br/>
-              {this.props.business_details.location.zipcode}
+              {this.props.business_details.location && this.props.business_details.location.address1},<br/>
+              {this.props.business_details.location && this.props.business_details.location.city},<br/>
+              {this.props.business_details.location && this.props.business_details.location.region},<br/>
+              {this.props.business_details.location && this.props.business_details.location.zipcode}
               </Card.Text>
             </Card.Body>
               </Row>
              
               </Col>
               <Col>
-              {this.props.business_details.timings.length>0&&
+              {this.props.business_details.timings && this.props.business_details.timings.length>0&&
               <Row>
               <Card.Body>
               <Card.Title>Regular Timings:</Card.Title>

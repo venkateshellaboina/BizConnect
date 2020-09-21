@@ -6,7 +6,9 @@ import Service from './service';
 
 const mapStateToProps = state => {
     return {
-        servicesList : state.serviceReducer.servicesList
+        servicesList : state.serviceReducer.servicesList,
+        selectedBusinessId : state.customerReducer.selectedBusinessId,
+        userType: state.userReducer.user ? state.userReducer.user.type : null
 }};
   
 const mapDispatchToProps = dispatch => ({
@@ -18,17 +20,14 @@ class Services extends React.Component {
     constructor(props){
         super(props);
         // this.getServices = business_id => this.props.dispatch(getServices(business_id));
-        this.props.getServices();
+        this.props.getServices(this.props.selectedBusinessId);
         console.log('services list ' + this.props.servicesList);
-    }
-    addService(){
-        alert('add Service!');
     }
     render(){
         return(
             <Container className="container-fluid">
                 <br/>
-            <Button href="#" onClick={()=>{this.addService();}}>Add Service</Button>
+            {this.props.userType == 'business' && <Button href="#">Add Service</Button>}
             <br/><br/>
             {this.props.servicesList && this.props.servicesList.map((service) => (
             <div key={service.service_id}>

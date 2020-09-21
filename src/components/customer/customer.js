@@ -32,19 +32,21 @@ class Customer extends React.Component {
     constructor(props){
         super(props);
         this.state= initialState;
-       
+    }
+
+    componentDidMount(){
         this.populateCurrentPageBusinessList();
         this.populatePaginationList();
     }
-
     componentDidUpdate(prevProps){
         let currentBusinessList = this.props.filteredBusinessList;
         let prevBusinessList = prevProps.filteredBusinessList;
 
-        if(JSON.stringify(currentBusinessList) != JSON.stringify(prevBusinessList)){
+        if(JSON.stringify(currentBusinessList) !== JSON.stringify(prevBusinessList)){
             this.setState(initialState, () => {
                 this.populateCurrentPageBusinessList();
                 this.populatePaginationList();
+                // this.forceUpdate();
             })
         }
     }
@@ -62,6 +64,7 @@ class Customer extends React.Component {
         let end = Math.min(start + perPage, totalBusinessList);
 
         this.setState({
+            // ...this.state,
             currentPageBusinessList : []
         }, () =>{
             let currentPageBusinessList = this.state.currentPageBusinessList;
@@ -69,7 +72,7 @@ class Customer extends React.Component {
                 currentPageBusinessList.push(businessList[i]);
             }
             this.setState({
-                ...this.state,
+                // ...this.state,
                 currentPageBusinessList : currentPageBusinessList
             })
         });
@@ -83,6 +86,7 @@ class Customer extends React.Component {
         let totalPages =  this.calculateTotalPages();;
         let startPage = this.state.startPage;
         this.setState({
+            // ...this.state,
             items : []
         }, ()=> {
             let items = this.state.items;
@@ -102,7 +106,7 @@ class Customer extends React.Component {
             }
            
             this.setState({
-                ...this.state,
+                // ...this.state,
                 items,
                 totalPages   
             });
