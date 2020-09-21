@@ -8,10 +8,10 @@ export function addBusiness(business) {
     return service
       .addBusiness(business)
       .then((response) => {
-        // dispatch
+        console.log(response)
         dispatch({
           type: customerConstants.ON_BUSINESS_SELECT,
-          data: response.data.addBusiness,
+          data: response.data.addBusinessDetails
         });
       })
       .catch((e) => {
