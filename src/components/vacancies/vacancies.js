@@ -6,26 +6,28 @@ import {getVacancies} from "../../actions";
 
 const mapStateToProps = state => {
     return {
-      vacanciesList : state.vacancyReducer.vacanciesList
+      vacanciesList : state.vacancyReducer.vacanciesList,
+      selectedBusinessId : state.customerReducer.selectedBusinessId,
+      userType: state.userReducer.user ? state.userReducer.user.type : null
     }};
   
 const mapDispatchToProps = dispatch => ({
-    getVacancies : () => dispatch(getVacancies())
+    getVacancies : (selectedBusinessId) => dispatch(getVacancies(selectedBusinessId))
   });
 
 
 class Vacancies extends React.Component{
   constructor(props){
     super(props);
-    this.getVacancies = business_id => this.props.dispatch(getVacancies(business_id));
-    this.props.getVacancies('');
+    // this.getVacancies = business_id => this.props.dispatch(getVacancies(business_id));
+    this.props.getVacancies(this.props.selectedBusinessId);
     console.log('vacancies list ' + this.props.vacanciesList);
   }
     render(){
         return(
           <Container className="container-fluid h-100">
             <br/>
-            <Button href="#" onClick={()=>{this.addService();}}>Add Vacancy</Button>
+        {this.props.userType == 'business' &&  <Button href="#" >Add Vacancy</Button> }
             <br/><br/>
             {this.props.vacanciesList.map((vacancy) => (
                 <div>

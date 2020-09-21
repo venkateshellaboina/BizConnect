@@ -17,6 +17,8 @@ const mapStateToProps = (state) => {
   return {
     menuItemsList: state.menuReducer.menuItemsList,
     menuCategories: state.menuReducer.menuCategories,
+    selectedBusinessId : state.customerReducer.selectedBusinessId,
+    userType: state.userReducer.user ? state.userReducer.user.type : null
   };
 };
 
@@ -49,19 +51,23 @@ class Menu extends React.Component {
       openCategoryModal: false,
       openItemModal: false,
     };
-    this.props.getMenuItems(1);
-    this.props.getMenuCategories(1);
-    console.log("menu items list " + this.props.menuItemsList);
+    this.getItems();
+    // this.props.getMenuItems(this.props.selectedBusinessId);
+    // this.props.getMenuCategories(this.props.selectedBusinessId);
+    // console.log("menu items list " + this.props.menuItemsList);
   }
   componentDidUpdate(prevProps) {
     if (
-      JSON.stringify(prevProps.menuItemsList) !=
-      JSON.stringify(this.props.menuItemsList)
+      JSON.stringify(prevProps.selectedBusinessId) !=
+      JSON.stringify(this.props.selectedBusinessId)
     ) {
-      this.updateItems();
+      this.getItems();
     }
   }
-  updateItems = () => {};
+  getItems = () => {
+    this.props.getMenuItems(this.props.selectedBusinessId);
+    this.props.getMenuCategories(this.props.selectedBusinessId);
+  };
   handleClick = (event) => {
     let button = event.target.id;
     if (button == "category") {
@@ -107,38 +113,42 @@ class Menu extends React.Component {
     return (
       <div>
         <Container fluid>
-          <Row className="rowStyle">
-            {/* <Example/> */}
-            <Col sm={1} xs={4}>
-              <span className="buttonSpanStyle">
-                <Button
-                  className="addButtonsStyle"
-                  id="category"
-                  onClick={this.handleClick}
-                >
-                  Add Category
-                </Button>
-              </span>
-            </Col>
-            <Col sm={2} xs={4}>
-              <span className="buttonSpanStyle">
-                <Button
-                  className="addButtonsStyle"
-                  id="category"
-                  onClick={this.handleClick}
-                >
-                  Add Menu Item
-                </Button>
-              </span>
-            </Col>
+          {
+            this.props.userType == 'business' && 
+              <Row className="rowStyle">
+              {/* <Example/> */}
+              <Col sm={1} xs={4}>
+                <span className="buttonSpanStyle">
+                  <Button
+                    className="addButtonsStyle"
+                    id="category"
+                    onClick={this.handleClick}
+                  >
+                    Add Category
+                  </Button>
+                </span>
+              </Col>
+              <Col sm={2} xs={4}>
+                <span className="buttonSpanStyle">
+                  <Button
+                    className="addButtonsStyle"
+                    id="category"
+                    onClick={this.handleClick}
+                  >
+                    Add Menu Item
+                  </Button>
+                </span>
+              </Col>
 
-            <Col sm={3} xs={4}>
-              <FormControl
-                style={{ width: "100%" }}
-                aria-describedby="basic-addon1"
-              />
-            </Col>
-          </Row>
+              <Col sm={3} xs={4}>
+                <FormControl
+                  style={{ width: "100%" }}
+                  aria-describedby="basic-addon1"
+                />
+              </Col>
+            </Row>
+          }
+         
           <Row className="rowStyle2">
             <Col sm={6} xs={10}>
               {this.props &&

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Container,Row,Col,Form,Button }from 'react-bootstrap';
+import { Redirect } from 'react-router';
 import { login } from "../../actions";
 const mapStateToProps = state => {
     return {
@@ -19,12 +20,14 @@ class Login extends React.Component {
         this.state = {
             user_email : '',
             password : '',
-            userValidated: false
+            userValidated: false,
+            redirectToHome: false
         }
     }
     routeChange=()=> {
         let path = `/${this.props.user.type}`;
-        window.location.href=path;
+        // window.location.href=path;
+        return <Redirect push to={path} />
       }
    loginUser = async(event) =>{
         event.preventDefault();
@@ -35,7 +38,11 @@ class Login extends React.Component {
         user.password = this.state.password;
        await this.props.login(user);
         if(this.props.user_email&&this.props.authenticated){
-            this.routeChange();
+            this.setState({
+                ...this.state,
+                redirectToHome : true
+            })
+            // this.routeChange();
         }
     }
         this.setState({
@@ -50,6 +57,7 @@ class Login extends React.Component {
     }
 
     renderForm() {
+
             return(
                 <div>
                 <h3>Login Form</h3>
@@ -97,6 +105,10 @@ class Login extends React.Component {
             )
     }
     render(){
+        if(this.state.redirectToHome){
+            let path = `/${this.props.user.type}`;
+            return <Redirect push to={path} />
+        }
         return(
             <div>
             <Container className="container-fluid h-100">

@@ -140,7 +140,7 @@ export function onSearchKeyChange(searchKey){
 export function filterBusinessList(filters, businessList){
     let filteredBusinessList = businessList;
     if(filters['nowOpen']){
-        filteredBusinessList = businessList.filter(business => business.status == 'open');
+        filteredBusinessList = businessList.filter(business => business.status === 'open');
     }
     if(filters['rating_4']){
         filteredBusinessList = businessList.filter(business => business.rating >= 4);

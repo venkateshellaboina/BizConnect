@@ -2,7 +2,7 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class ServiceService{
-    async getServices(business_id = 1){
+    async getServices(business_id){
         const response= await  client.query({
             variables: { business_id },
             query: gql`

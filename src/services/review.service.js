@@ -2,7 +2,7 @@ import client from "./client";
 import gql from "graphql-tag";
 
 export default  class ReviewService{
-    async getReviews(business_id = 1){
+    async getReviews(business_id){
         const response= await  client.query({
             variables: { business_id },
             query: gql`
