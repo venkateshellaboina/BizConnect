@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Container, Row, Col, Form, Table } from "react-bootstrap";
+import { Container, Row, Col, Form, Table, FormGroup, FormControl } from "react-bootstrap";
 import { getBusinessCategoriesList, addUser, addBusiness } from "../../actions";
 import { TimePicker } from "antd";
 import "antd/dist/antd.css";
@@ -220,6 +220,48 @@ class Signup extends React.Component {
       businessValidated: true,
     });
   }
+  uploadAvatar = async (event) =>{
+    let image = event.target.files[0];
+    let timestamp = + Date.now();
+    let name = timestamp +  image.name;
+    name = name.replace(' ', '_');
+    try{
+      fetch(`https://u7dcvu27fg.execute-api.ap-south-1.amazonaws.com/dev/s3?filename=${name}`,{
+        method: 'GET'
+      })
+      .then(response => response.json())
+      .then(response => {
+        let signedUrl = response.url;
+        let formData = new FormData();
+        formData.append('file', image);
+        const options = {
+          method : 'PUT',
+          headers:{
+            "Content-Type" : image.type,
+          },
+          body: formData
+        }
+        fetch(signedUrl, options)
+        .then(response => {
+          let image_location = (response.url.split('?'))[0];
+          this.setState({
+           ...this.state,
+            avatar : image_location
+          });
+          console.log(response);
+        })
+        .catch(error =>{
+          console.log('response error to upload: ' + error);
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
   renderForm() {
     return (
       <div className="formStyle">
@@ -345,6 +387,24 @@ class Signup extends React.Component {
           onSubmit={this.handleBusiness}
           validated={this.state.businessValidated}
         >
+          <Form.File 
+            id="avatar"
+            label="Upload your logo"
+            onChange={this.uploadAvatar}
+            
+          />
+          {/* <FormGroup> */}
+            {/* <ControlLabel htmlFor="fileUpload" style={{ cursor: "pointer" }}> */}
+              {/* <h3><Label bsStyle="success">Upload your logo</Label></h3>
+                <FormControl
+                    id="fileUpload"
+                    type="file"
+                    // accept=".jpg, .png"
+                    onChange={this.uploadAvatar}
+                    style={{ display: "none" }}
+                /> */}
+            {/* </ControlLabel> */}
+          {/* </FormGroup> */}
           <Form.Group controlId="formBasicName">
             <Form.Label>Business Name</Form.Label>
             <Form.Control
@@ -706,7 +766,8 @@ class Signup extends React.Component {
             <Col xs={12} md={8} lg={6}>
               {this.state.showBusinessForm
                 ? this.renderBuisnessForm()
-                : this.renderForm()}
+                : this.renderForm()
+              }
             </Col>
           </Row>
         </Container>
