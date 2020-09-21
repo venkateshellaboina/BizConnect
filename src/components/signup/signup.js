@@ -34,7 +34,7 @@ class Signup extends React.Component {
         contact_no: "",
       },
       business: {
-        name: "",
+        name: "My Business Name",
         description: "",
         user_email: "",
         contact_details: "",
@@ -201,12 +201,16 @@ class Signup extends React.Component {
     if (!_.isEmpty(timings)) {
       business_details["timing"] = timings;
     }
+    if(_.isEmpty(business_details["name"])){
+      business_details["name"] = this.state.user.user_email;
+    }
     return business_details;
   }
   async handleBusiness(event) {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity()) {
+
       let buisness_details = this.addBuisnessDetails(this.state.business);
       await this.props.addBusiness(buisness_details);
       if(this.props.selectedBusinessId){
@@ -239,10 +243,9 @@ class Signup extends React.Component {
         fetch(signedUrl, options)
         .then(response => {
           let image_location = (response.url.split('?'))[0];
-          this.setState({
-           ...this.state,
-            avatar : image_location
-          });
+          const newState = Object.assign({}, this.state);
+          newState.business['avatar'] = image_location;
+          this.setState(newState);
           console.log(response);
         })
         .catch(error =>{
@@ -388,23 +391,14 @@ class Signup extends React.Component {
             onChange={this.uploadAvatar}
             
           />
-          {/* <FormGroup> */}
-            {/* <ControlLabel htmlFor="fileUpload" style={{ cursor: "pointer" }}> */}
-              {/* <h3><Label bsStyle="success">Upload your logo</Label></h3>
-                <FormControl
-                    id="fileUpload"
-                    type="file"
-                    // accept=".jpg, .png"
-                    onChange={this.uploadAvatar}
-                    style={{ display: "none" }}
-                /> */}
-            {/* </ControlLabel> */}
-          {/* </FormGroup> */}
-          <Form.Group controlId="formBasicName">
+          <Form.Group>
             <Form.Label>Business Name</Form.Label>
             <Form.Control
+              // name="name"
+              id="business-name"
               name="name"
               type="text"
+              defaultValue=""
               placeholder="Enter Name"
               onChange={this.handleBusinessInputChange}
               required
